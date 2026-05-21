@@ -34,6 +34,6 @@
   "security": {
     "settings_pin_hash": "rzV9nq6BuHPgAOTwii_P0iEEa-7Ev83cpYhcEncWyus=",
     "settings_pin_salt": "uV3MGH_DLtBZy_JiuvfjIg==",
-    "config_signature": "sha256:23d35a2546e4afc295c67f61abe60c8351c94d8b62f9aef9383ed9956cf3f1e8"
+    "config_signature": "sha256:2a1478462d9bcb2bb9c85b7717f2e7db7dd4488746428111e88e523831b59e60"
   }
 }
