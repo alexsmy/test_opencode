@@ -29,18 +29,11 @@
       "url": "https://wbtg-001.onrender.com/ping",
       "env_override": null,
       "enabled": true
-    },
-    {
-      "id": "tg_004",
-      "name": "GITHUB",
-      "url": "https://github.com",
-      "env_override": null,
-      "enabled": true
     }
   ],
   "security": {
     "settings_pin_hash": "rzV9nq6BuHPgAOTwii_P0iEEa-7Ev83cpYhcEncWyus=",
     "settings_pin_salt": "uV3MGH_DLtBZy_JiuvfjIg==",
-    "config_signature": "sha256:4aecdb45d7e1df57bae24536cd3e488bfb50f1a0d9a8bbdaed54e03e97a76c9a"
+    "config_signature": "sha256:65885d7dbaf97307cccceebc226a312c5bd7bece0330ec41efc46b4de24b49b8"
   }
 }
