@@ -1,0 +1,362 @@
+# client_borodinskaya.py
+import tkinter as tk
+from tkinter import font
+import hashlib
+from datetime import datetime
+import threading
+import time
+
+# Конфигурация
+ADDRESS = "Бородинская 19/1"
+ADDRESS_ID = 2
+SECRET_SEED = "WB_Mubarakova_Borodinskaya_2024"
+UPDATE_TIMES = ["09:00", "15:30"]  # Время авторазворота
+
+
+class FuturisticCodeDisplay:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title(f"WB Код доступа - {ADDRESS}")
+
+        # Настройки окна
+        self.setup_window()
+
+        # Цвета для градиента (розово-фиолетовая гамма)
+        self.colors = [
+            '#6a0dad', '#8a2be2', '#a64dff', '#b87cff', '#cc99ff',
+            '#d966ff', '#e680ff', '#f0a3ff', '#f7c0ff', '#ffd9ff'
+        ]
+        self.color_index = 0
+
+        # Создание интерфейса
+        self.create_widgets()
+
+        # Запуск анимаций
+        self.animate_background()
+        self.animate_code()
+        self.update_display()
+
+        # Защита от закрытия
+        self.root.protocol("WM_DELETE_WINDOW", self.minimize_window)
+
+        # Проверка времени для авторазворота
+        self.check_auto_restore()
+
+        self.root.mainloop()
+
+    def setup_window(self):
+        """Настройка окна"""
+        self.root.geometry("1200x700")
+        self.root.minsize(800, 500)
+        self.root.resizable(True, True)
+        self.root.title(f"🚀 WB FUTURE • {ADDRESS}")
+        self.root.attributes('-alpha', 0.98)
+        self.root.configure(bg='#1a0b2e')
+
+        try:
+            self.root.iconbitmap(default='icon.ico')
+        except:
+            pass
+
+    def create_widgets(self):
+        """Создание футуристического интерфейса"""
+        self.main_frame = tk.Frame(
+            self.root,
+            bg='#1a0b2e',
+            highlightthickness=0
+        )
+        self.main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        self.create_header()
+        self.create_code_display()
+        self.create_footer()
+
+    def create_header(self):
+        """Создание верхней части"""
+        header_frame = tk.Frame(
+            self.main_frame,
+            bg='#1a0b2e'
+        )
+        header_frame.pack(fill=tk.X, pady=(0, 20))
+
+        # Логотип
+        logo_frame = tk.Frame(header_frame, bg='#1a0b2e')
+        logo_frame.pack(side=tk.LEFT)
+
+        title_label = tk.Label(
+            logo_frame,
+            text="WILDBERRIES",
+            font=('Montserrat', 24, 'bold'),
+            fg='#b87cff',
+            bg='#1a0b2e'
+        )
+        title_label.pack()
+
+        subtitle_label = tk.Label(
+            logo_frame,
+            text="FUTURE LAB",
+            font=('Montserrat', 10),
+            fg='#7a4a9a',
+            bg='#1a0b2e'
+        )
+        subtitle_label.pack()
+
+        self.address_label = tk.Label(
+            header_frame,
+            text=ADDRESS,
+            font=('Montserrat', 28, 'bold'),
+            fg='#ff9f4a',  # Оранжевый для Бородинской
+            bg='#1a0b2e'
+        )
+        self.address_label.pack(side=tk.RIGHT)
+
+    def create_code_display(self):
+        """Создание центральной части"""
+        code_container = tk.Frame(
+            self.main_frame,
+            bg='#2a1a3a',
+            highlightbackground='#6a3a9a',
+            highlightthickness=2,
+            bd=0
+        )
+        code_container.pack(expand=True, fill=tk.BOTH, pady=20)
+
+        inner_frame = tk.Frame(
+            code_container,
+            bg='#2a1a3a'
+        )
+        inner_frame.pack(expand=True, fill=tk.BOTH, padx=40, pady=40)
+
+        tk.Label(
+            inner_frame,
+            text="◈ КОД ДОСТУПА ◈",
+            font=('Montserrat', 16, 'bold'),
+            fg='#cc99ff',
+            bg='#2a1a3a'
+        ).pack(pady=(0, 10))
+
+        self.code_label = tk.Label(
+            inner_frame,
+            text="----",
+            font=('Montserrat', 120, 'bold'),
+            fg='#ff9f4a',  # Оранжевый для Бородинской
+            bg='#2a1a3a'
+        )
+        self.code_label.pack(expand=True)
+
+        self.shift_label = tk.Label(
+            inner_frame,
+            text="",
+            font=('Montserrat', 18),
+            fg='#ffb87c',
+            bg='#2a1a3a'
+        )
+        self.shift_label.pack(pady=(10, 0))
+
+        self.pulse_label = tk.Label(
+            inner_frame,
+            text="◉",
+            font=('Montserrat', 12),
+            fg='#4aff9e',
+            bg='#2a1a3a'
+        )
+        self.pulse_label.pack(pady=(5, 0))
+
+    def create_footer(self):
+        """Создание нижней части"""
+        footer_frame = tk.Frame(
+            self.main_frame,
+            bg='#1a0b2e'
+        )
+        footer_frame.pack(fill=tk.X, pady=(20, 0))
+
+        time_frame = tk.Frame(footer_frame, bg='#1a0b2e')
+        time_frame.pack(side=tk.LEFT)
+
+        self.time_label = tk.Label(
+            time_frame,
+            text="",
+            font=('Montserrat', 14),
+            fg='#9a7abc',
+            bg='#1a0b2e'
+        )
+        self.time_label.pack(anchor='w')
+
+        self.date_label = tk.Label(
+            time_frame,
+            text="",
+            font=('Montserrat', 12),
+            fg='#7a5a9a',
+            bg='#1a0b2e'
+        )
+        self.date_label.pack(anchor='w')
+
+        update_frame = tk.Frame(
+            self.main_frame,
+            bg='#2a1a3a',
+            highlightbackground='#4a2a6a',
+            highlightthickness=1,
+            bd=0
+        )
+        update_frame.pack(fill=tk.X, pady=(10, 0))
+
+        self.update_label = tk.Label(
+            update_frame,
+            text="🔄 Код обновляется в 09:00 и 15:30",
+            font=('Montserrat', 11),
+            fg='#9a7abc',
+            bg='#2a1a3a',
+            pady=8
+        )
+        self.update_label.pack()
+
+    def generate_shift_code(self, date_str, shift_id):
+        """Генерация кода"""
+        raw = f"{SECRET_SEED}:{ADDRESS_ID}:{date_str}:{shift_id}"
+        hash_obj = hashlib.sha256(raw.encode()).hexdigest()
+        hash_int = int(hash_obj, 16)
+        return str(hash_int % 100000).zfill(5)
+
+    def get_shift_period(self):
+        """Определение текущей смены"""
+        now = datetime.now()
+        hour = now.hour
+        if 10 <= hour < 16:
+            return "morning", "🌅 УТРЕННЯЯ СМЕНА"
+        elif 16 <= hour < 22:
+            return "evening", "🌆 ВЕЧЕРНЯЯ СМЕНА"
+        else:
+            return "morning", "🌙 НОЧНОЕ ВРЕМЯ"
+
+    def get_current_code(self):
+        """Получение текущего кода"""
+        now = datetime.now()
+        date_str = now.strftime("%Y-%m-%d")
+        shift, shift_name = self.get_shift_period()
+        code = self.generate_shift_code(date_str, shift)
+        return code, shift_name
+
+    def update_display(self):
+        """Обновление отображения"""
+        try:
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            current_date = now.strftime("%d.%m.%Y")
+
+            code, shift_name = self.get_current_code()
+
+            self.time_label.config(text=f"⏰ {current_time}")
+            self.date_label.config(text=f"📅 {current_date}")
+            self.code_label.config(text=code)
+            self.shift_label.config(text=shift_name)
+
+            # Изменение цвета в зависимости от близости к обновлению
+            for update_time in UPDATE_TIMES:
+                update_hour, update_min = map(int, update_time.split(':'))
+                if now.hour == update_hour and now.minute >= update_min - 5 and now.minute <= update_min + 5:
+                    if now.second % 2 == 0:
+                        self.code_label.config(fg='#ffaa4a')
+                        self.update_label.config(text="⚡ Код скоро обновится...", fg='#ffaa4a')
+                    else:
+                        self.code_label.config(fg='#ff7b4a')
+                    break
+            else:
+                self.code_label.config(fg='#ff9f4a')
+                self.update_label.config(text="🔄 Код обновляется в 09:00 и 15:30", fg='#9a7abc')
+
+            self.root.after(100, self.update_display)
+
+        except Exception as e:
+            print(f"Update error: {e}")
+            self.root.after(1000, self.update_display)
+
+    def animate_background(self):
+        """Плавная анимация фона"""
+        colors_bg = ['#1a0b2e', '#2a1a3a', '#3a2a4a', '#4a3a5a', '#3a2a4a', '#2a1a3a']
+        colors_code = ['#ff9f4a', '#ffaf6a', '#ffbf8a', '#ffcfaa', '#ffbf8a', '#ffaf6a']
+
+        def change_colors():
+            try:
+                bg_color = colors_bg[self.color_index % len(colors_bg)]
+                code_color = colors_code[self.color_index % len(colors_code)]
+
+                self.main_frame.config(bg=bg_color)
+                self.code_label.config(fg=code_color)
+
+                self.color_index += 1
+                self.root.after(3000, change_colors)
+            except:
+                pass
+
+        self.root.after(3000, change_colors)
+
+    def animate_code(self):
+        """Плавная анимация цифр"""
+
+        def breathe():
+            try:
+                current_color = self.code_label.cget('fg')
+
+                if current_color == '#ff9f4a':
+                    self.code_label.config(fg='#e58e40')
+                    self.root.after(500, lambda: self.code_label.config(fg='#ff9f4a'))
+                elif current_color == '#ffaf6a':
+                    self.code_label.config(fg='#e59d5e')
+                    self.root.after(500, lambda: self.code_label.config(fg='#ffaf6a'))
+
+                pulse_colors = ['#4aff9e', '#7affbe', '#aaffde', '#7affbe', '#4aff9e']
+                pulse_color = pulse_colors[self.color_index % len(pulse_colors)]
+                self.pulse_label.config(fg=pulse_color)
+
+                self.root.after(800, breathe)
+            except:
+                pass
+
+        self.root.after(800, breathe)
+
+    def check_auto_restore(self):
+        """Проверка времени для авторазворота"""
+
+        def check_time():
+            now = datetime.now()
+            current_time = now.strftime("%H:%M")
+
+            for update_time in UPDATE_TIMES:
+                if current_time == update_time:
+                    self.restore_window()
+                    break
+
+            self.root.after(60000, check_time)
+
+        self.root.after(1000, check_time)
+
+    def restore_window(self):
+        """Разворачивание окна"""
+        try:
+            self.root.deiconify()
+            self.root.lift()
+            self.root.focus_force()
+
+            original_color = self.code_label.cget('fg')
+            self.code_label.config(fg='#ffffff')
+            self.root.after(300, lambda: self.code_label.config(fg=original_color))
+
+            try:
+                import platform
+                if platform.system() == 'Windows':
+                    import ctypes
+                    ctypes.windll.user32.FlashWindow(ctypes.windll.user32.GetForegroundWindow(), True)
+            except:
+                pass
+
+        except Exception as e:
+            print(f"Restore error: {e}")
+
+    def minimize_window(self):
+        """Сворачивание вместо закрытия"""
+        self.root.iconify()
+
+
+# Запуск
+if __name__ == "__main__":
+    app = FuturisticCodeDisplay()
