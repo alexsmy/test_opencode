@@ -1,39 +1,16 @@
 {
   "settings": {
-    "min_wait_minutes": 11,
+    "min_wait_minutes": 13,
     "max_wait_minutes": 14,
     "error_wait_seconds": 60,
-    "initial_delay_seconds": 60,
+    "initial_delay_seconds": 10,
     "request_timeout_seconds": 30,
     "internet_check_timeout_seconds": 10,
     "dashboard_refresh_seconds": 60
   },
-  "targets": [
-    {
-      "id": "4c9256db-beed-518d-8a6f-59329b72c544",
-      "name": "PRIMARY",
-      "url": "https://bot-29-nx0w.onrender.com",
-      "env_override": "WEB_APP_URL",
-      "enabled": true
-    },
-    {
-      "id": "8514b740-8ebc-581d-95f9-81f2ba84e296",
-      "name": "SECONDARY",
-      "url": "https://ai-web-1z20.onrender.com",
-      "env_override": null,
-      "enabled": false
-    },
-    {
-      "id": "ce7b8bb9-250f-57a9-b0b6-c8dc9b1bf01f",
-      "name": "ПВЗ",
-      "url": "https://wbtg-001.onrender.com/ping",
-      "env_override": null,
-      "enabled": true
-    }
-  ],
+  "targets": [],
   "security": {
-    "settings_pin_hash": "rzV9nq6BuHPgAOTwii_P0iEEa-7Ev83cpYhcEncWyus=",
-    "settings_pin_salt": "uV3MGH_DLtBZy_JiuvfjIg==",
-    "config_signature": "sha256:65885d7dbaf97307cccceebc226a312c5bd7bece0330ec41efc46b4de24b49b8"
+    "settings_pin_salt": "ay5q-yEMWWBz0hjCAmTBbw==",
+    "settings_pin_hash": "l82hKtHKxR8I-KqvRUrAGvPlB0my78Px_k8UKVNfLz4="
   }
 }
