@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Vault — Пакетная загрузка</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { background: #0f172a; color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif; }
+.status-ok { color: #4ade80; }
+.status-err { color: #f87171; }
+</style>
+</head>
+<body class="min-h-screen p-6 max-w-4xl mx-auto">
+<h1 class="text-3xl font-extrabold text-white mb-2">🔐 Vault — Пакетная загрузка</h1>
+<p class="text-slate-400 text-sm mb-6">Файл работает полностью в браузере. Введи мастер-пароль — значения зашифруются AES-256-GCM и уйдут на сервер в защищённом виде.</p>
+
+<div class="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 mb-6">
+    <label class="text-sm font-semibold text-slate-300">Мастер-пароль (тот же, что вводил при настройке Vault)</label>
+    <div class="flex gap-3 mt-2">
+        <input id="passphrase" type="password" class="flex-1 px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white text-lg focus:outline-none focus:border-blue-500/50 font-mono" placeholder="Введи мастер-пароль">
+        <button id="derive-btn" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold transition-colors">🔑 Производные ключа</button>
+    </div>
+    <p id="key-status" class="text-sm mt-2 hidden"></p>
+</div>
+
+<div id="entries-container" class="space-y-3"></div>
+
+<div class="mt-6 flex gap-3">
+    <button id="encrypt-all-btn" class="px-8 py-4 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-lg transition-colors disabled:opacity-50" disabled>🚀 Зашифровать и отправить всё</button>
+    <button id="reload-btn" class="px-6 py-4 bg-slate-700 hover:bg-slate-600 rounded-xl font-bold transition-colors">🔄 Загрузить данные с сервера</button>
+</div>
+
+<div id="progress" class="mt-4 hidden">
+    <div class="w-full bg-slate-700/50 rounded-full h-3">
+        <div id="progress-bar" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width:0%"></div>
+    </div>
+    <p id="progress-text" class="text-sm text-slate-400 mt-2"></p>
+</div>
+
+<div id="results" class="mt-6 space-y-1"></div>
+
+<script>
+// ─── Crypto (same as crypto.js) ───
+
+async function deriveKey(passphrase, salt) {
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
+    );
+}
+
+async function encryptValue(plaintext, key) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const encrypted = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        new TextEncoder().encode(plaintext)
+    );
+    const combined = new Uint8Array(iv.length + encrypted.byteLength);
+    combined.set(iv, 0);
+    combined.set(new Uint8Array(encrypted), iv.length);
+    return btoa(String.fromCharCode(...combined));
+}
+
+// ─── State ───
+
+let masterKey = null;
+let entries = [];
+let groups = [];
+
+const API = 'https://bot-29-nx0w.onrender.com/api/vault';
+const FP_HEADER = { 'X-Device-Fingerprint': 'vault-batch-loader-v1' };
+
+async function api(path, opts = {}) {
+    const headers = { 'Content-Type': 'application/json', ...FP_HEADER, ...(opts.headers || {}) };
+    const res = await fetch(`${API}${path}`, { ...opts, headers });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.detail || 'API error');
+    return data;
+}
+
+// ─── Derive key ───
+
+document.getElementById('derive-btn').onclick = async () => {
+    const pass = document.getElementById('passphrase').value;
+    if (!pass || pass.length < 8) { setKeyStatus('❌ Мастер-пароль должен быть минимум 8 символов', 'err'); return; }
+    const salt = crypto.getRandomValues(new Uint8Array(32));
+    masterKey = await deriveKey(pass, salt);
+    setKeyStatus('✅ Ключ производён! Можно шифровать.', 'ok');
+    document.getElementById('encrypt-all-btn').disabled = false;
+};
+
+function setKeyStatus(msg, type) {
+    const el = document.getElementById('key-status');
+    el.textContent = msg;
+    el.className = `text-sm mt-2 ${type === 'ok' ? 'text-green-400' : 'text-red-400'}`;
+    el.classList.remove('hidden');
+}
+
+// ─── Load data from server ───
+
+async function loadData() {
+    const [gData, eData] = await Promise.all([
+        api('/groups'),
+        api('/entries'),
+    ]);
+    groups = gData.groups;
+    entries = eData.entries;
+    renderEntries();
+}
+
+function renderEntries() {
+    const container = document.getElementById('entries-container');
+    container.innerHTML = '';
+    const groupMap = {};
+    groups.forEach(g => groupMap[g.id] = g);
+
+    entries.forEach(e => {
+        const g = groupMap[e.group_id];
+        const div = document.createElement('div');
+        div.className = 'bg-slate-800/40 border border-slate-700/50 rounded-xl p-4';
+        div.innerHTML = `
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <span class="font-bold text-white">${escHtml(e.name)}</span>
+                    <span class="text-xs text-slate-500 ml-2">${g ? escHtml(g.name) : 'Без группы'}</span>
+                    ${(e.tags || []).map(t => `<span class="text-xs px-2 py-0.5 bg-slate-700/50 rounded-lg text-slate-400 ml-1">${escHtml(t)}</span>`).join('')}
+                </div>
+                <span id="status-${e.id}" class="text-xs font-mono px-2 py-1 rounded-lg bg-slate-700/30 text-slate-500">ожидает</span>
+            </div>
+            <textarea id="val-${e.id}" rows="1" placeholder="Вставь значение токена / пароля..."
+                class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white font-mono text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"></textarea>
+            <input id="notes-${e.id}" type="text" value="${escHtml(e.notes || '')}" placeholder="Заметки (опционально)"
+                class="w-full mt-2 px-3 py-2 bg-slate-700/30 border border-slate-600/30 rounded-lg text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50">
+        `;
+        container.appendChild(div);
+    });
+}
+
+function escHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+}
+
+// ─── Encrypt & Send All ───
+
+document.getElementById('encrypt-all-btn').onclick = async () => {
+    if (!masterKey) { alert('Сначала произведи ключ!'); return; }
+    if (!confirm('Отправить ВСЕ заполненные значения на сервер? Данные будут зашифрованы AES-256-GCM.')) return;
+
+    const btn = document.getElementById('encrypt-all-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Шифрование и отправка...';
+
+    const progress = document.getElementById('progress');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    progress.classList.remove('hidden');
+
+    const results = document.getElementById('results');
+    results.innerHTML = '';
+
+    let ok = 0, fail = 0;
+    const total = entries.length;
+
+    for (let i = 0; i < total; i++) {
+        const e = entries[i];
+        const valEl = document.getElementById(`val-${e.id}`);
+        const notesEl = document.getElementById(`notes-${e.id}`);
+        const statusEl = document.getElementById(`status-${e.id}`);
+        const value = (valEl.value || '').trim();
+
+        if (!value) {
+            statusEl.className = 'text-xs font-mono px-2 py-1 rounded-lg bg-slate-700/30 text-slate-500';
+            statusEl.textContent = '⏭️ пропущено';
+            continue;
+        }
+
+        try {
+            const encrypted = await encryptValue(value, masterKey);
+            const payload = { encrypted_value: encrypted, notes: notesEl.value || '' };
+            await api(`/entries/${e.id}`, { method: 'PUT', body: JSON.stringify(payload) });
+            statusEl.className = 'text-xs font-mono px-2 py-1 rounded-lg bg-green-900/50 text-green-400';
+            statusEl.textContent = '✅ зашифровано';
+            ok++;
+        } catch (err) {
+            statusEl.className = 'text-xs font-mono px-2 py-1 rounded-lg bg-red-900/50 text-red-400';
+            statusEl.textContent = `❌ ${err.message}`;
+            fail++;
+        }
+
+        const pct = Math.round(((i + 1) / total) * 100);
+        progressBar.style.width = `${pct}%`;
+        progressText.textContent = `${i + 1} / ${total} (${ok} OK, ${fail} ошибок)`;
+    }
+
+    btn.disabled = false;
+    btn.textContent = '🚀 Зашифровать и отправить всё';
+    progressText.textContent = `✅ Готово: ${ok} записей зашифровано и отправлено, ${fail} ошибок`;
+    results.innerHTML += `<div class="text-lg font-bold ${fail === 0 ? 'text-green-400' : 'text-yellow-400'}">${fail === 0 ? '✅ ВСЁ ОТПРАВЛЕНО УСПЕШНО' : `⚠️ ${fail} ошибок`}</div>`;
+};
+
+// ─── Reload ───
+
+document.getElementById('reload-btn').onclick = loadData;
+
+// ─── Init ───
+
+loadData().catch(err => {
+    document.getElementById('entries-container').innerHTML = `<div class="text-red-400">❌ Ошибка загрузки: ${err.message}</div>`;
+});
+</script>
+</body>
+</html>
