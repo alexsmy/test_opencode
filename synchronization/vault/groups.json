@@ -1,0 +1,42 @@
+[
+  {
+    "id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "AI / LLM Providers",
+    "icon": ":robot:",
+    "sort_order": 0,
+    "created_at": "2026-05-22T16:39:12.147666+00:00",
+    "updated_at": "2026-05-22T16:39:12.147678+00:00"
+  },
+  {
+    "id": "4c44474d37e24785a684d094ef5f7482",
+    "name": "Web APIs & Services",
+    "icon": ":globe_with_meridians:",
+    "sort_order": 0,
+    "created_at": "2026-05-22T16:39:13.673990+00:00",
+    "updated_at": "2026-05-22T16:39:13.674005+00:00"
+  },
+  {
+    "id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "GitHub Tokens",
+    "icon": ":key:",
+    "sort_order": 0,
+    "created_at": "2026-05-22T16:39:14.431558+00:00",
+    "updated_at": "2026-05-22T16:39:14.431570+00:00"
+  },
+  {
+    "id": "ebb692e2f0a74e7bac4ffd33ae97b0aa",
+    "name": "Security & Auth",
+    "icon": ":lock:",
+    "sort_order": 0,
+    "created_at": "2026-05-22T16:39:15.598029+00:00",
+    "updated_at": "2026-05-22T16:39:15.598045+00:00"
+  },
+  {
+    "id": "7ff8b8cf8d504b21adfe7c8164f384ed",
+    "name": "тестовая",
+    "icon": "🔑",
+    "sort_order": 0,
+    "created_at": "2026-05-22T16:45:17.711989+00:00",
+    "updated_at": "2026-05-22T16:45:17.712003+00:00"
+  }
+]
