@@ -1,28 +1,73 @@
 [
   {
-    "id": "68b8872c886549dc971dfe3f35e3e231",
-    "group_id": "3e8f2e1c605d4f2bbffb2200819773a3",
-    "name": "Тестовая запись 3",
-    "encrypted_value": "9liEUs2eZIQr3s1uqg8Kbwb+uU8WicZyULJcSbvQsnpJFeObAr4=",
-    "notes": "3",
+    "id": "b5dfdba2ccbf45a684f3e650e1a1c243",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "smyslova.ninam PAT",
+    "encrypted_value": "vB1mkMANyspcGM9sjYpBWwwYuJOr7V4qtkD8PVs=",
+    "notes": "",
     "tags": [
-      "3"
+      "smyslova.ninam"
     ],
-    "created_at": "2026-05-23T08:28:45.645452+00:00",
-    "updated_at": "2026-05-23T08:28:45.645469+00:00"
+    "created_at": "2026-05-23T11:38:55.564039+00:00",
+    "updated_at": "2026-05-23T11:38:55.564050+00:00"
   },
   {
-    "id": "68eb28319cd345a0b2544ee755b51991",
-    "group_id": "7ff8b8cf8d504b21adfe7c8164f384ed",
-    "name": "test_01",
-    "encrypted_value": "CXzFFdGUbOq8dU7XPtKw7VY9i1gZ3CSiOsSr9XVfd6piflHi",
-    "notes": "test тест",
+    "id": "a151936a8f0e41c29046584203d28594",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "PAT - bot_29",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Fine-grained PAT for bot_29 repo (github_pat_...)",
     "tags": [
-      "тест",
-      "test"
+      "github",
+      "token",
+      "bot_29"
     ],
-    "created_at": "2026-05-22T16:45:50.926708+00:00",
-    "updated_at": "2026-05-23T08:27:30.275327+00:00"
+    "created_at": "2026-05-22T16:39:34.138621+00:00",
+    "updated_at": "2026-05-23T11:37:36.458069+00:00"
+  },
+  {
+    "id": "1c8a1efa56ea40ecbf97c2eae87081de",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "PAT - DB sync",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Fine-grained PAT for database synchronization",
+    "tags": [
+      "github",
+      "token",
+      "db",
+      "sync"
+    ],
+    "created_at": "2026-05-22T16:39:35.858517+00:00",
+    "updated_at": "2026-05-23T11:37:14.788477+00:00"
+  },
+  {
+    "id": "f88eaa03dc054ee3a4922c48fcfa751c",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "PAT - wbtg_001",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Fine-grained PAT for wbtg_001 repo",
+    "tags": [
+      "github",
+      "token",
+      "wbtg"
+    ],
+    "created_at": "2026-05-22T16:39:36.623915+00:00",
+    "updated_at": "2026-05-23T11:36:49.281183+00:00"
+  },
+  {
+    "id": "00d068f69a6d49899813040c72a0b08b",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "PAT - bot_29",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Classic GitHub token for bot_29 (ghp_...)",
+    "tags": [
+      "github",
+      "token",
+      "bot_29",
+      "classic"
+    ],
+    "created_at": "2026-05-22T16:39:35.141138+00:00",
+    "updated_at": "2026-05-23T11:36:30.512159+00:00"
   },
   {
     "id": "d283a0a0791143539c1d2390f62470cc",
@@ -51,64 +96,6 @@
     ],
     "created_at": "2026-05-22T16:39:37.823325+00:00",
     "updated_at": "2026-05-22T16:39:37.823339+00:00"
-  },
-  {
-    "id": "f88eaa03dc054ee3a4922c48fcfa751c",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - wbtg_001",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Fine-grained PAT for wbtg_001 repo",
-    "tags": [
-      "github",
-      "token",
-      "wbtg"
-    ],
-    "created_at": "2026-05-22T16:39:36.623915+00:00",
-    "updated_at": "2026-05-22T16:39:36.623929+00:00"
-  },
-  {
-    "id": "1c8a1efa56ea40ecbf97c2eae87081de",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - DB sync",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Fine-grained PAT for database synchronization",
-    "tags": [
-      "github",
-      "token",
-      "db",
-      "sync"
-    ],
-    "created_at": "2026-05-22T16:39:35.858517+00:00",
-    "updated_at": "2026-05-22T16:39:35.858537+00:00"
-  },
-  {
-    "id": "00d068f69a6d49899813040c72a0b08b",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - bot_29 (classic)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Classic GitHub token for bot_29 (ghp_...)",
-    "tags": [
-      "github",
-      "token",
-      "bot_29",
-      "classic"
-    ],
-    "created_at": "2026-05-22T16:39:35.141138+00:00",
-    "updated_at": "2026-05-22T16:39:35.141150+00:00"
-  },
-  {
-    "id": "a151936a8f0e41c29046584203d28594",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - bot_29 (fine-grained)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Fine-grained PAT for bot_29 repo (github_pat_...)",
-    "tags": [
-      "github",
-      "token",
-      "bot_29"
-    ],
-    "created_at": "2026-05-22T16:39:34.138621+00:00",
-    "updated_at": "2026-05-22T16:39:34.138639+00:00"
   },
   {
     "id": "fab8374bc41542679a9b888838501160",
