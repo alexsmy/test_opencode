@@ -1,284 +1,70 @@
 [
   {
-    "id": "91f248b5019c4aba85ebfa0faf936507",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Gigachat (Sber) - Client ID",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Client ID for GigaChat OAuth. Scope: GIGACHAT_API_PERS",
+    "id": "68b8872c886549dc971dfe3f35e3e231",
+    "group_id": "3e8f2e1c605d4f2bbffb2200819773a3",
+    "name": "Тестовая запись 3",
+    "encrypted_value": "9liEUs2eZIQr3s1uqg8Kbwb+uU8WicZyULJcSbvQsnpJFeObAr4=",
+    "notes": "3",
     "tags": [
-      "gigachat",
-      "sber",
-      "ai"
+      "3"
     ],
-    "created_at": "2026-05-22T16:39:17.030243+00:00",
-    "updated_at": "2026-05-22T16:39:17.030258+00:00"
+    "created_at": "2026-05-23T08:28:45.645452+00:00",
+    "updated_at": "2026-05-23T08:28:45.645469+00:00"
   },
   {
-    "id": "04404dbdf6da47b3bc7fab53c28eda3d",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Gigachat (Sber) - Authorization (Base64)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Base64 (ClientID:Secret) for GigaChat OAuth",
+    "id": "68eb28319cd345a0b2544ee755b51991",
+    "group_id": "7ff8b8cf8d504b21adfe7c8164f384ed",
+    "name": "test_01",
+    "encrypted_value": "CXzFFdGUbOq8dU7XPtKw7VY9i1gZ3CSiOsSr9XVfd6piflHi",
+    "notes": "test тест",
     "tags": [
-      "gigachat",
-      "sber",
-      "auth"
+      "тест",
+      "test"
     ],
-    "created_at": "2026-05-22T16:39:18.638651+00:00",
-    "updated_at": "2026-05-22T16:39:18.638665+00:00"
+    "created_at": "2026-05-22T16:45:50.926708+00:00",
+    "updated_at": "2026-05-23T08:27:30.275327+00:00"
   },
   {
-    "id": "fc862741799042d9a243af1da7b7327f",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Google Gemini (smyslova.ninam)",
+    "id": "d283a0a0791143539c1d2390f62470cc",
+    "group_id": "ebb692e2f0a74e7bac4ffd33ae97b0aa",
+    "name": "OpenCode API",
     "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "API key for Google Gemini AI, account: smyslova.ninam",
-    "tags": [
-      "google",
-      "gemini",
-      "ai"
-    ],
-    "created_at": "2026-05-22T16:39:20.432350+00:00",
-    "updated_at": "2026-05-22T16:39:20.432368+00:00"
-  },
-  {
-    "id": "b70e63ba17694b9b82ff5c0a2ca73bb8",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Google Gemini (additional)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Second Google AI API key",
-    "tags": [
-      "google",
-      "gemini",
-      "ai"
-    ],
-    "created_at": "2026-05-22T16:39:21.221157+00:00",
-    "updated_at": "2026-05-22T16:39:21.221174+00:00"
-  },
-  {
-    "id": "2ccb77d5111d46c5b1e3371641e86a3f",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "NVIDIA 2025",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "NVIDIA AI API key (gmail account, 2025)",
-    "tags": [
-      "nvidia",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:22.040061+00:00",
-    "updated_at": "2026-05-22T16:39:22.040077+00:00"
-  },
-  {
-    "id": "97e16484942a4cd18e4693285e51baf0",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Xiaomi AI (key 1)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Xiaomi AI API key",
-    "tags": [
-      "xiaomi",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:22.854128+00:00",
-    "updated_at": "2026-05-22T16:39:22.854143+00:00"
-  },
-  {
-    "id": "933e82ea317141238168ab29b88030bd",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Xiaomi AI (key 2 - xiaomi api)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Second Xiaomi AI API key (labeled 'xiaomi api')",
-    "tags": [
-      "xiaomi",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:23.534297+00:00",
-    "updated_at": "2026-05-22T16:39:23.534311+00:00"
-  },
-  {
-    "id": "791f62153c0747bf8e8670862b2d05ce",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Cerebras",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Cerebras API key",
-    "tags": [
-      "cerebras",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:24.252344+00:00",
-    "updated_at": "2026-05-22T16:39:24.252361+00:00"
-  },
-  {
-    "id": "21477628a17f4bf89c6ce8bd938bf97a",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "OpenRouter",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "OpenRouter API key - unified access to multiple models",
-    "tags": [
-      "openrouter",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:24.976644+00:00",
-    "updated_at": "2026-05-22T16:39:24.976660+00:00"
-  },
-  {
-    "id": "e707b7887037435783a691aeaef42926",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Groq (bot_29)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Groq API key used in bot_29 project",
-    "tags": [
-      "groq",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:25.772015+00:00",
-    "updated_at": "2026-05-22T16:39:25.772033+00:00"
-  },
-  {
-    "id": "e5b207a1939242508801c651a804e55a",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Groq (AI web bot)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Groq API key for AI web bot",
-    "tags": [
-      "groq",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:26.960821+00:00",
-    "updated_at": "2026-05-22T16:39:26.960839+00:00"
-  },
-  {
-    "id": "233f819df1e34252bce7f30b42c57e7f",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Eden AI",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Eden AI JWT token",
-    "tags": [
-      "eden-ai",
-      "ai",
-      "api"
-    ],
-    "created_at": "2026-05-22T16:39:27.778849+00:00",
-    "updated_at": "2026-05-22T16:39:27.778861+00:00"
-  },
-  {
-    "id": "ff4b37478d634a1c84c56e59572c6e7b",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Pollinations AI (key 1)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Pollinations.ai API key (1)",
-    "tags": [
-      "pollinations",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:28.931240+00:00",
-    "updated_at": "2026-05-22T16:39:28.931254+00:00"
-  },
-  {
-    "id": "8ddc9c0e7df9404b862a90ce5836d371",
-    "group_id": "fdac7dc89e12443398eec662220b8c8c",
-    "name": "Pollinations AI (key 2)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Pollinations.ai API key (2)",
-    "tags": [
-      "pollinations",
-      "ai",
-      "llm"
-    ],
-    "created_at": "2026-05-22T16:39:30.099736+00:00",
-    "updated_at": "2026-05-22T16:39:30.099751+00:00"
-  },
-  {
-    "id": "cf353021bb7c483ab4479d59079d0a21",
-    "group_id": "4c44474d37e24785a684d094ef5f7482",
-    "name": "NewsAPI",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "NewsAPI key - for news aggregation",
-    "tags": [
-      "news",
-      "api",
-      "newsapi"
-    ],
-    "created_at": "2026-05-22T16:39:30.905540+00:00",
-    "updated_at": "2026-05-22T16:39:30.905557+00:00"
-  },
-  {
-    "id": "1e32e88094c94c0f8897568195140727",
-    "group_id": "4c44474d37e24785a684d094ef5f7482",
-    "name": "Weather API (??????)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "API key for weather data",
-    "tags": [
-      "weather",
-      "api",
-      "??????"
-    ],
-    "created_at": "2026-05-22T16:39:31.661026+00:00",
-    "updated_at": "2026-05-22T16:39:31.661043+00:00"
-  },
-  {
-    "id": "bf7923c215c04feebceed7f3f7e6220c",
-    "group_id": "4c44474d37e24785a684d094ef5f7482",
-    "name": "API Zen (smyslova.ninam)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "API Zen key for smyslova.ninam",
-    "tags": [
-      "zen",
-      "api",
-      "ninam"
-    ],
-    "created_at": "2026-05-22T16:39:32.382191+00:00",
-    "updated_at": "2026-05-22T16:39:32.382204+00:00"
-  },
-  {
-    "id": "fab8374bc41542679a9b888838501160",
-    "group_id": "4c44474d37e24785a684d094ef5f7482",
-    "name": "OpenCode Server",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Password for OpenCode server: https://my-ai-opencode-server.onrender.com",
+    "notes": "OpenCode API key",
     "tags": [
       "opencode",
-      "server",
-      "hosting"
+      "api",
+      "auth"
     ],
-    "created_at": "2026-05-22T16:39:33.077388+00:00",
-    "updated_at": "2026-05-22T16:39:33.077405+00:00"
+    "created_at": "2026-05-22T16:39:38.639030+00:00",
+    "updated_at": "2026-05-22T16:39:38.639042+00:00"
   },
   {
-    "id": "a151936a8f0e41c29046584203d28594",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - bot_29 (fine-grained)",
+    "id": "fadbc39f506a4c3394c5cf54b21ec3cc",
+    "group_id": "ebb692e2f0a74e7bac4ffd33ae97b0aa",
+    "name": "Telegram Secret Word",
     "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Fine-grained PAT for bot_29 repo (github_pat_...)",
+    "notes": "Secret word for sending Telegram messages through server",
+    "tags": [
+      "telegram",
+      "auth",
+      "secret"
+    ],
+    "created_at": "2026-05-22T16:39:37.823325+00:00",
+    "updated_at": "2026-05-22T16:39:37.823339+00:00"
+  },
+  {
+    "id": "f88eaa03dc054ee3a4922c48fcfa751c",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "GitHub PAT - wbtg_001",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Fine-grained PAT for wbtg_001 repo",
     "tags": [
       "github",
       "token",
-      "bot_29"
+      "wbtg"
     ],
-    "created_at": "2026-05-22T16:39:34.138621+00:00",
-    "updated_at": "2026-05-22T16:39:34.138639+00:00"
-  },
-  {
-    "id": "00d068f69a6d49899813040c72a0b08b",
-    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - bot_29 (classic)",
-    "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Classic GitHub token for bot_29 (ghp_...)",
-    "tags": [
-      "github",
-      "token",
-      "bot_29",
-      "classic"
-    ],
-    "created_at": "2026-05-22T16:39:35.141138+00:00",
-    "updated_at": "2026-05-22T16:39:35.141150+00:00"
+    "created_at": "2026-05-22T16:39:36.623915+00:00",
+    "updated_at": "2026-05-22T16:39:36.623929+00:00"
   },
   {
     "id": "1c8a1efa56ea40ecbf97c2eae87081de",
@@ -296,58 +82,284 @@
     "updated_at": "2026-05-22T16:39:35.858537+00:00"
   },
   {
-    "id": "f88eaa03dc054ee3a4922c48fcfa751c",
+    "id": "00d068f69a6d49899813040c72a0b08b",
     "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
-    "name": "GitHub PAT - wbtg_001",
+    "name": "GitHub PAT - bot_29 (classic)",
     "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Fine-grained PAT for wbtg_001 repo",
+    "notes": "Classic GitHub token for bot_29 (ghp_...)",
     "tags": [
       "github",
       "token",
-      "wbtg"
+      "bot_29",
+      "classic"
     ],
-    "created_at": "2026-05-22T16:39:36.623915+00:00",
-    "updated_at": "2026-05-22T16:39:36.623929+00:00"
+    "created_at": "2026-05-22T16:39:35.141138+00:00",
+    "updated_at": "2026-05-22T16:39:35.141150+00:00"
   },
   {
-    "id": "fadbc39f506a4c3394c5cf54b21ec3cc",
-    "group_id": "ebb692e2f0a74e7bac4ffd33ae97b0aa",
-    "name": "Telegram Secret Word",
+    "id": "a151936a8f0e41c29046584203d28594",
+    "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
+    "name": "GitHub PAT - bot_29 (fine-grained)",
     "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "Secret word for sending Telegram messages through server",
+    "notes": "Fine-grained PAT for bot_29 repo (github_pat_...)",
     "tags": [
-      "telegram",
-      "auth",
-      "secret"
+      "github",
+      "token",
+      "bot_29"
     ],
-    "created_at": "2026-05-22T16:39:37.823325+00:00",
-    "updated_at": "2026-05-22T16:39:37.823339+00:00"
+    "created_at": "2026-05-22T16:39:34.138621+00:00",
+    "updated_at": "2026-05-22T16:39:34.138639+00:00"
   },
   {
-    "id": "d283a0a0791143539c1d2390f62470cc",
-    "group_id": "ebb692e2f0a74e7bac4ffd33ae97b0aa",
-    "name": "OpenCode API",
+    "id": "fab8374bc41542679a9b888838501160",
+    "group_id": "4c44474d37e24785a684d094ef5f7482",
+    "name": "OpenCode Server",
     "encrypted_value": "__ENTER_VIA_BROWSER__",
-    "notes": "OpenCode API key",
+    "notes": "Password for OpenCode server: https://my-ai-opencode-server.onrender.com",
     "tags": [
       "opencode",
-      "api",
-      "auth"
+      "server",
+      "hosting"
     ],
-    "created_at": "2026-05-22T16:39:38.639030+00:00",
-    "updated_at": "2026-05-22T16:39:38.639042+00:00"
+    "created_at": "2026-05-22T16:39:33.077388+00:00",
+    "updated_at": "2026-05-22T16:39:33.077405+00:00"
   },
   {
-    "id": "68eb28319cd345a0b2544ee755b51991",
-    "group_id": "7ff8b8cf8d504b21adfe7c8164f384ed",
-    "name": "test_01",
-    "encrypted_value": "KsfVKRWq1QG9qyarpeWTaOsjQEFYJcutuC7AjtUHTHL/56ue",
-    "notes": "test тест",
+    "id": "bf7923c215c04feebceed7f3f7e6220c",
+    "group_id": "4c44474d37e24785a684d094ef5f7482",
+    "name": "API Zen (smyslova.ninam)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "API Zen key for smyslova.ninam",
     "tags": [
-      "тест",
-      "test"
+      "zen",
+      "api",
+      "ninam"
     ],
-    "created_at": "2026-05-22T16:45:50.926708+00:00",
-    "updated_at": "2026-05-22T16:45:50.926726+00:00"
+    "created_at": "2026-05-22T16:39:32.382191+00:00",
+    "updated_at": "2026-05-22T16:39:32.382204+00:00"
+  },
+  {
+    "id": "1e32e88094c94c0f8897568195140727",
+    "group_id": "4c44474d37e24785a684d094ef5f7482",
+    "name": "Weather API (??????)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "API key for weather data",
+    "tags": [
+      "weather",
+      "api",
+      "??????"
+    ],
+    "created_at": "2026-05-22T16:39:31.661026+00:00",
+    "updated_at": "2026-05-22T16:39:31.661043+00:00"
+  },
+  {
+    "id": "cf353021bb7c483ab4479d59079d0a21",
+    "group_id": "4c44474d37e24785a684d094ef5f7482",
+    "name": "NewsAPI",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "NewsAPI key - for news aggregation",
+    "tags": [
+      "news",
+      "api",
+      "newsapi"
+    ],
+    "created_at": "2026-05-22T16:39:30.905540+00:00",
+    "updated_at": "2026-05-22T16:39:30.905557+00:00"
+  },
+  {
+    "id": "8ddc9c0e7df9404b862a90ce5836d371",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Pollinations AI (key 2)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Pollinations.ai API key (2)",
+    "tags": [
+      "pollinations",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:30.099736+00:00",
+    "updated_at": "2026-05-22T16:39:30.099751+00:00"
+  },
+  {
+    "id": "ff4b37478d634a1c84c56e59572c6e7b",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Pollinations AI (key 1)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Pollinations.ai API key (1)",
+    "tags": [
+      "pollinations",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:28.931240+00:00",
+    "updated_at": "2026-05-22T16:39:28.931254+00:00"
+  },
+  {
+    "id": "233f819df1e34252bce7f30b42c57e7f",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Eden AI",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Eden AI JWT token",
+    "tags": [
+      "eden-ai",
+      "ai",
+      "api"
+    ],
+    "created_at": "2026-05-22T16:39:27.778849+00:00",
+    "updated_at": "2026-05-22T16:39:27.778861+00:00"
+  },
+  {
+    "id": "e5b207a1939242508801c651a804e55a",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Groq (AI web bot)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Groq API key for AI web bot",
+    "tags": [
+      "groq",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:26.960821+00:00",
+    "updated_at": "2026-05-22T16:39:26.960839+00:00"
+  },
+  {
+    "id": "e707b7887037435783a691aeaef42926",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Groq (bot_29)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Groq API key used in bot_29 project",
+    "tags": [
+      "groq",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:25.772015+00:00",
+    "updated_at": "2026-05-22T16:39:25.772033+00:00"
+  },
+  {
+    "id": "21477628a17f4bf89c6ce8bd938bf97a",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "OpenRouter",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "OpenRouter API key - unified access to multiple models",
+    "tags": [
+      "openrouter",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:24.976644+00:00",
+    "updated_at": "2026-05-22T16:39:24.976660+00:00"
+  },
+  {
+    "id": "791f62153c0747bf8e8670862b2d05ce",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Cerebras",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Cerebras API key",
+    "tags": [
+      "cerebras",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:24.252344+00:00",
+    "updated_at": "2026-05-22T16:39:24.252361+00:00"
+  },
+  {
+    "id": "933e82ea317141238168ab29b88030bd",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Xiaomi AI (key 2 - xiaomi api)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Second Xiaomi AI API key (labeled 'xiaomi api')",
+    "tags": [
+      "xiaomi",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:23.534297+00:00",
+    "updated_at": "2026-05-22T16:39:23.534311+00:00"
+  },
+  {
+    "id": "97e16484942a4cd18e4693285e51baf0",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Xiaomi AI (key 1)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Xiaomi AI API key",
+    "tags": [
+      "xiaomi",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:22.854128+00:00",
+    "updated_at": "2026-05-22T16:39:22.854143+00:00"
+  },
+  {
+    "id": "2ccb77d5111d46c5b1e3371641e86a3f",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "NVIDIA 2025",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "NVIDIA AI API key (gmail account, 2025)",
+    "tags": [
+      "nvidia",
+      "ai",
+      "llm"
+    ],
+    "created_at": "2026-05-22T16:39:22.040061+00:00",
+    "updated_at": "2026-05-22T16:39:22.040077+00:00"
+  },
+  {
+    "id": "b70e63ba17694b9b82ff5c0a2ca73bb8",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Google Gemini (additional)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Second Google AI API key",
+    "tags": [
+      "google",
+      "gemini",
+      "ai"
+    ],
+    "created_at": "2026-05-22T16:39:21.221157+00:00",
+    "updated_at": "2026-05-22T16:39:21.221174+00:00"
+  },
+  {
+    "id": "fc862741799042d9a243af1da7b7327f",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Google Gemini (smyslova.ninam)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "API key for Google Gemini AI, account: smyslova.ninam",
+    "tags": [
+      "google",
+      "gemini",
+      "ai"
+    ],
+    "created_at": "2026-05-22T16:39:20.432350+00:00",
+    "updated_at": "2026-05-22T16:39:20.432368+00:00"
+  },
+  {
+    "id": "04404dbdf6da47b3bc7fab53c28eda3d",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Gigachat (Sber) - Authorization (Base64)",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Base64 (ClientID:Secret) for GigaChat OAuth",
+    "tags": [
+      "gigachat",
+      "sber",
+      "auth"
+    ],
+    "created_at": "2026-05-22T16:39:18.638651+00:00",
+    "updated_at": "2026-05-22T16:39:18.638665+00:00"
+  },
+  {
+    "id": "91f248b5019c4aba85ebfa0faf936507",
+    "group_id": "fdac7dc89e12443398eec662220b8c8c",
+    "name": "Gigachat (Sber) - Client ID",
+    "encrypted_value": "__ENTER_VIA_BROWSER__",
+    "notes": "Client ID for GigaChat OAuth. Scope: GIGACHAT_API_PERS",
+    "tags": [
+      "gigachat",
+      "sber",
+      "ai"
+    ],
+    "created_at": "2026-05-22T16:39:17.030243+00:00",
+    "updated_at": "2026-05-22T16:39:17.030258+00:00"
   }
 ]
