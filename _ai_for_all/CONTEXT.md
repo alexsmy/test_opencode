@@ -32,3 +32,16 @@
 - Активная разработка в `bot_29` (ветка `codex/__34`)
 - При работе с любыми проектами — сначала читать `_ai_for_all/`
 - Секреты, токены, переменные — только в `VAULT/variables.json.enc`
+- Тесты пишутся перед сложными изменениями (vault CRUD, 2FA, sync)
+- `services/sync_service.py` разбит на пакет `services/sync/` (9 модулей)
+
+## Текущие ветки bot_29
+- `codex/__34` — основная, работает на Render
+- `test-vault-storage` — тест vault storage CRUD (запушен)
+- `test-device-auth` — тест 2FA device auth (локально)
+- `refactor/sync-package` — рефакторинг sync_service (запушен)
+
+## Тесты
+- `tests/test_vault_storage.py` — 11 шагов, CRUD групп и записей
+- `tests/test_device_auth.py` — 10 шагов, 2FA (код, попытки, блокировка, анти-флуд)
+- `tests/test_sync_service_pure.py` — 17 шагов, hash/chunking/JSON

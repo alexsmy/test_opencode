@@ -14,6 +14,19 @@
 - Все изменения запушены в `test_opencode/main/_ai_for_all`
 - Мастер-пароль VAULT: известен только alexs
 
+## 24.05.2026 — Тест 2FA device auth + рефакторинг sync_service + тест чистых функций sync
+
+- Создан `tests/test_device_auth.py` — 10 шагов (запрос кода, неверный/верный код, истечение, лимит попыток, анти-флуд, удаление устройства)
+- Проанализирован `services/sync_service.py` (1255 строк)
+- `sync_service.py` разбит на пакет `services/sync/` из 9 модулей:
+  - `utils.py`, `settings.py`, `manifest.py`, `chunking.py`, `github.py`
+  - `collectors.py`, `restore.py`, `notify.py`, `worker.py`
+- Старый `sync_service.py` — shim (2 строки, `from services.sync import *`)
+- Создан `tests/test_sync_service_pure.py` — 17 шагов: `_compute_hash`, `_chunk_if_large`, `_is_meaningful_json`
+- Все 11 мест, импортирующих `services.sync_service`, продолжают работать
+- Ветки: `test-device-auth` (локально), `refactor/sync-package` (запушена)
+- Рефакторинг: божественный модуль 1255л → 9 маленьких файлов
+
 ## 24.05.2026 — Создан первый тест: vault storage CRUD
 
 - Создан `tests/test_vault_storage.py` — 11 шагов, все пройдены

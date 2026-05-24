@@ -41,5 +41,27 @@ secrets/               — токены (НЕ в git)
 - Настройки: `config/sync_settings.json`
 - Воркер проверяет события каждые ~6с
 
+## Тесты
+- `tests/test_vault_storage.py` — CRUD vault storage (11 шагов)
+- `tests/test_device_auth.py` — 2FA авторизация устройств (10 шагов)
+- `tests/test_sync_service_pure.py` — чистые функции sync (17 шагов)
+
+## Структура services/sync/
+```
+services/
+├── sync_service.py        ← shim (2 строки, обратная совместимость)
+└── sync/
+    ├── __init__.py         ← реэкспорт всех публичных функций
+    ├── utils.py            ← _compute_hash, _now_iso, _is_meaningful_json
+    ├── settings.py         ← настройки синхронизации
+    ├── manifest.py         ← манифест отправленных файлов
+    ├── chunking.py         ← дробление больших файлов
+    ├── github.py           ← все запросы к GitHub API
+    ├── collectors.py       ← сбор данных (keepalive, filevault, crpt, agents, vault)
+    ├── restore.py          ← восстановление с GitHub
+    ├── notify.py           ← Telegram-уведомления о синхронизации
+    └── worker.py           ← оркестрация, триггеры, фоновый воркер
+```
+
 ## Локальная копия
 `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
