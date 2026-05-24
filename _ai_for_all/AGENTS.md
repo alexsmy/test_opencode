@@ -42,4 +42,4 @@ _ai_for_all/
 - `Пока` / `/end` — обновить SESSION_LOG.md, sync, уведомить
 - `/migrate` — полное резюме + архив + пуш
 
-Подробнее: `rules/lifecycle.md`, `rules/sync.md`, `rules/backup.md`.
+Подробнее: `rules/lifecycle.md`, `rules/sync.md`, `rules/backup.md`, `rules/deepseek.md` (технические правила кодинга), `rules/coding.md` (правила для alexs).
