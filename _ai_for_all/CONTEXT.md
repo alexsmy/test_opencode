@@ -1,0 +1,27 @@
+# Current Context
+
+Общий контекст всех проектов. Дата: 24.05.2026.
+
+## Активные проекты
+
+### bot_29 — FastAPI + Telegram бот
+- **Репозиторий**: https://github.com/alexsmy/bot_29/tree/codex/__34
+- **Ветка**: `codex/__34`
+- **Сервер**: Render.com — https://bot-29-nx0w.onrender.com
+- **Стек**: Python 3.13.3, FastAPI, aiogram, uvicorn
+- **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, часы, Telegram-бот, cloud sync
+- **Последний коммит**: `ed3b406` — Fix vault data path regression
+- **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
+- Детали: `PROJECTS/bot_29.md`
+
+### test_opencode — Data-репозиторий
+- **Репозиторий**: https://github.com/alexsmy/test_opencode/tree/main
+- **Ветка**: `main`
+- **Содержит**: `_ai_for_all/`, `synchronization/`, `migrate/`
+
+## Платформа
+- **Текущий узел**: notebook-win11 (Windows 11, PowerShell 5.1)
+- **Инструменты**: Git 2.54.0, Python 3.13.3, Node.js v24.15.0
+
+## Текущий фокус
+- Создание `_ai_for_all` — единой облачной памяти AI
