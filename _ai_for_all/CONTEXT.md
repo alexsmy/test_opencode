@@ -32,16 +32,26 @@
 - Активная разработка в `bot_29` (ветка `codex/__34`)
 - При работе с любыми проектами — сначала читать `_ai_for_all/`
 - Секреты, токены, переменные — только в `VAULT/variables.json.enc`
-- Тесты пишутся перед сложными изменениями (vault CRUD, 2FA, sync)
+- Тесты пишутся как страховка перед/после рефакторинга и сложных изменений
 - `services/sync_service.py` разбит на пакет `services/sync/` (9 модулей)
+- `routers/vault_api.py` найден и исправлен баг: `authorized` возвращал `""` вместо `false`
 
 ## Текущие ветки bot_29
 - `codex/__34` — основная, работает на Render
-- `test-vault-storage` — тест vault storage CRUD (запушен)
+- `test-vault-storage` — тест vault storage CRUD (запушена)
 - `test-device-auth` — тест 2FA device auth (локально)
-- `refactor/sync-package` — рефакторинг sync_service (запушен)
+- `refactor/sync-package` — рефакторинг sync_service (запушена)
+- `refactor/add_test_04` — копия refactor/sync-package с новым именем (запушена)
+- `test/vault-api` — тест REST API Vault + фикс бага (локально)
 
-## Тесты
-- `tests/test_vault_storage.py` — 11 шагов, CRUD групп и записей
-- `tests/test_device_auth.py` — 10 шагов, 2FA (код, попытки, блокировка, анти-флуд)
-- `tests/test_sync_service_pure.py` — 17 шагов, hash/chunking/JSON
+## Тесты (всего 64 шага)
+| Файл | Шаги | Что проверяет |
+|---|---|---|
+| `tests/test_vault_storage.py` | 11 | CRUD vault storage (группы, записи, поиск) |
+| `tests/test_device_auth.py` | 10 | 2FA устройств (код, попытки, блокировка, анти-флуд) |
+| `tests/test_sync_service_pure.py` | 17 | hash/chunking/JSON (чистые функции) |
+| `tests/test_sync_to_github.py` | 8 | sync_to_github с замоканным GitHub API |
+| `tests/test_vault_api.py` | 18 | REST API Vault через FastAPI TestClient |
+
+## Найденные баги
+- `routers/vault_api.py:60` — `authorized` возвращал `""` (пустая строка) вместо `false` в JSON. Исправлено: `bool(...)`.

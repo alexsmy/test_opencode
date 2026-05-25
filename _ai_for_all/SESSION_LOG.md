@@ -14,6 +14,22 @@
 - Все изменения запушены в `test_opencode/main/_ai_for_all`
 - Мастер-пароль VAULT: известен только alexs
 
+## 25.05.2026 — Тест sync_to_github + тест REST API Vault + найден баг в production
+
+- Создан `tests/test_sync_to_github.py` — 8 шагов (без токена, auto_sync=off,
+  пустые данные, успешная синхронизация, пропуск по манифесту, частичная неудача).
+  Все вызовы GitHub API замоканы.
+- Создан `tests/test_vault_api.py` — 18 шагов через FastAPI TestClient.
+  Проверяет: auth status, запрос/верификация 2FA кода, CRUD групп, CRUD записей,
+  фильтрация, поиск, ошибки 400/404.
+- **Найден баг в production**: `routers/vault_api.py:60` — `authorized` возвращал
+  `""` (пустую строку) в JSON вместо `false`. Причина: `bool(fp) and (False or "")` = `""`.
+  Исправлено: обёртка в `bool(...)`.
+- Обновлено `rules/git.md` — жёстче про новые ветки, явно спрашивать перед пушем.
+- Ветка `refactor/add_test_04` запушена в bot_29.
+- Ветка `test/vault-api` — локально (содержит vault API test + bugfix).
+- Все 5 тестов проходят: 64 шага, 0 ошибок.
+
 ## 24.05.2026 — Тест 2FA device auth + рефакторинг sync_service + тест чистых функций sync
 
 - Создан `tests/test_device_auth.py` — 10 шагов (запрос кода, неверный/верный код, истечение, лимит попыток, анти-флуд, удаление устройства)

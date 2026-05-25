@@ -41,10 +41,22 @@ secrets/               — токены (НЕ в git)
 - Настройки: `config/sync_settings.json`
 - Воркер проверяет события каждые ~6с
 
-## Тесты
+## Тесты (всего 64 шага)
 - `tests/test_vault_storage.py` — CRUD vault storage (11 шагов)
 - `tests/test_device_auth.py` — 2FA авторизация устройств (10 шагов)
 - `tests/test_sync_service_pure.py` — чистые функции sync (17 шагов)
+- `tests/test_sync_to_github.py` — sync_to_github с моками (8 шагов)
+- `tests/test_vault_api.py` — REST API Vault через TestClient (18 шагов)
+
+**Запуск всех тестов:**
+```powershell
+cd C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29
+python -m tests.test_vault_storage
+python -m tests.test_device_auth
+python -m tests.test_sync_service_pure
+python -m tests.test_sync_to_github
+python -m tests.test_vault_api
+```
 
 ## Структура services/sync/
 ```
