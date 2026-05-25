@@ -10,7 +10,8 @@
 - **Сервер**: Render.com — https://bot-29-nx0w.onrender.com
 - **Стек**: Python 3.13.3, FastAPI, aiogram, uvicorn
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, часы, Telegram-бот, cloud sync
-- **Последний коммит**: `491d3a9` — test: add 8 critical module tests (86 steps)
+- **Последний коммит**: `6f82c15` — chore: remove deprecated _ai/ memory files
+- **Ветка**: `test/keepalive-sync_02` (запушена в GitHub)
 - **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
 - Детали: `PROJECTS/bot_29.md`
 
@@ -42,7 +43,8 @@
 - `refactor/sync-package` — рефакторинг sync_service (локально + remote, stale)
 - `refactor/add_test_04` — то же, что sync-package, запушена отдельно (stale)
 - `test/vault-api` — тест REST API Vault + фикс бага (локально, stale)
-- `test/keepalive-sync_01` — **текущая ветка**. 17 тестов keepalive + sync + security + APIs (2 коммита)
+- `test/keepalive-sync_01` — 17 тестов keepalive + sync + security + APIs (закоммичено, stale)
+- `test/keepalive-sync_02` — **текущая ветка**. То же, что sync_01 + cleaned (запушена)
 
 ## Тесты (всего 22 файла, 247+ шагов)
 | Файл | Шаги | Что проверяет |
