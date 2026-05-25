@@ -14,6 +14,32 @@
 - Все изменения запушены в `test_opencode/main/_ai_for_all`
 - Мастер-пароль VAULT: известен только alexs
 
+## 25.05.2026 (сессия 3) — 9 новых тестов: keepalive + sync subsystems (108 шагов) + чекпоинт
+
+- **Сессия завершена и закоммичена**: ветка `test/keepalive-sync_01`, коммит `ec8fdb6`
+- Все 14 тестов проходят (161+ шагов)
+- Обновлена вся память `_ai_for_all`: SESSION_LOG.md, CONTEXT.md, handover
+- Данные запушены в `test_opencode/main/_ai_for_all`
+- **Следующий шаг**: `services/project_health.py` (213 строк) или `services/sync/restore.py` (414 строк)
+- Проблема: emoji в `keep_alive.py` (🚀📡⛔) вызывают ошибки логирования на Windows cp1251 — тесты проходят, но логи шумят
+
+## 25.05.2026 (сессия 2) — 9 новых тестов: keepalive + sync subsystems (108 шагов)
+
+- Созданы тесты (ветка `test/keepalive-sync_01`, 9 файлов, 1448 строк):
+  - `test_master_key.py` — мастер-ключ vault (12 шагов)
+  - `test_keepalive_auth.py` — PIN-аутентификация (21 шаг)
+  - `test_config_manager.py` — конфигурация keep-alive (19 шагов)
+  - `test_sync_collectors.py` — коллекторы sync (16 шагов)
+  - `test_sync_settings.py` — настройки sync (7 шагов)
+  - `test_sync_github.py` — GitHub API клиент async (13 шагов)
+  - `test_sync_manifest.py` — манифест sync (4 шага)
+  - `test_sync_notify.py` — уведомления sync (5 шагов)
+  - `test_keep_alive.py` — мониторинг URL (11 шагов)
+- Всего тестов: 5 -> 14, шагов: 64 -> 161+
+- Покрытие: Vault ✅, Sync ✅ (кроме restore), Keep-alive ⚠️ (2/5 модулей)
+- Следующие кандидаты: `services/project_health.py`, `services/sync/restore.py`, `routers/keepalive_api.py`, `config/keepalive_security.py`
+- Проблема: тесты с emoji (🚀, 📡, ⛔) в `keep_alive.py` логах падают на Windows cp1251 — логирование шумит, но тесты проходят
+
 ## 25.05.2026 — Тест sync_to_github + тест REST API Vault + найден баг в production
 
 - Создан `tests/test_sync_to_github.py` — 8 шагов (без токена, auto_sync=off,
@@ -29,15 +55,6 @@
 - Ветка `refactor/add_test_04` запушена в bot_29.
 - Ветка `test/vault-api` — запушена (содержит vault API test + bugfix).
 - Все 5 тестов проходят: 64 шага, 0 ошибок.
-
-## 25.05.2026 — Startup test, аудит _ai_for_all, исправление неточностей
-
-- Проведён аудит `_ai_for_all`: обнаружены устаревшие данные в CONTEXT.md (коммит `ed3b406`, ветка `codex/__34`) и SESSION_LOG.md (test/vault-api — «локально» вместо «запушена»)
-- Исправлены: CONTEXT.md, SESSION_LOG.md, REFERENCE/commands.md
-- Создан `rules/startup_test.md` — чеклист из 5 блоков для проверки среды перед началом сессии
-- `rules/lifecycle.md` дополнен: старт сессии включает запуск стартового теста
-- Все изменения запушены в `test_opencode/main/_ai_for_all` (коммит `4bfdb53`)
-- Ветка `test-device-auth` не запушена (существует только локально, при новой сессии потребуется создать заново)
 
 ## 24.05.2026 — Тест 2FA device auth + рефакторинг sync_service + тест чистых функций sync
 
