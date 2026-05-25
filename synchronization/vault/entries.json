@@ -1,5 +1,17 @@
 [
   {
+    "id": "f995bf77cfbe4ebdb977025c2389e1d0",
+    "group_id": "",
+    "name": "Тестовый API",
+    "encrypted_value": "Fbr9U0YWH3Dge5Msup4nPQcTlm2v33o5LozoCb3uTvPG",
+    "notes": "Тестовая",
+    "tags": [
+      "Test"
+    ],
+    "created_at": "2026-05-25T06:18:36.534990+00:00",
+    "updated_at": "2026-05-25T06:18:36.535007+00:00"
+  },
+  {
     "id": "b5dfdba2ccbf45a684f3e650e1a1c243",
     "group_id": "3f7a1ac2cbd14236bb153b5c8ba81e51",
     "name": "smyslova.ninam PAT",
