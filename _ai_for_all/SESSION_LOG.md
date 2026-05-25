@@ -27,7 +27,7 @@
   Исправлено: обёртка в `bool(...)`.
 - Обновлено `rules/git.md` — жёстче про новые ветки, явно спрашивать перед пушем.
 - Ветка `refactor/add_test_04` запушена в bot_29.
-- Ветка `test/vault-api` — локально (содержит vault API test + bugfix).
+- Ветка `test/vault-api` — запушена (содержит vault API test + bugfix).
 - Все 5 тестов проходят: 64 шага, 0 ошибок.
 
 ## 24.05.2026 — Тест 2FA device auth + рефакторинг sync_service + тест чистых функций sync

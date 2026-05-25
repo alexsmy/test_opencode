@@ -4,7 +4,8 @@
 1. Прочитать `_ai_for_all/`: README → PROFILE → AGENTS → CONTEXT → SESSION_LOG
 2. Определить платформу (Windows PowerShell / Linux sh)
 3. Проверить актуальность test_opencode
-4. Доложить статус alexs
+4. **Запустить `rules/startup_test.md`** — чеклист готовности
+5. Доложить статус alexs
 
 ## Работа в сессии
 - После каждой задачи: auto-sync (если были изменения)

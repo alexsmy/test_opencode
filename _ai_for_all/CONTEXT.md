@@ -1,6 +1,6 @@
 # Current Context
 
-Общий контекст всех проектов. Дата: 24.05.2026.
+Общий контекст всех проектов. Дата: 25.05.2026.
 
 ## Активные проекты
 
@@ -10,7 +10,7 @@
 - **Сервер**: Render.com — https://bot-29-nx0w.onrender.com
 - **Стек**: Python 3.13.3, FastAPI, aiogram, uvicorn
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, часы, Telegram-бот, cloud sync
-- **Последний коммит**: `ed3b406` — Fix vault data path regression
+- **Последний коммит**: `a98ce6b` — test: add REST API Vault test (18 scenarios) + fix bool bug in auth_status
 - **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
 - Детали: `PROJECTS/bot_29.md`
 
@@ -29,7 +29,7 @@
 
 ## Текущий фокус
 - `_ai_for_all` создан и работает как облачная память
-- Активная разработка в `bot_29` (ветка `codex/__34`)
+- Активная разработка в `bot_29` (ветка `test/vault-api`)
 - При работе с любыми проектами — сначала читать `_ai_for_all/`
 - Секреты, токены, переменные — только в `VAULT/variables.json.enc`
 - Тесты пишутся как страховка перед/после рефакторинга и сложных изменений
@@ -40,9 +40,9 @@
 - `codex/__34` — основная, работает на Render
 - `test-vault-storage` — тест vault storage CRUD (запушена)
 - `test-device-auth` — тест 2FA device auth (локально)
-- `refactor/sync-package` — рефакторинг sync_service (запушена)
-- `refactor/add_test_04` — копия refactor/sync-package с новым именем (запушена)
-- `test/vault-api` — тест REST API Vault + фикс бага (локально)
+- `refactor/sync-package` — рефакторинг sync_service (локально + remote)
+- `refactor/add_test_04` — то же, что sync-package, запушена отдельно (только remote, локально удалена)
+- `test/vault-api` — **текущая ветка**. Тест REST API Vault + фикс бага (локально + remote)
 
 ## Тесты (всего 64 шага)
 | Файл | Шаги | Что проверяет |
