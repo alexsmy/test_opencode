@@ -14,14 +14,24 @@
 - Все изменения запушены в `test_opencode/main/_ai_for_all`
 - Мастер-пароль VAULT: известен только alexs
 
-## 25.05.2026 (сессия 3) — 9 новых тестов: keepalive + sync subsystems (108 шагов) + чекпоинт
+## 25.05.2026 (сессия 3) — 17 новых тестов: keepalive + sync + security + APIs (247 шагов) + чекпоинт
 
-- **Сессия завершена и закоммичена**: ветка `test/keepalive-sync_01`, коммит `ec8fdb6`
-- Все 14 тестов проходят (161+ шагов)
-- Обновлена вся память `_ai_for_all`: SESSION_LOG.md, CONTEXT.md, handover
-- Данные запушены в `test_opencode/main/_ai_for_all`
-- **Следующий шаг**: `services/project_health.py` (213 строк) или `services/sync/restore.py` (414 строк)
-- Проблема: emoji в `keep_alive.py` (🚀📡⛔) вызывают ошибки логирования на Windows cp1251 — тесты проходят, но логи шумят
+- **Сессия завершена**: ветка `test/keepalive-sync_01`, 2 коммита (`ec8fdb6`, `491d3a9`)
+- Написано **17 тестовых файлов** (247+ шагов), все зелёные:
+  - 9 тестов keep-alive + sync модулей (108 шагов) — первая волна
+  - **8 критических тестов** (86 шагов) — вторая волна:
+    - `test_stats_manager.py` — менеджер статистики (9)
+    - `test_keepalive_security.py` — security-примитивы PIN/HMAC (26)
+    - `test_project_health.py` — агрегатор здоровья сервисов (10)
+    - `test_keepalive_api.py` — REST API keep-alive (9)
+    - `test_health_api.py` — health endpoint (2)
+    - `test_sync_api.py` — sync API (5)
+    - `test_crpt_api.py` — CRPT API (8)
+    - `test_sync_restore.py` — восстановление данных с GitHub (17)
+- Покрыты критичные модули: keepalive security, project health, keepalive/stats/sync/crpt API, restore
+- Обновлена память `_ai_for_all`, данные запушены в `test_opencode/main`
+- **Следующий шаг**: `routers/agents_api.py` (175 строк), `services/telegram_tunnel.py` (333 строк)
+- Проблема: emoji в `keep_alive.py` (🚀📡⛔) → cp1251 warning на Windows
 
 ## 25.05.2026 (сессия 2) — 9 новых тестов: keepalive + sync subsystems (108 шагов)
 
