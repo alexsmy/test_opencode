@@ -21,19 +21,10 @@ export function setStyle(elementId, property, value) {
 }
 
 export function createPictureTag(src, alt, className) {
-    const picture = document.createElement('picture');
     const img = document.createElement('img');
-    const hasWebp = document.documentElement.classList.contains('webp');
-    if (hasWebp) {
-        const source = document.createElement('source');
-        source.srcset = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-        source.type = 'image/webp';
-        picture.appendChild(source);
-    }
     img.src = src;
     img.alt = alt || '';
     if (className) img.className = className;
     img.loading = 'lazy';
-    picture.appendChild(img);
-    return picture;
+    return img;
 }

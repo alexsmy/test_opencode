@@ -60,3 +60,8 @@ uastcenter_site/
 ## Платформа
 - **Текущая платформа**: Windows (PowerShell 5.1)
 - **Инструменты**: Git 2.54.0
+
+## Статус синхронизации
+- `_ai_for_all` запушен в `alexsmy/test_opencode`
+- Весь проект `uastcenter_site` добавлен в `alexsmy/test_opencode/uastcenter_site/`
+- Локальный репозиторий: commited (не запушен — удалённого remote нет)
