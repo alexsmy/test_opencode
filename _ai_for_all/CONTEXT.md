@@ -4,6 +4,16 @@
 
 ## Активные проекты
 
+### uastcenter_site — Сайт НТЦ 'УАСТ'
+- **Локальная папка**: `C:\Users\Alex1\Downloads\uastcenter_site`
+- **Git**: инициализирован (ветка `main`), коммит `9a83af2`
+- **Стек**: HTML5, CSS3 (vanilla), JavaScript (vanilla), Google Fonts
+- **Домен (production)**: https://uast.center
+- **Описание**: Статический одностраничный сайт. Секции: Hero, About, Directions, Projects, Contact, Footer.
+  Контент через `js/content.js`. Все изображения локальны (кроме about_bg.jpg — unsplash).
+- **Выполнено**: аудит, исправление орфографии, замена внешних изображений на локальные, чистка мёртвого кода
+- Детали: `PROJECTS/uastcenter_site.md`
+
 ### bot_29 — FastAPI + Telegram бот
 - **Репозиторий**: https://github.com/alexsmy/bot_29/tree/codex/__34
 - **Ветка**: `codex/__34`
