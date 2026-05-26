@@ -1,18 +1,16 @@
-# Синхронизация
+# Синхронизация — UAST Center Site
 
 ## Что синхронизируется
 
 | Данные | Куда | Когда |
 |---|---|---|
-| `_ai_for_all/` | `test_opencode/main/_ai_for_all` | После сессии, при изменениях |
-| `synchronization/` | `test_opencode/main/synchronization/` | Авто-воркером на Render |
-| `migrate/` (архивы) | `test_opencode/main/migrate/` | При /migrate |
+| `_ai_for_all/` (проект) | `test_opencode/main/_ai_for_all/PROJECTS/uastcenter_site/` | После сессии, при изменениях |
 
 ## Протокол
 1. `git status` — проверить изменения
 2. Показать alexs diff
 3. Спросить подтверждение
-4. `git add -A && git commit -m "..." && git push origin main`
+4. `git add -A && git commit -m "..." && git push`
 5. Сообщить результат
 
 ## Запрещено

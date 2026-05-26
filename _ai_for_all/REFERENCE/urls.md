@@ -1,34 +1,29 @@
-# URLs Reference
+# URLs Reference — UAST Center Site
 
 ## Основные
 | Назначение | URL |
 |---|---|
-| Render (bot_29) | https://bot-29-nx0w.onrender.com |
-| GitHub bot_29 | https://github.com/alexsmy/bot_29 |
+| Сайт (production) | https://uast.center |
+| Старый WordPress | https://nppuast.com |
 | GitHub test_opencode | https://github.com/alexsmy/test_opencode |
-| _ai_for_all (GitHub) | https://github.com/alexsmy/test_opencode/tree/main/_ai_for_all |
+| GitHub _ai_for_all | https://github.com/alexsmy/test_opencode/tree/main/_ai_for_all |
+| Telegram бот | https://t.me/imgtestlivebot |
 
-## bot_29 endpoints
-| Страница | URL |
+## Изображения
+| Назначение | URL |
 |---|---|
-| Дашборд | https://bot-29-nx0w.onrender.com/ |
-| FileVault | https://bot-29-nx0w.onrender.com/files |
-| Vault | https://bot-29-nx0w.onrender.com/vault |
-| Keepalive | https://bot-29-nx0w.onrender.com/keepalive |
-| Sync status | https://bot-29-nx0w.onrender.com/sync |
-| MCP | https://bot-29-nx0w.onrender.com/mcp |
-| MyTelegram | https://bot-29-nx0w.onrender.com/mytelegram |
+| Папка с изображениями | https://uast.center/img/ |
+| Логотип | https://uast.center/img/logo.png |
+| Hero gallery slide 1 | https://uast.center/img/slide_1.png |
+| Hero gallery slide 2 | https://uast.center/img/slide_2.jpg |
+| Hero gallery slide 3 | https://uast.center/img/slide_3.jpg |
+| Hero gallery slide 4 | https://uast.center/img/slide_4.png |
+| Hero gallery slide 5 | https://uast.center/img/slide_5.png |
+| Hero background | https://uast.center/img/image_1.jpg |
+| About image | https://uast.center/img/contacts_2.jpg |
 
-## API
-| Endpoint | Описание |
+## Трекеры WordPress
+| Назначение | URL |
 |---|---|
-| GET /api/sync/status | Статус синхронизации |
-| POST /api/sync/trigger | Запустить синхронизацию |
-| POST /api/sync/restore | Восстановить с GitHub |
-| GET /api/sync/settings | Текущие настройки |
-| POST /api/sync/settings | Обновить настройки |
-
-## Telegram
-| Назначение | Ссылка |
-|---|---|
-| Бот | https://t.me/imgtestlivebot |
+| Трекер fingerprint | https://nppuast.com/wp-content/plugins/wp_15381/includes/tracker/tvs-fingerprint.js |
+| Трекер основной | https://nppuast.com/wp-content/plugins/wp_15381/includes/tracker.js |

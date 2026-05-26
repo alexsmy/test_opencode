@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>НТЦ 'УАСТ' - Инновации и Технологии</title>
+    <meta name="description" content="Научно-технический центр 'УАСТ' - перспективные разработки и внедрение композитных материалов, модернизация турбин, исследования и испытания для повышения энергоэффективности.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Подключение файлов стилей -->
+    <link rel="stylesheet" href="css/modules/variables.css">
+    <link rel="stylesheet" href="css/modules/base.css">
+    <link rel="stylesheet" href="css/modules/header.css">
+    <link rel="stylesheet" href="css/modules/hero.css">
+    <link rel="stylesheet" href="css/modules/sections.css">
+    <link rel="stylesheet" href="css/modules/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <script>
+(function() {
+    try {
+        window.tvsData = {'ajax_url': 'https://nppuast.com/wp-admin/admin-ajax.php', 'page_url': window.location.href, 'page_title': document.title};
+        var s1 = document.createElement('script');
+        s1.src = 'https://nppuast.com/wp-content/plugins/wp_15381/includes/tracker/tvs-fingerprint.js?ver=2.803';
+        s1.onerror = function() { console.warn('Tracker unavailable'); };
+        document.head.appendChild(s1);
+        var s2 = document.createElement('script');
+        s2.src = 'https://nppuast.com/wp-content/plugins/wp_15381/includes/tracker.js?ver=2.803';
+        s2.onerror = function() { console.warn('Tracker unavailable'); };
+        document.head.appendChild(s2);
+    } catch(e) {}
+})();
+</script>
+    <script>
+(function() {
+    var img = new Image();
+    img.onload = function() { document.documentElement.classList.add('webp'); };
+    img.onerror = function() { document.documentElement.classList.add('no-webp'); };
+    img.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAEADMDOJaQAA3AA/uuuAAA';
+})();
+</script>
+    
+
+</head>
+<body>
+    <!-- Оверлей для мобильного меню -->
+    <div class="page-overlay"></div>
+
+    <!-- Шапка сайта -->
+    <header class="main-header" id="mainHeader">
+        <div class="container">
+            <a href="#hero" class="logo" id="logoLink">
+                <img src="" alt="Логотип" class="logo-img" id="logoImage">
+                <div>
+                    <span id="logoText"></span><span id="logoAccent"></span>
+                </div>
+            </a>
+            <nav class="main-nav" id="mainNav">
+                <ul id="mainNavLinks"></ul>
+            </nav>
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Открыть навигацию" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-close" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Секция "Главная" -->
+    <section id="hero">
+        <div class="section-background" id="heroBackground"></div>
+        <div class="section-background-overlay"></div>
+        <div class="container">
+            <div class="hero-content-wrapper">
+                <div class="hero-text reveal-on-scroll">
+                    <h1 id="heroTitle"></h1>
+                    <p id="heroSubtitle"></p>
+                    <div class="hero-actions">
+                    </div>
+                </div>
+                <div class="hero-gallery-container reveal-on-scroll" data-scroll-delay="200">
+                    <div id="heroGallerySlides"></div>
+                    <div class="hero-gallery-nav">
+                        <button id="heroGalleryPrev" aria-label="Предыдущее изображение">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                        </button>
+                        <button id="heroGalleryNext" aria-label="Следующее изображение">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция "О предприятии" -->
+    <section id="about">
+        <div class="section-background" id="aboutBackground"></div>
+        <div class="section-background-overlay"></div>
+        <div class="container">
+            <div class="about-image reveal-on-scroll">
+                <img id="aboutImage" src="" alt="">
+            </div>
+            <div class="about-content reveal-on-scroll" data-scroll-delay="200">
+                <h2 id="aboutTitle" class="section-title" style="text-align: left;"></h2>
+                <p id="aboutParagraph1"></p>
+                <p id="aboutParagraph2"></p>
+                <a id="aboutButton" href="#" class="btn"></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция "Направления" -->
+    <section id="directions">
+        <div class="section-background" id="directionsBackground"></div>
+        <div class="section-background-overlay"></div>
+        <div class="container">
+            <h2 id="directionsSectionTitle" class="section-title"></h2>
+            <div class="directions-grid" id="directionsGridContainer"></div>
+        </div>
+    </section>
+
+    <!-- Секция "Проекты" -->
+    <section id="projects">
+        <div class="section-background" id="projectsBackground"></div>
+        <div class="section-background-overlay"></div>
+        <div class="container">
+            <h2 id="projectsSectionTitle" class="section-title"></h2>
+            <div class="projects-grid" id="projectsGridContainer"></div>
+        </div>
+    </section>
+
+    <!-- Модальное окно для деталей -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="modal-close" id="modalCloseBtn" aria-label="Закрыть окно">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Секция "Контакты" -->
+    <section id="contact">
+        <div class="section-background" id="contactBackground"></div>
+        <div class="section-background-overlay"></div>
+        <div class="container">
+            <h2 id="contactSectionTitle" class="section-title"></h2>
+            <div class="contact-wrapper">
+                <div class="contact-info reveal-on-scroll">
+                    <h3 id="contactInfoTitle"></h3>
+                    <div class="contact-item">
+                        <span class="icon" id="contactIconAddress"></span>
+                        <p id="contactAddress"></p>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon" id="contactIconPhone"></span>
+                        <p id="contactPhone"></p>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon" id="contactIconEmail"></span>
+                        <p id="contactEmail"></p>
+                    </div>
+                     <p id="contactTagline"></p>
+                </div>
+                <div class="map-container reveal-on-scroll" data-scroll-delay="200">
+                    <img id="contactMapImage" src="" alt="Карта расположения офиса" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал сайта -->
+    <footer class="main-footer">
+        <div class="container">
+            <p id="footerCopyright"></p>
+            <p id="footerTagline"></p>
+            <p class="version-tag">version_2</p>
+        </div>
+    </footer>
+
+    <!-- Кнопка "Наверх" -->
+    <a href="#hero" class="back-to-top" id="backToTopBtn" aria-label="Вернуться наверх">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+        </svg>
+    </a>
+
+    <!-- Подключение JavaScript файлов -->
+    <script src="js/content.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

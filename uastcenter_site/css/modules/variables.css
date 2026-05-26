@@ -1,0 +1,27 @@
+:root {
+    --primary-color: #0A2540;
+    --secondary-color: #007BFF;
+    --accent-color: #44C2FD;
+    --accent-color-rgb: 68, 194, 253;
+    --text-color-primary: var(--primary-color);
+    --text-color-secondary: #525F7F;
+    --text-color-light: #F8F9FA;
+    --text-on-accent: #FFFFFF;
+    --bg-main: #FFFFFF;
+    --bg-section-alt: #F8F9FA;
+    --bg-accent-gradient: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+    --bg-dark-section: var(--primary-color);
+    --font-heading: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --header-height: 64px;
+    --footer-padding: 2.5rem;
+    --container-width: 1200px;
+    --spacing-unit: 1rem;
+    --border-radius-small: 6px;
+    --border-radius-medium: 10px;
+    --border-radius-large: 16px;
+    --box-shadow-soft: 0 8px 24px rgba(10, 37, 64, 0.05);
+    --box-shadow-interactive: 0 12px 32px rgba(0, 123, 255, 0.2);
+    --box-shadow-lifted: 0 18px 45px rgba(10, 37, 64, 0.12);
+    --transition-main: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}

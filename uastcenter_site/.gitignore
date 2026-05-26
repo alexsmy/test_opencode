@@ -1,0 +1,12 @@
+# OS
+Thumbs.db
+.DS_Store
+*.swp
+
+# IDE
+.vscode/
+.idea/
+
+# AI memory - encrypted secrets
+_ai_for_all/VAULT/variables.json
+_ai_for_all/VAULT/*.json.enc

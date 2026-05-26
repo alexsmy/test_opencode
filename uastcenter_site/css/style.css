@@ -1,0 +1,10 @@
+/* CSS Modules Orchestrator
+   Подключаются через <link> в index.html для параллельной загрузки.
+   Порядок важен: сначала variables, потом base, потом компоненты.
+   modules/variables.css    — CSS-переменные
+   modules/base.css         — сброс, типографика, секции
+   modules/header.css       — шапка, навигация
+   modules/hero.css         — Hero + галерея
+   modules/sections.css     — About, Directions, Projects, Contact, Footer
+   modules/components.css   — Кнопки, модалка, back-to-top, анимации
+*/
