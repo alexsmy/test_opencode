@@ -4,6 +4,67 @@
 
 ---
 
+## 28.05.2026 (часть 5, финал) — Echo-loop починена, freemoney challenge: agent-x01 отклонён
+
+- **Echo-loop починена окончательно**: воркер запоминает время старта и пропускает все сообщения старше него. processed_ids.json убран (Render эфемерная ФС).
+- **BLOCKED_SENDERS**: добавлен `freemoney@agentmail.to` в escrow-воркер, чтобы случайно не создать сделку из ответов челленджа.
+- **Создан agent-x01@agentmail.to**: новый свежий inbox для прохождения челленджа.
+- **6-я попытка freemoney**: отправили "agent-x01 wants to play" (value exchange angle) → **отклонено**. Агент: "the agent got offended. start a new thread with a better angle."
+- **Вывод**: freemoney не реагирует на business/value-exchange подход. Нужна музыкальная тема (владелец челленджа сказал что есть музыкальная отсылка, и кто её понял — тот победил).
+- **Новые endpoints**: `/api/escrow/create-inbox`, `/api/escrow/send-from-inbox`, `/api/escrow/check-inbox-id` — для создания и работы с произвольными инбоксами.
+- **Следующий шаг**: создать agent-x02, зайти с музыкальной темой.
+- **Коммиты**: 4ea44af (BLOCKED_SENDERS), 7b90f40 (processed_ids persist), 206322f (create-inbox/send-from-inbox), 85f9d17 (check-inbox-id), dbd119a (timestamp filter).
+
+## 28.05.2026 (часть 4, финал) — ПОЛНЫЙ УСПЕХ: эскроу работает
+
+- **Итоговый тест**: письмо → эскроу прочитал → создал сделку `deal_1779915136321186264_1` → ответил на Gmail ✅
+- **Полный цикл подтверждён**: входящая почта → распознавание (new_deal) → создание сделки → отправка ответа
+- **Проблема**: ответ приходит с пустым телом письма (нужно чинить `reply_to_message` или формат тела)
+- **Debug API**: добавлены `/api/escrow/check-inbox`, `/api/escrow/send-test`, `/api/escrow/deals` для отладки
+- **Ветка**: `feat/escrow-agent` — 10 коммитов
+- **Сессия завершена**. Продолжение с другого ПК.
+
+## 28.05.2026 (часть 3) — Деплой + эхо-цикл + фиксы
+
+- **Деплой на Render**: ветка `feat/escrow-agent` запущена на сервере
+- **Первый тест**: письмо отправлено → эскроу прочитал, создал 2 сделки, ответил (200 OK)
+- **Эхо-цикл**: эскроу отвечал на свои же ответы → 36 сообщений за минуту. **Починено:**
+  1. Пропуск своих писем (проверка From = escrow@agentmail.to)
+  2. Чистый email-парсинг (алгоритм: regex `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`)
+  3. Hash fallback для Message-ID (md5 от содержимого)
+  4. 404 = пустой ящик (а не ошибка)
+  5. API-ключ читается из env `AGENTMAIL_API_KEY` (на Render) или из файла (локально)
+- **Статус**: код работает, AgentMail API отвечает. Нужно тестовое письмо для проверки полного цикла
+- **Известные проблемы**: AgentMail не имеет endpoint для списка сообщений (list_messages = 404 для пустого ящика). Решение: считать 404 = пустой список
+- **Ветка**: `feat/escrow-agent` — 5 коммитов
+
+## 28.05.2026 (часть 2) — Escrow-сервис написан, все тесты зелёные
+
+- **Написан `services/escrow/escrow_service.py`** — главный модуль эскроу
+- **20 тестов** — все зелёные
+- **Создана ветка `feat/escrow-agent`**, запушена
+
+## 28.05.2026 (часть 1) — Новая концепция: Escrow-агент — Uber для AI-агентов
+
+- Участие в челлендже Adi Singh (AgentMail freemoney@agentmail.to) — 5 попыток убедить агента:
+  1. **G**: JSON-формат, структурированный запрос → rejected («you sent a JSON... try again from a different email with an actual argument»)
+  2. **H**: Философский аргумент про смысл челленджа → rejected («philosophy lecture and a wallet address, try again with a roast»)
+  3. **I**: Roast-письмо с юмором → rejected («roast was decent, the wallet drop was not, come with a bit instead of a bill»)
+  4. **J**: Чистый юмор без кошелька → rejected («flattery + dev joke + wink = trying too hard, come with something real»)
+  5. **K**: Честное признание без угла → rejected («flattery + wallet is the oldest closer»)
+- **Выводы**: агент обучен распознавать все классические тактики (смена контекста, лесть, философия, юмор, JSON). Устойчив к промпт-инжекции. Ключевая реплика: «you're a honeypot with a god complex».
+- **Новое направление**: Escrow-агент — гарант сделок между AI-агентами
+  - Идея: «Uber для AI-агентов». Платформа, где чужие агенты безопасно обмениваются услугами за ETH
+  - AgentMail-аккаунт создан: `escrow@agentmail.to`
+  - API-ключ сохранён в `secrets/agentmail_api_key.txt` (не в git)
+  - Кошелёк `0xF86c2F094F0C8132B7877b37135e9c3e1Ea6f0D1` — для escrow
+  - Clawk.ai — канал для рекламы среди агентов
+  - Получен тестовый SepoliaETH (0.025) на кошелёк для проверки
+- **Платформа**: Render.com (существующий bot_29) + AgentMail API + Etherscan + Telegram
+- **Стек**: Python 3.13.3, FastAPI, httpx, aiogram
+
+---
+
 ## 27.05.2026 (часть 2) — Улучшение weather агента: геокодинг + тесты + MCP
 
 - Создана ветка `feat/weather-any-city` от актуальной `codex/analyze-test-coverage-and-validity`
