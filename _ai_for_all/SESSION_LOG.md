@@ -4,6 +4,23 @@
 
 ---
 
+## 27.05.2026 — Синхронизация _ai_for_all: слияние bot_29 + uastcenter_site
+
+- Обнаружено расхождение: GitHub `_ai_for_all` (26.05, uastcenter_site) перезаписал bot_29-версию (24-25.05)
+- Проведено полное слияние:
+  - README.md — объединён (оба проекта)
+  - AGENTS.md — восстановлены правила bot_29 + обобщены
+  - CONTEXT.md — объединены оба проекта (bot_29 + uastcenter_site)
+  - SESSION_LOG.md — восстановлены lost-сессии 24-25 мая
+  - REFERENCE/ — объединены ссылки обоих проектов
+  - PROJECTS/ — сохранены оба (bot_29.md + uastcenter_site.md)
+  - rules/ — взяты лучшие версии (lifecycle, coding, git, sync)
+  - handover/ — сохранены все 3 файла (24, 25, 26 мая)
+- Удалён `readme.md` (нижний регистр, дубликат README.md)
+- **Итог**: облачная память актуальна для всех проектов
+
+---
+
 ## 26.05.2026 (сессия 2) — Полный аудит, рефакторинг в модули, исправление всех критических проблем
 
 - Проведён полный аудит кода: найдены 7 орфографических ошибок, внешние URL изображений, мёртвый код, скрытая кнопка aboutButton, отсутствие обработки ошибок, уязвимости слайдера, отсутствие lazy loading, отсутствие fallback для IntersectionObserver
@@ -33,7 +50,6 @@
 - Логотип: пустой src заменён на `img/logo.png` с alt-текстом
 - Обновлён `_ai_for_all` (CONTEXT, SESSION_LOG, handover), изменения закоммичены в git
 - **Итог**: сайт исправлен, все изображения локальны (кроме 1 unsplash), код очищен
-- **Следующий шаг**: по желанию пользователя
 
 ---
 
@@ -44,4 +60,95 @@
 - Созданы: README, PROFILE, AGENTS, CONTEXT, SESSION_LOG, rules/, PROJECTS/, REFERENCE/, handover/
 - Описан проект, стек, структура файлов
 - Задокументированы известные особенности (трекеры WordPress, внешние изображения)
-- **Следующий шаг**: аудит сайта и план улучшений
+
+---
+
+## 25.05.2026 (сессия 3, финал) — 17 тестов, 22 файла, 247+ шагов → запушено в GitHub
+
+- Ветка `test/keepalive-sync_02` создана и **запушена** в `alexsmy/bot_29`
+  (коммиты: `ec8fdb6`, `491d3a9`, `6f82c15`)
+- Удалены старые `_ai/` файлы (мигрированы в `_ai_for_all/`)
+- `_ai_for_all` синхронизирован с `test_opencode/main`
+
+---
+
+## 25.05.2026 (сессия 3) — 17 новых тестов: keepalive + sync + security + APIs (247 шагов) + чекпоинт
+
+- Написано **17 тестовых файлов** (247+ шагов), все зелёные:
+  - 9 тестов keep-alive + sync модулей (108 шагов) — первая волна
+  - **8 критических тестов** (86 шагов) — вторая волна:
+    - `test_stats_manager.py` — менеджер статистики (9)
+    - `test_keepalive_security.py` — security-примитивы PIN/HMAC (26)
+    - `test_project_health.py` — агрегатор здоровья сервисов (10)
+    - `test_keepalive_api.py` — REST API keep-alive (9)
+    - `test_health_api.py` — health endpoint (2)
+    - `test_sync_api.py` — sync API (5)
+    - `test_crpt_api.py` — CRPT API (8)
+    - `test_sync_restore.py` — восстановление данных с GitHub (17)
+- Покрыты критичные модули: keepalive security, project health, keepalive/stats/sync/crpt API, restore
+- Обновлена память `_ai_for_all`, данные запушены в `test_opencode/main`
+
+---
+
+## 25.05.2026 (сессия 2) — 9 новых тестов: keepalive + sync subsystems (108 шагов)
+
+- Созданы тесты (ветка `test/keepalive-sync_01`, 9 файлов, 1448 строк):
+  - `test_master_key.py` — мастер-ключ vault (12 шагов)
+  - `test_keepalive_auth.py` — PIN-аутентификация (21 шаг)
+  - `test_config_manager.py` — конфигурация keep-alive (19 шагов)
+  - `test_sync_collectors.py` — коллекторы sync (16 шагов)
+  - `test_sync_settings.py` — настройки sync (7 шагов)
+  - `test_sync_github.py` — GitHub API клиент async (13 шагов)
+  - `test_sync_manifest.py` — манифест sync (4 шага)
+  - `test_sync_notify.py` — уведомления sync (5 шагов)
+  - `test_keep_alive.py` — мониторинг URL (11 шагов)
+- Всего тестов: 5 → 14, шагов: 64 → 161+
+- Покрытие: Vault ✅, Sync ✅ (кроме restore), Keep-alive ⚠️ (2/5 модулей)
+
+---
+
+## 25.05.2026 — Тест sync_to_github + тест REST API Vault + найден баг в production
+
+- Создан `tests/test_sync_to_github.py` — 8 шагов
+- Создан `tests/test_vault_api.py` — 18 шагов через FastAPI TestClient
+- **Найден баг в production**: `routers/vault_api.py:60` — `authorized` возвращал `""` вместо `false`. Исправлено: `bool(...)`.
+- Обновлено `rules/git.md` — жёстче про новые ветки, явно спрашивать перед пушем
+- Ветка `refactor/add_test_04` запушена в bot_29
+- Все 5 тестов проходят: 64 шага, 0 ошибок
+
+---
+
+## 24.05.2026 — Тест 2FA device auth + рефакторинг sync_service + тест чистых функций sync
+
+- Создан `tests/test_device_auth.py` — 10 шагов
+- `sync_service.py` разбит на пакет `services/sync/` из 9 модулей
+- Старый `sync_service.py` — shim (2 строки)
+- Создан `tests/test_sync_service_pure.py` — 17 шагов
+
+---
+
+## 24.05.2026 — Создан первый тест: vault storage CRUD
+
+- Создан `tests/test_vault_storage.py` — 11 шагов, все пройдены
+- Найдена и исправлена мелочь: `search_entries()` query необязателен
+
+---
+
+## 24.05.2026 — Добавлен rules/deepseek.md (13 pro-правил кодинга)
+
+- Создан `rules/deepseek.md` со сводом правил от alexs
+
+---
+
+## 24.05.2026 — Создан rules/coding.md (правила работы с кодом)
+
+- На основе ответов alexs на 6 простых вопросов
+
+---
+
+## 24.05.2026 — Создание _ai_for_all
+
+- Создана облачная память AI `_ai_for_all` в `alexsmy/test_opencode`
+- Структура: README, PROFILE, AGENTS, CONTEXT, rules/, handover/, PROJECTS/, VAULT/, REFERENCE/
+- Создан VAULT с AES-256-GCM шифрованием
+- Активная ветка bot_29: `codex/__34`

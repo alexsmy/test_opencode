@@ -1,3 +1,2 @@
-# VAULT secrets - never commit plaintext
+# VAULT secrets — never commit plaintext
 variables.json
-*.json.enc
