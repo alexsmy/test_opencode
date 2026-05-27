@@ -1,6 +1,6 @@
 # Current Context
 
-Общий контекст всех проектов. Дата: 27.05.2026.
+Общий контекст всех проектов. Дата: 27.05.2026. (обновлено после части 2)
 
 ## Активные проекты
 
@@ -11,9 +11,9 @@
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, галактические часы, Telegram-бот, cloud sync, MCP-сервер
 - **Агенты**: 3 встроенных (test_echo, weather_monitor, weather_notifier) + динамические
 - **MCP**: 3 встроенных инструмента (get_weather, send_weather_to_telegram, send_telegram_message)
-- **Ветки**: `codex/__34` (на Render), `test/keepalive-sync_02` (запушена)
+- **Ветки**: `codex/analyze-test-coverage-and-validity` (на Render), `feat/weather-any-city` (новая, ожидает деплоя)
 - **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
-- **Тесты**: 22 файла, 247+ шагов (Vault, Sync, Keepalive, Security, API)
+- **Тесты**: 23 файла, 256+ шагов (+ test_weather_agent.py — 9 тестов, зелёные)
 - Детали: `PROJECTS/bot_29.md`
 
 ### uastcenter_site — Сайт НТЦ 'УАСТ'

@@ -41,7 +41,18 @@ secrets/               — токены (НЕ в git)
 - Настройки: `config/sync_settings.json`
 - Воркер проверяет события каждые ~6с
 
-## Тесты (всего 64 шага)
+## Обновление weather агента (ветка feat/weather-any-city)
+
+- Агент больше не хардкодит Уфу. Определяет местоположение:
+  - По координатам в запросе: "55.75, 37.62"
+  - По названию города (рус/англ): "Москва", "London", "погода в Сочи"
+  - Через args: `{"latitude": 55.75, "longitude": 37.62}`
+- Использует Open-Meteo Geocoding API (бесплатно, без ключа)
+- Добавлены поля в ответ: pressure, cloud_cover, wind_direction, wind_gusts, is_day
+- MCP инструмент get_weather() принимает параметры: location, latitude, longitude
+- Тесты: 9 шт, все зелёные
+
+## Тесты (всего 23 файла, 256+ шагов)
 - `tests/test_vault_storage.py` — CRUD vault storage (11 шагов)
 - `tests/test_device_auth.py` — 2FA авторизация устройств (10 шагов)
 - `tests/test_sync_service_pure.py` — чистые функции sync (17 шагов)
