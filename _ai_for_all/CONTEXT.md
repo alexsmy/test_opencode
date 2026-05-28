@@ -11,12 +11,13 @@
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, галактические часы, Telegram-бот, cloud sync, MCP-сервер, escrow-сервис
 - **Агенты**: 3 встроенных (test_echo, weather_monitor, weather_notifier) + динамические
 - **MCP**: 3 встроенных инструмента (get_weather, send_weather_to_telegram, send_telegram_message)
-- **Ветка на Render**: `feat/mail-agent-v2` (развёрнута, тестирование)
-- **Локально**: `C:\Users\Alex1\Downloads\my_work_now\bot_29\`
-- **Тесты**: 31 файл, 120+ тестов (17 mail_agent + 24 auth + 86 общих + escrow)
+- **Ветка на Render**: `fix/auto-reply-filevault` (текущая, все фиксы)
+- **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
+- **Тесты**: 19 тестов mail_agent, все зелёные
 - **Аутентификация**: Единый ключ `API_SECRET_KEY` на все эндпоинты. Middleware проверяет X-Api-Key или cookie. Localhost bypass для внутреннего трафика.
-- **Почтовый агент v2**: отдельный модуль `services/mail_agent/`. Конфиг `config/mail_agent.json`. Парсинг писем, классификация вложений, сохранение на диск, пересылка в TG, автоответ.
-- **Известные баги v2**: (1) воркер обработал все старые письма (нет фильтра по времени), (2) автоответ пустой, (3) слетела авторизация vault, (4) бесконечный пин-код.
+- **Почтовый агент v2**: отдельный модуль `services/mail_agent/`. Конфиг `config/mail_agent.json`. Парсинг писем, классификация вложений, сохранение на диск + FileVault + подпапки, пересылка в TG, автоответ (тело через `"text"` поле).
+- **Статус v2**: ✅ Всё работает: Telegram, автоответ, /files, синхронизация
+- **FileVault bug**: Исправлен латентный баг в `_folder_tree_payload` — `index[child_id]` вместо `index[child["folder_id"]]`. Падал при первой же подпапке.
 - Детали: `PROJECTS/bot_29.md`
 
 ### escrow_agent — Почтовый агент v1 (пересылка в Telegram)

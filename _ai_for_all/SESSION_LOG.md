@@ -4,6 +4,59 @@
 
 ---
 
+## 28.05.2026 (часть 11) — Mail Agent v2: автоответ, FileVault, Folder Tree Bug
+
+- **Ветка**: `fix/auto-reply-filevault` (3 коммита, запушена)
+- **Render**: переключен на эту ветку вручную
+
+### Исправлено
+
+**1. Пустое тело автоответа** — AgentMail API в `reply` ждёт поле `"text"`, а код отправлял `"body"`. API игнорировал неизвестное поле, отправлял письмо с пустым телом (subject = "Re: ..." автоматом). Файлы: `mail_client.py:158`, `escrow_service.py:253`. ✅ Исправлено локально ещё до сессии, закоммичено.
+
+**2. Папка Mail пустая на /files** — Emails сохранялись в `data/mail/`, но не регистрировались в FileVault (`data/filevault_uploads/`). Добавлена `_save_to_filevault()` — создаёт `{uuid}.json` + `{uuid}.bin` для тела письма и каждого вложения. Файл: `mail_storage.py`.
+
+**3. Файлы валились в корень Mail** — Добавлена `create_mail_subfolder()` — каждое письмо в своей подпапке внутри Mail. Структура: `Mail → Email from sender — subject/ → body.txt, IMG_..., doc.pdf`. Файл: `mail_storage.py`.
+
+**4. Синхронизация — очередь пустая** — `_save_to_filevault()` не вызывала `signal_sync_needed()`. Добавлен вызов после записи в FileVault. Файл: `mail_storage.py`.
+
+**5. Folder tree crash (CRITICAL BUG)** — При создании подпапки в Mail (первый раз когда у папки появились дети) — `_folder_tree_payload()` падала с `TypeError: unhashable type: 'dict'`. Причина: в `build_node()` итерация по `child_nodes` (list[dict]) использовала `index[child_id]`, где `child_id` — словарь, а `index` ждёт строку. Баг был латентным — никогда не проявлялся, т.к. ни у одной папки не было детей. Файл: `filevault_api.py:284`. Исправлено: `child["folder_id"]`.
+
+**6. Folder metrics (minor bug)** — Аналогичная ошибка в `_compute_folder_metrics()` → `aggregate()`: `children_map` хранит `list[str]` (folder IDs), код обращался к `child["folder_id"]` как к dict. Это был артефакт моей правки — сразу откатил обратно. В production не попало, но тест поймал.
+
+### Результаты тестирования (подтверждено пользователем)
+
+| Проверка | Статус |
+|----------|--------|
+| Telegram уведомления | ✅ Полностью содержательные (текст, список вложений, сами файлы) |
+| Автоответ | ✅ Пришёл с полным содержимым |
+| /files папка Mail | ✅ Показывает папки и файлы |
+| Синхронизация в GitHub | ✅ Письмо + вложения синхронизировались |
+
+### Тесты
+
+- 19 тестов, все зелёные ✅
+- Новый тест: `test_folder_tree_with_subfolders` — проверяет, что дерево папок с подпапками строится корректно
+- Новый тест: `test_create_mail_subfolder` — создание подпапки в Mail
+- Обновлены: `test_save_email`, `test_save_attachment`, `test_create_mail_folder`
+
+### Файлы (изменения в bot_29)
+
+| Файл | Изменения |
+|------|-----------|
+| `services/mail_agent/mail_storage.py` | `_save_to_filevault()`, `create_mail_subfolder()`, `_load_folders()`, `_save_folders_json()`, `_sanitize_filevault_name()`, `signal_sync_needed` |
+| `services/mail_agent/mail_client.py` | `"body"` → `"text"` (уже было локально) |
+| `services/escrow/escrow_service.py` | `"body"` → `"text"` (уже было локально) |
+| `routers/filevault_api.py` | `index[child_id]` → `index[child["folder_id"]]` в `_folder_tree_payload` |
+| `tests/test_mail_agent.py` | +3 теста, обновлены 3 существующих |
+
+### Что не трогали
+
+- Мёртвый код (`telegram_tunnel._require_secret`, `agents/tunnel._require_secret`, `common/auth-dialog.js`) — оставлен
+- `migrateLegacyVaultKeyIfNeeded` — оставлена (для старых записей)
+- Escrow (v1) — не менялся, кроме `body` → `text`
+
+---
+
 ## 28.05.2026 (часть 10) — Mail Agent v2: тестирование, найденные баги
 
 - **Mail Agent v2 создан**: отдельный модуль `services/mail_agent/`, 8 файлов, +1113 строк. Конфиг `config/mail_agent.json`. Ветка `feat/mail-agent-v2`.
@@ -42,7 +95,7 @@ services/mail_agent/
 ├── config.py          ← чтение config/mail_agent.json
 ├── mail_client.py     ← AgentMail API (list, get, mark read, delete, attachments)
 ├── mail_parser.py     ← парсинг, классификация вложений
-├── mail_storage.py    ← сохранение в data/mail/
+├── mail_storage.py    ← сохранение в data/mail/ + FileVault + подпапки
 ├── mail_telegram.py   ← пересылка в TG
 ├── mail_responder.py  ← ответ отправителю
 └── mail_worker.py     ← фоновый воркер
