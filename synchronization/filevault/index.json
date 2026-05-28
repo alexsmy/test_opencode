@@ -1,15 +1,5 @@
 [
   {
-    "file_id": "534e8a25ed284c3396629285d25f26e8",
-    "original_name": "photo_824.jpg",
-    "folder_id": "fld_61041835b0974e44a7bf75905610ce1c",
-    "folder_path": "55",
-    "blob_path": "filevault/files/55/534e8a25ed284c3396629285d25f26e8__photo_824.jpg",
-    "size_bytes": 177729,
-    "content_type": "image/jpeg",
-    "uploaded_at": "2026-05-21T15:12:38.412608+00:00"
-  },
-  {
     "file_id": "a67bbc27304a4b3681fa37d52957f858",
     "original_name": "GigaChat.jpg",
     "folder_id": null,
@@ -18,5 +8,15 @@
     "size_bytes": 94048,
     "content_type": "image/jpeg",
     "uploaded_at": "2026-05-21T15:08:39.275727+00:00"
+  },
+  {
+    "file_id": "534e8a25ed284c3396629285d25f26e8",
+    "original_name": "photo_824.jpg",
+    "folder_id": "fld_61041835b0974e44a7bf75905610ce1c",
+    "folder_path": "55",
+    "blob_path": "filevault/files/55/534e8a25ed284c3396629285d25f26e8__photo_824.jpg",
+    "size_bytes": 177729,
+    "content_type": "image/jpeg",
+    "uploaded_at": "2026-05-21T15:12:38.412608+00:00"
   }
 ]
