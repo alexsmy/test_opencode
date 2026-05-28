@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css">
+    <title>Настройки Proxy Switcher</title>
+</head>
+<body>
+    <div class="options-container">
+        <header>
+            <div class="header-titles">
+                <h1>⚙️ Настройки Proxy Switcher</h1>
+                <p>Тонкая настройка алгоритмов поиска и переподключения</p>
+            </div>
+            <div id="status-message" class="status-message"></div>
+        </header>
+
+        <main>
+            <div class="settings-grid">
+                <section class="settings-group">
+                    <h2>🔍 Поиск и проверка</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="check-interval">Интервал проверки</label>
+                            <small>Частота фонового обновления (мин)</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="check-interval" min="5" max="1440" value="30">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="ping-timeout">Таймаут пинга</label>
+                            <small>Ожидание ответа сервера (мс)</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="ping-timeout" min="1000" max="10000" step="500" value="5000">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="max-ping">Максимальный пинг</label>
+                            <small>Порог отбраковки медленных (мс)</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="max-ping" min="500" max="5000" step="100" value="3000">
+                        </div>
+                    </div>
+                    <div class="setting-item" style="margin-top: 16px;">
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="require-ip-change" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            Требовать реальную смену IP
+                        </label>
+                    </div>
+                </section>
+
+                <section class="settings-group">
+                    <h2>📋 Управление списком</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="max-proxies">Максимум прокси</label>
+                            <small>Лимит серверов в списке</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="max-proxies" min="5" max="50" value="20">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="min-proxies">Минимум прокси</label>
+                            <small>Порог для запуска автопоиска</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="min-proxies" min="1" max="20" value="5">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <label for="reconnect-attempts">Попыток переподключения</label>
+                            <small>При обрыве связи с сервером</small>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="reconnect-attempts" min="1" max="10" value="2">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-group full-width">
+                    <h2>🔒 Предпочитаемые протоколы</h2>
+                    <p style="color: var(--color-text-light); font-size: 12px; margin-bottom: 8px;">Только прокси выбранных протоколов будут добавляться в список.</p>
+                    <div class="toggles-grid">
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="protocol-https" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            HTTPS (Рекомендуется)
+                        </label>
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="protocol-socks5" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            SOCKS5
+                        </label>
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="protocol-http" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            HTTP
+                        </label>
+                    </div>
+                </section>
+
+                <section class="settings-group full-width">
+                    <h2>🌐 Источники прокси (Динамические агрегаторы)</h2>
+                    <p style="color: var(--color-text-light); font-size: 12px; margin-bottom: 8px;">Выберите, откуда брать списки. Рекомендуется оставить все включёнными для максимального охвата.</p>
+                    <div class="toggles-grid">
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="source-proxygen" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            ProxyGenerator (GitHub)
+                        </label>
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="source-proxyscrape" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            ProxyScrape API
+                        </label>
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="source-geonode" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            Geonode API
+                        </label>
+                        <label class="toggle-label">
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="source-proxifly" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                            Proxifly (GitHub)
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <div class="actions-panel">
+                <div class="actions-left">
+                    <button id="export-btn" class="btn btn-secondary">📤 Экспорт резервной копии</button>
+                    <button id="import-btn" class="btn btn-secondary">📥 Импорт</button>
+                    <input type="file" id="import-file" accept=".json" style="display: none;">
+                </div>
+                <div class="actions-right">
+                    <button id="reset-btn" class="btn btn-secondary">↺ Сбросить по умолчанию</button>
+                    <button id="save-btn" class="btn btn-primary">💾 Сохранить настройки</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="options.js" type="module"></script>
+</body>
+</html>
