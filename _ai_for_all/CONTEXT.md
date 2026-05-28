@@ -11,24 +11,27 @@
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, галактические часы, Telegram-бот, cloud sync, MCP-сервер, escrow-сервис
 - **Агенты**: 3 встроенных (test_echo, weather_monitor, weather_notifier) + динамические
 - **MCP**: 3 встроенных инструмента (get_weather, send_weather_to_telegram, send_telegram_message)
-- **Ветка на Render**: `feat/email-to-telegram-forward` (развёрнута, работает)
+- **Ветка на Render**: `feat/mail-agent-v2` (развёрнута, тестирование)
 - **Локально**: `C:\Users\Alex1\Downloads\my_work_now\bot_29\`
-- **Тесты**: 30 файлов, 298+ шагов (+ 24 теста API auth, все зелёные)
-- **Аутентификация**: Единый ключ `API_SECRET_KEY` на все эндпоинты. Middleware проверяет X-Api-Key или cookie. Localhost bypass для внутреннего трафика. Убраны дублирующие проверки (telegram tunnel secret, agents tunnel secret).
-- **Защита**: escrow (7), filevault (18), agents (10), sync (5), telegram tunnel (2), telegram inbox (5), crpt (3). Белый список: /api/health, /, /vault, статика.
-- **Логин**: `/auth/login` — страница ввода ключа, HMAC-cookie (30 дней).
+- **Тесты**: 31 файл, 120+ тестов (17 mail_agent + 24 auth + 86 общих + escrow)
+- **Аутентификация**: Единый ключ `API_SECRET_KEY` на все эндпоинты. Middleware проверяет X-Api-Key или cookie. Localhost bypass для внутреннего трафика.
+- **Почтовый агент v2**: отдельный модуль `services/mail_agent/`. Конфиг `config/mail_agent.json`. Парсинг писем, классификация вложений, сохранение на диск, пересылка в TG, автоответ.
+- **Известные баги v2**: (1) воркер обработал все старые письма (нет фильтра по времени), (2) автоответ пустой, (3) слетела авторизация vault, (4) бесконечный пин-код.
 - Детали: `PROJECTS/bot_29.md`
 
-### escrow_agent — Почтовый агент (пересылка в Telegram)
-- **Статус**: Развёрнут на Render. Воркер опрашивает почту раз в 30с, пересылает письма в Telegram.
-- **Флоу**: письмо на `escrow@agentmail.to` → воркер читает → парсит (от кого, тема, содержание) → пересылает в Telegram → автоответ ОТКЛЮЧЁН.
-- **Файлы**: `services/escrow/escrow_service.py`, `tests/test_escrow_service.py`
-- **Функционал**: AgentMail клиент (list_messages, get_message, send_message, reply_to_message), распознаватель намерений, фоновый воркер (30с), пересылка в Telegram, хранение сделок в JSON.
-- **Ключевой баг исправлен**: API AgentMail отдаёт только `preview` в списке — добавлен дозапрос по ID для получения полного тела.
-- **Автоответ**: ОТКЛЮЧЁН (`AUTO_REPLY_ENABLED = False`). Включается по решению.
-- **Каналы**: AgentMail (`escrow@agentmail.to`), Telegram (пересылка), Render (хостинг)
-- **Кошелёк**: `0xF86c2F094F0C8132B7877b37135e9c3e1Ea6f0D1`
-- **Детали**: `PROJECTS/escrow_agent.md`
+### escrow_agent — Почтовый агент v1 (пересылка в Telegram)
+- **Статус**: Работает на Render (параллельно с v2). Воркер опрашивает почту раз в 30с.
+- **Флоу**: письмо → воркер читает → пересылает в Telegram → автоответ ОТКЛЮЧЁН.
+- **Файлы**: `services/escrow/escrow_service.py`
+- **Автоответ**: ОТКЛЮЧЁН (`AUTO_REPLY_ENABLED = False`).
+
+### mail_agent v2 — Почтовый агент (парсинг, вложения, ответы)
+- **Статус**: Создан, тестирование на Render. Найдены баги (см. SESSION_LOG).
+- **Ветка**: `feat/mail-agent-v2`
+- **Модуль**: `services/mail_agent/` (8 файлов)
+- **Конфиг**: `config/mail_agent.json`
+- **Функционал**: парсинг писем, классификация вложений (изображения/видео/голос/документы), сохранение на диск, пересылка в TG, ответ отправителю, пометка прочитанного, удаление.
+- **Баги**: см. SESSION_LOG часть 10.
 
 ### uastcenter_site — Сайт НТЦ 'УАСТ'
 - **Репозиторий**: `alexsmy/test_opencode` (в папке `uastcenter_site/`)
@@ -55,15 +58,19 @@
 
 ## Статус синхронизации
 - `_ai_for_all` смержен: bot_29 + uastcenter_site
-- `bot_29` запушен в `alexsmy/bot_29` (ветки: `feat/unified-api-auth`, `feat/email-to-telegram-forward`)
-- `uastcenter_site` закоммичен в `alexsmy/test_opencode/uastcenter_site/` (облачный пуш не выполнен)
+- `bot_29` запушен в `alexsmy/bot_29` (ветки: `feat/unified-api-auth`, `feat/email-to-telegram-forward`, `feat/mail-agent-v2`)
 - `synchronization/` обновляется авто-воркером на Render
 
 ## Активные цели
 1. ✅ **Выполнено**: Единая аутентификация (один ключ на всё)
-2. ✅ **Выполнено**: Пересылка писем из почты в Telegram
+2. ✅ **Выполнено**: Пересылка писем из почты в Telegram (v1)
 3. ✅ **Выполнено**: Исправлен баг с пустым телом письма (дозапрос по ID)
-4. ⏳ **Новое**: Расширить флоу почтового агента (следующие шаги обсуждаются)
+4. ✅ **Выполнено**: Mail Agent v2 (парсинг, вложения, ответы, хранение)
+5. 🔴 **КРИТИЧЕСКИЙ БАГ**: Слетела авторизация vault (после создания папки Mail). Нужно чинить ПЕРВЫМ.
+6. ⏳ **БАГ**: Воркер v2 обработал все старые письма (нет фильтра по времени)
+7. ⏳ **БАГ**: Автоответ пустой (шаблон не работает)
+8. ⏳ **В плане**: Etherscan listener
+9. ⏳ **В плане**: Freemoney challenge
 5. ⏳ **В плане**: Победить челлендж freemoney (agent-x02 с музыкальной темой)
 6. ⏳ **В плане**: Etherscan listener (авто-детект ETH-транзакций)
 7. ⏳ **В плане**: Telegram-дашборд для владельца
