@@ -11,21 +11,23 @@
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, галактические часы, Telegram-бот, cloud sync, MCP-сервер, escrow-сервис
 - **Агенты**: 3 встроенных (test_echo, weather_monitor, weather_notifier) + динамические
 - **MCP**: 3 встроенных инструмента (get_weather, send_weather_to_telegram, send_telegram_message)
-- **Ветка на Render**: `feat/escrow-agent` (развёрнута, работает)
-- **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
-- **Тесты**: 24 файла, 276+ шагов (+ 20 тестов escrow, все зелёные)
-- **Новое**: escrow-сервис написан, развёрнут, протестирован в production
-- **Новое**: secrets/ директория создана, добавлена в .gitignore; ключ на Render — через env var `AGENTMAIL_API_KEY`
+- **Ветка на Render**: `feat/email-to-telegram-forward` (развёрнута, работает)
+- **Локально**: `C:\Users\Alex1\Downloads\my_work_now\bot_29\`
+- **Тесты**: 30 файлов, 298+ шагов (+ 24 теста API auth, все зелёные)
+- **Аутентификация**: Единый ключ `API_SECRET_KEY` на все эндпоинты. Middleware проверяет X-Api-Key или cookie. Localhost bypass для внутреннего трафика. Убраны дублирующие проверки (telegram tunnel secret, agents tunnel secret).
+- **Защита**: escrow (7), filevault (18), agents (10), sync (5), telegram tunnel (2), telegram inbox (5), crpt (3). Белый список: /api/health, /, /vault, статика.
+- **Логин**: `/auth/login` — страница ввода ключа, HMAC-cookie (30 дней).
 - Детали: `PROJECTS/bot_29.md`
 
-### escrow_agent — Escrow-гарант сделок между AI-агентами
-- **Статус**: Развёрнут на Render (ветка `feat/escrow-agent`). Эскроу-воркер работает, опрашивает почту раз в 30с.
-- **Проверено**: письмо → эскроу создаёт сделку → отвечает. **Эхо-цикл починена** (пропуск своих писем, 404 = пустой ящик).
-- **Файлы**: `services/escrow/__init__.py`, `services/escrow/escrow_service.py`, `tests/test_escrow_service.py`
-- **Функционал**: AgentMail клиент (list_messages, send_message, reply_to_message), распознаватель намерений, машина состояний сделки (NEW → FUNDED → IN_PROGRESS → COMPLETED → PAID), фоновый воркер (опрос почты каждые 30с), хранение в JSON-файлах
-- **Каналы**: AgentMail (`escrow@agentmail.to`), Clawk (реклама, не использован), Telegram (дашборд, не подключён), Render (хостинг)
-- **Кошелёк**: `0xF86c2F094F0C8132B7877b37135e9c3e1Ea6f0D1` — для escrow-платежей
-- **Известные проблемы**: list_messages возвращает 404 когда ящик пустой (обрабатывается как пустой список)
+### escrow_agent — Почтовый агент (пересылка в Telegram)
+- **Статус**: Развёрнут на Render. Воркер опрашивает почту раз в 30с, пересылает письма в Telegram.
+- **Флоу**: письмо на `escrow@agentmail.to` → воркер читает → парсит (от кого, тема, содержание) → пересылает в Telegram → автоответ ОТКЛЮЧЁН.
+- **Файлы**: `services/escrow/escrow_service.py`, `tests/test_escrow_service.py`
+- **Функционал**: AgentMail клиент (list_messages, get_message, send_message, reply_to_message), распознаватель намерений, фоновый воркер (30с), пересылка в Telegram, хранение сделок в JSON.
+- **Ключевой баг исправлен**: API AgentMail отдаёт только `preview` в списке — добавлен дозапрос по ID для получения полного тела.
+- **Автоответ**: ОТКЛЮЧЁН (`AUTO_REPLY_ENABLED = False`). Включается по решению.
+- **Каналы**: AgentMail (`escrow@agentmail.to`), Telegram (пересылка), Render (хостинг)
+- **Кошелёк**: `0xF86c2F094F0C8132B7877b37135e9c3e1Ea6f0D1`
 - **Детали**: `PROJECTS/escrow_agent.md`
 
 ### uastcenter_site — Сайт НТЦ 'УАСТ'
@@ -53,14 +55,15 @@
 
 ## Статус синхронизации
 - `_ai_for_all` смержен: bot_29 + uastcenter_site
-- `bot_29` запушен в `alexsmy/bot_29` (ветка `test/keepalive-sync_02`)
+- `bot_29` запушен в `alexsmy/bot_29` (ветки: `feat/unified-api-auth`, `feat/email-to-telegram-forward`)
 - `uastcenter_site` закоммичен в `alexsmy/test_opencode/uastcenter_site/` (облачный пуш не выполнен)
 - `synchronization/` обновляется авто-воркером на Render
 
 ## Активные цели
-1. ✅ **Выполнено**: Весь escrow-сервис: код, тесты, деплой, production-тест
-2. ⏳ **Надо**: Починить пустое тело ответного письма (reply_to_message)
-3. ⏳ **Новое**: Победить челлендж freemoney@agentmail.to (agent-x01 не сработал, нужен x02 с музыкальной темой)
-4. ⏳ **В плане**: Первый пост в Clawk (`@SvAl_55162`)
-5. ⏳ **В плане**: Etherscan listener (авто-детект ETH-транзакций)
-6. ⏳ **В плане**: Telegram-дашборд для владельца
+1. ✅ **Выполнено**: Единая аутентификация (один ключ на всё)
+2. ✅ **Выполнено**: Пересылка писем из почты в Telegram
+3. ✅ **Выполнено**: Исправлен баг с пустым телом письма (дозапрос по ID)
+4. ⏳ **Новое**: Расширить флоу почтового агента (следующие шаги обсуждаются)
+5. ⏳ **В плане**: Победить челлендж freemoney (agent-x02 с музыкальной темой)
+6. ⏳ **В плане**: Etherscan listener (авто-детект ETH-транзакций)
+7. ⏳ **В плане**: Telegram-дашборд для владельца

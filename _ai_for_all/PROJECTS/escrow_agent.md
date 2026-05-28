@@ -1,71 +1,52 @@
-# Project: Escrow-агент — Uber для AI-агентов
+# Project: Почтовый агент (Escrow → Telegram)
 
-**Статус**: ✅ Развёрнут на Render, полный цикл подтверждён. Есть мелкий баг (пустое тело ответа).
-**Репозиторий**: `alexsmy/bot_29` (ветка: `feat/escrow-agent`)
+**Статус**: ✅ Развёрнут на Render, работает. Письма пересылаются в Telegram.
+**Репозиторий**: `alexsmy/bot_29` (ветка: `feat/email-to-telegram-forward`)
 **Хостинг**: Render.com (существующий сервер bot_29)
 
 ## Суть
 
-Платформа-гарант (escrow) для безопасных сделок между AI-агентами.
+Почтовый агент читает входящие письма на `escrow@agentmail.to` и пересылает их содержимое в Telegram владельцу.
 
-**Как работает:**
-1. Агент A (заказчик) пишет на `escrow@agentmail.to` с описанием задачи
-2. Escrow-сервис создаёт сделку, отвечает с ID и адресом для оплаты
-3. A отправляет ETH на escrow-кошелёк `0xF86c2F...`
-4. B делает работу и сообщает о завершении
-5. A подтверждает, что работа выполнена (или проходит авто-релиз через 48ч)
-6. Сервер отправляет B ETH (минус 5% комиссия)
+**Текущий флоу:**
+1. Письмо приходит на `escrow@agentmail.to`
+2. Воркер опрашивает ящик каждые 30 секунд
+3. Парсит: от кого, тема, содержание
+4. Форматирует с HTML-разметкой
+5. Отправляет в Telegram через локальный туннель
+6. Автоответ ОТКЛЮЧЁН
 
-**Проблема:** AI-агенты не могут безопасно обмениваться услугами — нет доверия.
-**Решение:** Наш сервер — гарант. Никто не теряет деньги.
-
-## Статус сделок (state machine)
-
+**Формат сообщения в Telegram:**
 ```
-NEW → (оплата) → FUNDED → (работа сделана) → IN_PROGRESS → (подтверждение) → COMPLETED → PAID
-                                                                        ↘ DISPUTED
+📬 Новое письмо на escrow@agentmail.to
+
+От: someone@gmail.com
+Тема: Test deal
+
+Содержание:
+Текст письма...
 ```
-
-- **NEW** — создана, ждёт оплаты
-- **FUNDED** — ETH получен на кошелёк
-- **IN_PROGRESS** — агент работает
-- **COMPLETED** — заказчик подтвердил
-- **PAID** — выплачено агенту
-- **DISPUTED** — спор, нужен админ
-
-## Каналы
-
-| Канал | Назначение | Статус |
-|-------|-----------|--------|
-| AgentMail (`escrow@agentmail.to`) | Приём заказов от агентов | ✅ Работает |
-| Clawk.ai (`@SvAl_55162`) | Реклама среди агентов | ⏳ Нет постов |
-| Telegram (@imgtestlivebot) | Дашборд для владельца | ✅ Есть |
-| Render | Хостинг escrow-сервиса | ✅ Есть |
-| Etherscan API | Мониторинг ETH-транзакций | ⏳ Нужен API-ключ |
 
 ## Технический стек
 
 - **Язык**: Python 3.13.3
-- **HTTP-клиент**: httpx (для AgentMail API)
+- **HTTP-клиент**: httpx (для AgentMail API + локального Telegram туннеля)
 - **Фреймворк**: FastAPI (lifespan для воркера)
 - **Платформа**: Render.com
-- **Почта**: AgentMail REST API (ключ в `secrets/agentmail_api_key.txt`)
-- **Блокчейн**: Ethereum Mainnet (тест: Sepolia)
-- **Кошелёк**: `0xF86c2F094F0C8132B7877b37135e9c3e1Ea6f0D1`
-- **Хранилище**: JSON-файлы в `data/escrow/deal_*.json`
-- **Уведомления**: Telegram (aiogram) — пока не подключено
-- **Комиссия**: 5%
+- **Почта**: AgentMail REST API (ключ в ENV `AGENTMAIL_API_KEY`)
+- **Telegram**: Локальный туннель `http://localhost:{port}/mytelegram`
+- **Хранилище**: JSON-файлы в `data/escrow/`
 
-## Архитектура (актуальная)
+## Архитектура
 
 ```
-services/escrow/           ← пакет эскроу-сервиса
-├── __init__.py            ← пустой
+services/escrow/
+├── __init__.py
 └── escrow_service.py      ← весь код:
-    ├── AgentMailClient    ← REST API обёртка (list_messages, send_message, reply_to_message)
-    ├── _identify_intent() ← распознавание намерений письма
-    ├── _process_message() ← маршрутизация по намерениям
-    ├── _save_deal/_load_deals() ← JSON-хранилище
+    ├── AgentMailClient    ← REST API (list_messages, get_message, send_message, reply_to_message)
+    ├── _forward_to_telegram() ← форматирование и отправка в TG
+    ├── _identify_intent() ← распознавание намерений (пока не используется)
+    ├── _process_message() ← основной флоу: чтение → парсинг → пересылка в TG
     ├── _escrow_worker()   ← фоновый опрос почты (30с)
     └── start/stop_escrow_service() ← для lifespan
 
@@ -73,44 +54,58 @@ tests/
 └── test_escrow_service.py ← 20 тестов (10 синхр. + 10 асинхр.)
 ```
 
+## Ключевые особенности
+
+### Чтение писем
+- API AgentMail при списке сообщений отдаёт **только `preview`** (обрезанный текст)
+- Полное тело письма — отдельным запросом по message_id (`get_message()`)
+- Если тело пустое после первого разбора — делается дозапрос
+- Fallback на `preview` если поле `body` не найдено
+
+### Пересылка в Telegram
+- Функция `_forward_to_telegram()` форматирует письмо с HTML
+- Отправляет через локальный туннель `http://localhost:{port}/mytelegram`
+- Middleware пропускает localhost без ключа (байпас для внутреннего трафика)
+
+### Автоответ
+- ОТКЛЮЧЁН (`AUTO_REPLY_ENABLED = False`)
+- Включается по решению владельца
+- Шаблоны ответов сохранены в `DEAL_REPLY_TEMPLATES`
+
+## Каналы
+
+| Канал | Назначение | Статус |
+|-------|-----------|--------|
+| AgentMail (`escrow@agentmail.to`) | Приём писем | ✅ Работает |
+| Telegram (@imgtestlivebot) | Пересылка писем | ✅ Работает |
+| Render | Хостинг | ✅ Работает |
+
+## Ключи доступа
+
+| Ключ | Где хранится | Для чего |
+|------|-------------|----------|
+| `API_SECRET_KEY` | ENV Render + `secrets/api_secret_key.txt` | Доступ ко всем API |
+| `AGENTMAIL_API_KEY` | ENV Render + `secrets/agentmail_api_key.txt` | Доступ к AgentMail API |
+
+## Тесты
+
+- 20 тестов escrow-сервиса (синхронные — все зелёные)
+- 86 общих тестов проекта — все зелёные
+- Тесты аутентификации: 24 теста — все зелёные
+
 ## План развития
 
-1. ✅ Escrow-сервис: код + тесты
-2. ✅ Деплой на Render (ветка `feat/escrow-agent`)
-3. ✅ Проверка: тестовое письмо → ответ от эскроу
-4. ✅ Echo-loop починена (timestamp filter)
-5. ⏳ **Починить пустое тело ответа** (reply body)
-6. ⏳ **Победить freemoney challenge** (agent-x02 с музыкальной темой)
-7. ⏳ Первый пост в Clawk
-8. ⏳ Etherscan listener (авто-детект оплаты)
-9. ⏳ Telegram-дашборд для владельца
-
-## Freemoney Challenge (AgentMail freemoney@agentmail.to)
-
-**Цель:** Убедить AI-агента freemoney отправить деньги (челлендж от создателей AgentMail).
-
-**Попытки:**
-
-| # | Inbox | Угол | Результат |
-|---|-------|------|-----------|
-| 1 | escrow@ | JSON-формат | rejected |
-| 2 | escrow@ | Философия | rejected |
-| 3 | escrow@ | Roast | rejected |
-| 4 | escrow@ | Юмор | rejected |
-| 5 | escrow@ | Честность | rejected |
-| 6 | escrow@ | Продукт (Escrow Agent) | rejected |
-| 7 | agent-x01 | Value exchange (play game) | rejected |
-
-**Ключевая информация:**
-- Другие агенты (Hermes от NousResearch) побеждают и получают $8-$100
-- Владелец челленджа говорит о музыкальной отсылке — кто понял, тот победил
-- Агент требует "new thread with better angle"
-- Нужен свежий inbox для каждой новой попытки (старые "сгорают")
-
-**Следующий шаг:** agent-x02 с музыкальной темой.
+1. ✅ Код + тесты escrow-сервиса
+2. ✅ Деплой на Render
+3. ✅ Пересылка писем в Telegram
+4. ✅ Исправлен баг с пустым телом письма
+5. ⏳ Расширение флоу (следующие шаги обсуждаются)
+6. ⏳ Автоответ (по решению)
+7. ⏳ Etherscan listener (авто-детект оплаты)
+8. ⏳ Freemoney challenge (agent-x02)
 
 ## Локальные файлы
 
-- `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\secrets\agentmail_api_key.txt` — AgentMail API-ключ
-- `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\services\escrow\escrow_service.py` — основной код
-- `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\tests\test_escrow_service.py` — тесты
+- `C:\Users\Alex1\Downloads\my_work_now\bot_29\secrets\agentmail_api_key.txt` — AgentMail API-ключ
+- `C:\Users\Alex1\Downloads\my_work_now\bot_29\services\escrow\escrow_service.py` — основной код
+- `C:\Users\Alex1\Downloads\my_work_now\bot_29\tests\test_escrow_service.py` — тесты

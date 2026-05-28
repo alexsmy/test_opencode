@@ -4,6 +4,36 @@
 
 ---
 
+## 28.05.2026 (часть 8) — Почтовый агент: пересылка писем в Telegram
+
+- **Новый флоу почтового агента**: письмо на `escrow@agentmail.to` → воркер читает → парсит (от кого, тема, содержание) → пересылает в Telegram → автоответ ОТКЛЮЧЁН.
+- **Исправлен баг с пустым телом**: API AgentMail при списке сообщений отдаёт только `preview`, а полное тело — отдельным запросом по ID. Добавлен метод `get_message()` и fallback на `preview`.
+- **Добавлена функция `_forward_to_telegram()`**: форматирует письмо с HTML-разметкой (от кого, тема, содержание) и отправляет через локальный Telegram туннель.
+- **AUTO_REPLY_ENABLED = False**: все автоматические ответы на почту отключены. Решение принимается на каждом шаге отдельно.
+- **Ветка**: `feat/email-to-telegram-forward`, 2 коммита.
+- **Деплой**: подтверждён, работает. Проверено: письмо → ящик → Telegram (с содержимым).
+
+## 28.05.2026 (часть 7) — Unified API auth: единый ключ, убраны дубли
+
+- **Объединена аутентификация**: ранее было 3 разных ключа (API_SECRET_KEY + TELEGRAM_TUNNEL_SECRET + AGENTS_TUNNEL_SECRET). Теперь один `API_SECRET_KEY` на всё.
+- **Убраны внутренние проверки**: `_require_secret` из telegram_tunnel.py и agents/tunnel.py, `_check_secret` из agents_api.py (8 эндпоинтов), `_check_auth` из telegram_inbox_api.py (5 эндпоинтов).
+- **Middleware bypass для localhost**: запросы с 127.0.0.1 и ::1 проходят без ключа (внутренний трафик сервисов).
+- **Ветка**: `feat/unified-api-auth`.
+- **Тесты**: 86 общих тестов — все зелёные.
+
+## 28.05.2026 (часть 6) — API-ключевая аутентификация: единый ключ на весь сервер
+
+- **Создан middleware.py**: проверяет `X-Api-Key` заголовок или `api_session` cookie на каждом запросе. Белый список: /api/health, /, /vault, статика, /mcp, /auth.
+- **Создан routers/auth_api.py**: страница логина `/auth/login`, установка HMAC-подписанной cookie (30 дней).
+- **Единый ключ**: `API_SECRET_KEY` (ENV на Render, файл `secrets/api_secret_key.txt` локально). Один ключ на все эндпоинты.
+- **Убраны дублирующие проверки**: `_require_secret` из telegram_tunnel.py и agents/tunnel.py, `_check_secret` из agents_api.py, `_check_auth` из telegram_inbox_api.py. Раньше было 3 разных секрета (API ключ + Telegram tunnel secret + Agents tunnel secret). Теперь один.
+- **Localhost bypass**: middleware пропускает запросы с 127.0.0.1 и ::1 без ключа (внутренний трафик сервисов).
+- **Защищены**: escrow (7), filevault (18), agents (10), sync (5), telegram tunnel (2), telegram inbox (5), crpt (3), stats (1).
+- **Белый список**: /api/health, /, /vault, /keepalive, /radio, /crpt, /sbor, /sync, /time, /static/*, /project/*, /mcp/*, /auth/*.
+- **Тесты**: 24 теста аутентификации + 86 общих тестов — все зелёные.
+- **Ветка**: `feat/api-key-auth`, 2 коммита.
+- **Деплой**: подтверждён пользователем, работает на Render.
+
 ## 28.05.2026 (часть 5, финал) — Echo-loop починена, freemoney challenge: agent-x01 отклонён
 
 - **Echo-loop починена окончательно**: воркер запоминает время старта и пропускает все сообщения старше него. processed_ids.json убран (Render эфемерная ФС).
