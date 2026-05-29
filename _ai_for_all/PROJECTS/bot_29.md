@@ -1,112 +1,147 @@
 # Project: bot_29
 
 **Репозиторий**: `https://github.com/alexsmy/bot_29`
-**Ветка на Render**: `fix/auto-reply-filevault` (текущая, рабочая)
+**Ветка на Render**: `fix/auto-reply-filevault` (текущая продакшен)
+**Новые ветки**: `mail_agent_v2/web_config`, `mail_agent_v2/web_config_ext`
 
 ## Суть
 
 FastAPI-сервер с Telegram-ботом (aiogram), запускается через `python bot.py`.
-Хостится на Render.com. Обеспечивает: веб-дашборд, FileVault, Vault, CRPT, погоду,
-галактические часы, vault для паролей, синхронизацию с GitHub, почтовый агент v2.
+Хостится на Render.com.
 
 ## Архитектура
 
 ```
 bot.py                 — точка входа (FastAPI + lifespan)
-config/                — конфиги (keep_alive, sync_settings, mail_agent, security)
+config/                — конфиги (keep_alive, sync_settings, security, mail_agent.json)
 routers/               — REST API роутеры
-services/              — сервисы (sync, agents, telegram, keepalive, mail_agent, escrow)
+routers/mail_agent_api.py — API Mail Agent (config, inboxes, sync/restore cloud)
+services/              — сервисы (sync, agents, telegram, keepalive, mail_agent/)
 templates/             — HTML-шаблоны (Jinja2)
+templates/mail_agent.html — Web Config UI (6 блоков)
 static/                — статика (CSS, JS)
-data/                  — данные (vault, filevault_uploads, mail, agents, etc.)
-project/               — фронтенд-проекты
+data/                  — данные (vault, filevault_uploads, mail_agent_config.json, mail_agent_addresses.json)
+project/               — фронтенд-проекты (sbor, crpt, filevault, radio, time)
 secrets/               — токены (НЕ в git)
 ```
 
 ## Ключевые URL
-
 - **Render**: https://bot-29-nx0w.onrender.com
-- **FileVault**: https://bot-29-nx0w.onrender.com/files
-- **Vault**: https://bot-29-nx0w.onrender.com/vault
+- **Mail Agent UI**: https://bot-29-nx0w.onrender.com/mail-agent
 - **MCP**: https://bot-29-nx0w.onrender.com/mcp
-- **Почтовые файлы**: https://bot-29-nx0w.onrender.com/mail-files/
 
-## Аутентификация (упрощена)
-
-- **Один ключ**: `API_SECRET_KEY` на всё. Middleware проверяет `X-Api-Key` или `api_session` cookie.
-- **Белый список**: `/static/`, `/project/`, `/mcp/`, `/auth/`, `/files/open/`, главные страницы
-- **Логин**: `/auth/login`, cookie на 30 дней
-- **Vault PIN/2FA**: Удалены. Master key запрашивается с сервера через `/api/vault/master-key`
-- **Keepalive PIN**: Удалён. Настройки доступны по тому же API_SECRET_KEY
-- **Localhost bypass**: 127.0.0.1 и ::1 без ключа (внутренний трафик)
-
-## Почтовый агент v2 (`services/mail_agent/`)
-
-8 файлов, конфиг `config/mail_agent.json`. Фоновый воркер опрашивает `escrow@agentmail.to` каждые 30с.
-
-### Флоу обработки письма
-
-1. `list_unread()` → новые письма
-2. `get_message(id)` → полное содержимое
-3. `analyze_email()` → парсинг (отправитель, тема, тело, вложения)
-4. `save_email()` → `data/mail/<id>/` + FileVault (подпапка в Mail)
-5. `save_attachment()` → `data/mail/<id>/attachments/` + FileVault
-6. `forward_to_telegram()` → Telegram (текст + вложения photo/video/document)
-7. `reply_to_sender()` → автоответ (тело через `"text"` поле, не `"body"`)
-8. `mark_as_read()` → помечает прочитанным
-
-### Структура FileVault для писем
-
-```
-Mail/
-  Email from sender — subject/
-    body.txt          ← текст письма
-    IMG_photo.jpg     ← вложение
-    doc.pdf           ← вложение
-```
-
-### Статус (28.05.2026)
-
-| Компонент | Статус |
-|-----------|--------|
-| Telegram уведомления | ✅ Полностью |
-| Автоответ | ✅ С телом, не пустой |
-| /files папка Mail | ✅ Подпапки + файлы |
-| Синхронизация в GitHub | ✅ Письмо + вложения |
-| Тесты (19 шт) | ✅ Все зелёные |
+## Переменные окружения (на Render)
+- SYNC_GITHUB_TOKEN — токен для пуша в test_opencode
+- TELEGRAM_BOT_TOKEN — токен @imgtestlivebot
+- TELEGRAM_CHAT_ID — 1252058698
+- AGENTS_TUNNEL_SECRET — секрет MCP
+- TELEGRAM_TUNNEL_SECRET — секрет уведомлений
 
 ## Синхронизация
+- Сервер пушит в `alexsmy/test_opencode/synchronization/` каждые ~6с
+- Mail config на облако — только вручную через кнопку на UI
 
-- Сервер пушит данные в `alexsmy/test_opencode/synchronization/`
-- Настройки: `config/sync_settings.json`
-- Режимы: по расписанию (24ч) или по событию
-- FileVault: мета + блобы (до 24 МБ)
+## Почтовый агент v2 — per-inbox конфиг
 
-## Известные баги (все исправлены)
+### Структура конфига (config/mail_agent.json + data/mail_agent_config.json)
+```json
+{
+  "selected_inbox": "",
+  "global": {
+    "auto_reply_enabled": true,
+    "forward_to_telegram": false,
+    "mark_as_read": false,
+    "delete_after_processing": false,
+    "poll_interval": 30,
+    "max_senders_in_message": 10,
+    "save_history_to_disk": false,
+    "save_incoming": false,
+    "save_attachments": false,
+    "address_db_enabled": false
+  },
+  "inboxes": {
+    "user@example.com": {
+      "auto_reply_enabled": true,
+      "forward_to_telegram": false,
+      "mark_as_read": true,
+      "delete_after_processing": false,
+      "poll_interval": 30,
+      "incoming_parse_max_body": 500,
+      "incoming_parse_max_subject": 100,
+      "save_history_to_disk": true,
+      "save_incoming": true,
+      "save_attachments": false,
+      "address_db_enabled": true,
+      "reply_templates": [
+        {"name": "default", "text": "Стандартный ответ"},
+        {"name": "support", "text": "Поддержка: {summary}"}
+      ],
+      "reply_template_name": "default",
+      "max_senders_in_message": 10,
+      "blocked_senders": []
+    }
+  }
+}
+```
 
-1. ~~Автоответ пустой~~ → `body`→`text` ✅
-2. ~~/files Mail пустая~~ → `_save_to_filevault()` ✅
-3. ~~Файлы в корень Mail~~ → `create_mail_subfolder()` ✅
-4. ~~Синхронизация не стартует~~ → `signal_sync_needed()` ✅
-5. ~~Folder tree crash~~ → `index[child["folder_id"]]` ✅
-6. ~~Воркер обработал старые письма~~ → `processed_ids.json` persist ✅
-7. ~~Vault auth сломан~~ → удалена 2FA/PIN ✅
-8. ~~Бесконечный пин-код~~ → удалён PIN vault ✅
+### Миграция из плоского формата
+Авто-конвертация: `{inbox_email, save_attachments_to_disk, ...}` → per-inbox.
 
-## Тесты
+### БД адресов (data/mail_agent_addresses.json)
+```json
+{
+  "sender@example.com": {
+    "last_incoming": "2026-05-29T12:00:00",
+    "last_success": "2026-05-29T12:00:01",
+    "last_status": "replied"
+  }
+}
+```
 
-- `tests/test_mail_agent.py` — 19 тестов (парсинг, storage, folder tree, config)
-- `tests/test_mail_agent.py` запуск: `python tests/test_mail_agent.py`
-- Старые тесты: vault, sync, keepalive, escrow — в `tests/`
+### MCP инструменты (8 шт, на /mcp/)
+- `list_mail_inboxes`, `get_mail_config`, `update_mail_config`, `mail_status`
+- `last_senders`, `search_emails`, `test_auto_reply`, `list_addresses`
 
-## Переменные окружения (Render)
+## Ветки
+| Ветка | Содержание | Статус |
+|-------|-----------|--------|
+| `fix/auto-reply-filevault` | Стабильная на Render | 🟢 продакшен |
+| `mail_agent_v2/web_config` | Базовая веб-настройка | 🟡 запушено |
+| `mail_agent_v2/web_config_ext` | Per-inbox, БД адресов, шаблоны | 🟡 запушено |
 
-- `SYNC_GITHUB_TOKEN` — токен GitHub
-- `TELEGRAM_BOT_TOKEN` — токен @imgtestlivebot
-- `TELEGRAM_CHAT_ID` — 1252058698
-- `AGENTMAIL_API_KEY` — ключ AgentMail
-- `API_SECRET_KEY` — единый ключ API
+## Тесты Mail Agent (19 шт, все зелёные ✅)
+- `tests/test_mail_agent.py` — 19 тестов (config, storage, worker, responder, parser, migration, address DB)
+
+**Запуск:**
+```powershell
+cd C:\Users\Alex1\Downloads\my_work_now\bot_29
+python -m tests.test_mail_agent
+```
+
+## Структура services/mail_agent/
+```
+services/mail_agent/
+├── __init__.py
+├── config.py          ← per-inbox модель, загрузка/сохранение/миграция
+├── mail_client.py     ← AgentMail API клиент
+├── mail_parser.py     ← парсинг + классификация вложений
+├── mail_storage.py    ← сохранение на диск + БД адресов
+├── mail_responder.py  ← автоответ по шаблону
+├── mail_worker.py     ← фоновый воркер
+```
+
+## Структура services/sync/
+```
+services/
+├── sync_service.py
+└── sync/
+    ├── __init__.py
+    ├── utils.py / settings.py / manifest.py / chunking.py
+    ├── github.py / collectors.py / restore.py
+    ├── notify.py / worker.py
+    ├── collectors.py ← _collect_mail_config()
+    └── restore.py ← _restore_mail_config()
+```
 
 ## Локальная копия
-
-`C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
+`C:\Users\Alex1\Downloads\my_work_now\bot_29\`

@@ -1,6 +1,6 @@
 # Current Context
 
-Общий контекст всех проектов. Дата: 29.05.2026 (обновлено)
+Общий контекст всех проектов. Дата: 29.05.2026 (обновлено, часть 2)
 
 ## Активные проекты
 
@@ -10,66 +10,54 @@
 - **Стек**: Python 3.13.3, FastAPI, aiogram, uvicorn
 - **Описание**: Многофункциональный сервер: веб-дашборд, FileVault, Vault, CRPT, погода, галактические часы, Telegram-бот, cloud sync, MCP-сервер, escrow-сервис
 - **Агенты**: 3 встроенных (test_echo, weather_monitor, weather_notifier) + динамические
-- **MCP**: 3 встроенных инструмента (get_weather, send_weather_to_telegram, send_telegram_message)
+- **MCP**: 10 инструментов (get_weather + 8 mail + send_telegram_message)
 - **Ветка на Render**: `fix/auto-reply-filevault` (текущая, все фиксы)
-- **Локально**: `C:\Users\alexs\Downloads\my_work_now\my_work_now\bot_29\`
-- **Тесты**: 19 тестов mail_agent, все зелёные
-- **Аутентификация**: Единый ключ `API_SECRET_KEY` на все эндпоинты. Middleware проверяет X-Api-Key или cookie. Localhost bypass для внутреннего трафика.
-- **Почтовый агент v2**: отдельный модуль `services/mail_agent/`. Конфиг `config/mail_agent.json`. Парсинг писем, классификация вложений, сохранение на диск + FileVault + подпапки, пересылка в TG, автоответ (тело через `"text"` поле).
-- **Статус v2**: ✅ Всё работает: Telegram, автоответ, /files, синхронизация
-- **FileVault bug**: Исправлен латентный баг в `_folder_tree_payload` — `index[child_id]` вместо `index[child["folder_id"]]`. Падал при первой же подпапке.
+- **Локально**: `C:\Users\Alex1\Downloads\my_work_now\bot_29\`
+- **Тесты**: 19 mail_agent тестов, все зелёные ✅
+- **Аутентификация**: Единый ключ `API_SECRET_KEY`. Middleware проверяет X-Api-Key или cookie. Localhost bypass.
+- **Почтовый агент v2**: отдельный модуль `services/mail_agent/`. Per-inbox конфиг. Web Config UI на `/mail-agent`. 19 тестов.
+- **Все баги v2 исправлены** ✅
+- **Новые ветки**: `mail_agent_v2/web_config` (первая версия UI), `mail_agent_v2/web_config_ext` (per-inbox, БД, шаблоны)
+- **Старые локальные ветки удалены**: feat/escrow-agent, feat/mail-agent-v2, feat/unified-api-auth, improve/sync-storage, opencode_refact_03
 - Детали: `PROJECTS/bot_29.md`
 
-### escrow_agent — Почтовый агент v1 (пересылка в Telegram)
-- **Статус**: Работает на Render (параллельно с v2). Воркер опрашивает почту раз в 30с.
-- **Флоу**: письмо → воркер читает → пересылает в Telegram → автоответ ОТКЛЮЧЁН.
-- **Файлы**: `services/escrow/escrow_service.py`
-- **Автоответ**: ОТКЛЮЧЁН (`AUTO_REPLY_ENABLED = False`).
-
-### mail_agent v2 — Почтовый агент (парсинг, вложения, ответы)
-- **Статус**: Создан, тестирование на Render. Найдены баги (см. SESSION_LOG).
-- **Ветка**: `feat/mail-agent-v2`
+### Почтовый агент v2 — актуальная архитектура
 - **Модуль**: `services/mail_agent/` (8 файлов)
-- **Конфиг**: `config/mail_agent.json`
-- **Функционал**: парсинг писем, классификация вложений (изображения/видео/голос/документы), сохранение на диск, пересылка в TG, ответ отправителю, пометка прочитанного, удаление.
-- **Баги**: см. SESSION_LOG часть 10.
+- **Конфиг**: per-inbox (`config/mail_agent.json` база + `data/mail_agent_config.json` override)
+- **Структура конфига**: `{selected_inbox, global: {...}, inboxes: {email: {...}}}`
+- **Новые возможности (29.05 ч.2)**:
+  - Per-inbox настройки (каждый ящик — свои параметры)
+  - Web UI: 6 блоков (инбокс, парсинг, история, БД адресов, шаблоны, остальное)
+  - API: GET/PUT config, sync/restore cloud, список/создание инбоксов
+  - БД адресов (`data/mail_agent_addresses.json`)
+  - Множественные шаблоны автоответов (добавление/удаление/выбор)
+  - Миграция из плоского конфига в per-inbox
+- **MCP**: 8 почтовых инструментов на `bot-29-nx0w.onrender.com/mcp/`
+- **Документация**: `REFERENCE/mcp_mail.md`
 
 ### uastcenter_site — Сайт НТЦ 'УАСТ'
 - **Репозиторий**: `alexsmy/test_opencode` (в папке `uastcenter_site/`)
 - **Домен**: https://uast.center
 - **Стек**: HTML5, CSS3 (vanilla ES6 modules), JavaScript (vanilla), Google Fonts
-- **Описание**: Статический одностраничный сайт. Секции: Hero, О предприятии, Направления, Проекты, Контакты, Подвал.
-- **Статус**: Полный аудит, рефакторинг, модульная архитектура, WebP, lazy loading
-- **Локально**: `C:\Users\Alex1\Downloads\uastcenter_site`
-- Детали: `PROJECTS/uastcenter_site.md`
+- **Статус**: Полный аудит, рефакторинг, модульная архитектура, WebP, lazy loading ✅
 
 ### test_opencode — Мой облачный дом
 - **Репозиторий**: https://github.com/alexsmy/test_opencode/tree/main
 - **Ветка**: `main`
-- **Роль**: **Единственный облачный источник правды**. Здесь корни, память, правила, секреты.
-- **Содержит**:
-  - `_ai_for_all/` — облачная память (правила, профиль, контекст, проекты, VAULT)
-  - `synchronization/` — память проекта bot_29 (НИКОГДА НЕ УДАЛЯТЬ)
-  - `uastcenter_site/` — полный код сайта НТЦ 'УАСТ'
-  - `migrate/` — архивы для миграции между ПК
+- **Роль**: Единственный облачный источник правды.
 
 ## Платформа
-- **Текущая платформа**: Windows (PowerShell 5.1)
+- **Текущая**: Windows (PowerShell 5.1)
 - **Инструменты**: Git 2.54.0, Python 3.13.3
 
 ## Статус синхронизации
-- `_ai_for_all` смержен: bot_29 + uastcenter_site
-- `bot_29` запушен в `alexsmy/bot_29` (ветки: `feat/unified-api-auth`, `feat/email-to-telegram-forward`, `feat/mail-agent-v2`, `fix/auto-reply-filevault`)
+- `bot_29` запушен: `mail_agent_v2/web_config`, `mail_agent_v2/web_config_ext`
 - `synchronization/` обновляется авто-воркером на Render
 
 ## Активные цели
-1. ✅ **Выполнено**: Единая аутентификация (один ключ на всё)
-2. ✅ **Выполнено**: Пересылка писем из почты в Telegram (v1)
-3. ✅ **Выполнено**: Исправлен баг с пустым телом письма (дозапрос по ID)
-4. ✅ **Выполнено**: Mail Agent v2 (парсинг, вложения, ответы, хранение)
-5. ✅ **Выполнено**: Исправлены баги v2 (пустой автоответ, папка Mail, folder tree crash, синхронизация)
-6. ✅ **Выполнено**: MCP Mail Tools (8 инструментов, REFERENCE/mcp_mail.md)
-7. 🔴 **СЛЕДУЮЩАЯ СЕССИЯ**: Web Config UI для Mail Agent — веб-страница с настройками, API, ручная синхронизация в облако
-8. ⏳ **В плане**: Etherscan listener
-9. ⏳ **В плане**: Победить челлендж freemoney (agent-x02 с музыкальной темой)
-10. ⏳ **В плане**: Telegram-дашборд для владельца
+1. ✅ Mail Agent Web Config UI (per-inbox, БД адресов, шаблоны) — **ГОТОВО**
+2. ⏳ Деплой на Render ветки с новым UI (нужен PR/merge в fix/auto-reply-filevault)
+3. ⏳ Dynamic workers (по одному воркеру на активный инбокс)
+4. ⏳ Etherscan listener
+5. ⏳ Freemoney challenge (agent-x02 с музыкальной темой)
+6. ⏳ Telegram-дашборд для владельца

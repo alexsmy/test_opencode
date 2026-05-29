@@ -4,84 +4,71 @@
 
 ---
 
-## 29.05.2026 (часть 1) — MCP Mail Tools: обнаружение, документирование, обновление памяти
+## 29.05.2026 (часть 2) — Mail Agent Web Config UI: per-inbox, адресная БД, шаблоны
 
-- **Изучен проект bot_29** из ветки `fix/auto-reply-filevault`
-- **Прочитана облачная память** `_ai_for_all` и обновлена локально:
-  - `CONTEXT.md` — актуализирован (ветка Render, статус багов, локальный путь)
-  - `SESSION_LOG.md` — добавлена пропущенная часть 11
-  - `PROJECTS/bot_29.md` — переписан под актуальную архитектуру
-- **Обнаружены MCP-инструменты для почты** в `services/agents/mcp_server.py`:
-  - `mail_list`, `mail_get`, `mail_delete`, `mail_send`, `mail_clean_old`, `mail_status`, `mail_inbox_list`, `mail_inbox_create`
-  - Транспорт: Streamable HTTP на `https://bot-29-nx0w.onrender.com/mcp/`
-  - Протокол: JSON-RPC 2.0, обязательный `initialize` перед вызовами
-  - Без аутентификации (путь `/mcp/` в белом списке)
-- **Проверен MCP** — получен статус: 0 непрочитанных, 26 всего (18 sent, 8 received), автоответ включён
-- **Создан** `REFERENCE/mcp_mail.md` — полная документация по MCP-транспорту и инструментам
-- **Локальная память** `_ai_for_all` обновлена (CONTEXT, SESSION_LOG, PROJECTS, REFERENCE)
+- **Ветка**: `mail_agent_v2/web_config_ext` (создана и запушена)
+- **Render**: всё ещё на `fix/auto-reply-filevault` (ждёт деплоя)
 
-## 29.05.2026 (часть 2) — План: Mail Agent Web Config UI
+### H1 — Карточка на главной
+- `static/js/hub/data/projects.js`: добавлена карточка Mail Agent (иконка конверта, emerald тема, ссылка на `/mail-agent`)
 
-- **Спроектирован** веб-интерфейс для управления почтовым агентом
-- **Дизайн синхронизации**:
-  - Входящая (из облака): автоматическая, через общий `restore_if_needed()` на старте
-  - Исходящая (в облако): только по ручной кнопке на веб-странице
-- **Создан детальный план** в `handover/2026-05-29.md` (раздел "ПЛАН НА СЛЕДУЮЩУЮ СЕССИЮ")
-- **Задачи**: A-G (API → Web → bot.py → web.py → collectors → restore → config loader → tests)
-## 28.05.2026 (часть 11) — Mail Agent v2: автоответ, FileVault, Folder Tree Bug
+### H2 — Per-inbox конфиг
+- `config/mail_agent.json` — новая структура: `selected_inbox`, `global`, `inboxes: { email: {...} }`
+- `services/mail_agent/config.py` — полная переработка:
+  - `_inbox_defaults` + `_global_defaults` — раздельные дефолты
+  - `load_config()` — merge базы + override, авто-миграция из плоского формата
+  - `get_selected_inbox_config()`, `get_global_config()` — доступ к текущему инбоксу
+  - `save_override()` — сохранить и перезагрузить
+- **Новые поля**: `incoming_parse_max_body: 500`, `incoming_parse_max_subject: 100`, `save_history_to_disk`, `save_incoming`, `save_attachments`, `address_db_enabled`, `reply_templates: [...]`
 
-- **Ветка**: `fix/auto-reply-filevault` (3 коммита, запушена)
-- **Render**: переключен на эту ветку вручную
+### H3 — API эндпоинты
+- `routers/mail_agent_api.py`:
+  - `GET /api/mail-agent/inboxes` — список инбоксов из AgentMail API + их настройки
+  - `POST /api/mail-agent/inboxes` — создать новый инбокс (в AgentMail + в конфиг)
+  - `GET/PUT /api/mail-agent/config` — обновлены под per-inbox модель
+  - `POST /api/mail-agent/config/sync-to-cloud`
+  - `POST /api/mail-agent/config/restore-from-cloud`
 
-### Исправлено
+### H4 — Веб-страница (templates/mail_agent.html)
+- Полная переработка, 6 блоков:
+  1. **Email ящик** — выпадающий список (загружается из AgentMail) + кнопка "Создать"
+  2. **Парсинг входящих** — макс. длина тела (500) и темы (100)
+  3. **Сохранять историю на диск** — чекбокс, при включении показываются `save_incoming` + `save_attachments`
+  4. **БД адресов** — чекбокс `address_db_enabled`
+  5. **Шаблоны автоответов** — выпадающий список + textarea + кнопки Добавить/Удалить
+  6. **Остальные** — автоответ, TG, пометка, удаление, интервал, макс. длина TG, блокированные
 
-**1. Пустое тело автоответа** — AgentMail API в `reply` ждёт поле `"text"`, а код отправлял `"body"`. API игнорировал неизвестное поле, отправлял письмо с пустым телом (subject = "Re: ..." автоматом). Файлы: `mail_client.py:158`, `escrow_service.py:253`. ✅ Исправлено локально ещё до сессии, закоммичено.
+### H5 — БД адресов
+- `services/mail_agent/mail_storage.py`:
+  - `load_address_db()` → `dict[email → record]`
+  - `save_address_db(db)`
+  - `update_address_db(sender, success, status)` — обновляет `last_incoming`, `last_success`, `last_status`
+- Файл: `data/mail_agent_addresses.json`
+- Статусы: `read`, `replied`, `unread`, `ignored`
 
-**2. Папка Mail пустая на /files** — Emails сохранялись в `data/mail/`, но не регистрировались в FileVault (`data/filevault_uploads/`). Добавлена `_save_to_filevault()` — создаёт `{uuid}.json` + `{uuid}.bin` для тела письма и каждого вложения. Файл: `mail_storage.py`.
+### H6 — Интеграция с воркером и респондером
+- `services/mail_agent/mail_worker.py`:
+  - Использует `get_selected_inbox_config()` + `get_global_config()`
+  - Читает `save_history_to_disk`, `save_incoming`, `save_attachments`
+  - Вызывает `update_address_db()` после обработки (статус: `replied`)
+- `services/mail_agent/mail_responder.py`:
+  - Выбирает шаблон по `reply_template_name` из `reply_templates`
+  - Подставляет `{summary}` из `format_summary()`
+- `services/agents/mcp_server.py`:
+  - `_get_mail_client()` — читает `selected_inbox` из конфига
+  - `mail_status()` — различает inbox config и global config
 
-**3. Файлы валились в корень Mail** — Добавлена `create_mail_subfolder()` — каждое письмо в своей подпапке внутри Mail. Структура: `Mail → Email from sender — subject/ → body.txt, IMG_..., doc.pdf`. Файл: `mail_storage.py`.
+### H7 — Тестирование
+- 19 тестов mail_agent — все зелёные ✅
+- Обновлены: `test_config_loads`, `test_config_get` (под новую структуру)
+- Проверены: импорты, миграция конфига, адресная БД
 
-**4. Синхронизация — очередь пустая** — `_save_to_filevault()` не вызывала `signal_sync_needed()`. Добавлен вызов после записи в FileVault. Файл: `mail_storage.py`.
-
-**5. Folder tree crash (CRITICAL BUG)** — При создании подпапки в Mail (первый раз когда у папки появились дети) — `_folder_tree_payload()` падала с `TypeError: unhashable type: 'dict'`. Причина: в `build_node()` итерация по `child_nodes` (list[dict]) использовала `index[child_id]`, где `child_id` — словарь, а `index` ждёт строку. Баг был латентным — никогда не проявлялся, т.к. ни у одной папки не было детей. Файл: `filevault_api.py:284`. Исправлено: `child["folder_id"]`.
-
-**6. Folder metrics (minor bug)** — Аналогичная ошибка в `_compute_folder_metrics()` → `aggregate()`: `children_map` хранит `list[str]` (folder IDs), код обращался к `child["folder_id"]` как к dict. Это был артефакт моей правки — сразу откатил обратно. В production не попало, но тест поймал.
-
-### Результаты тестирования (подтверждено пользователем)
-
-| Проверка | Статус |
-|----------|--------|
-| Telegram уведомления | ✅ Полностью содержательные (текст, список вложений, сами файлы) |
-| Автоответ | ✅ Пришёл с полным содержимым |
-| /files папка Mail | ✅ Показывает папки и файлы |
-| Синхронизация в GitHub | ✅ Письмо + вложения синхронизировались |
-
-### Тесты
-
-- 19 тестов, все зелёные ✅
-- Новый тест: `test_folder_tree_with_subfolders` — проверяет, что дерево папок с подпапками строится корректно
-- Новый тест: `test_create_mail_subfolder` — создание подпапки в Mail
-- Обновлены: `test_save_email`, `test_save_attachment`, `test_create_mail_folder`
-
-### Файлы (изменения в bot_29)
-
-| Файл | Изменения |
-|------|-----------|
-| `services/mail_agent/mail_storage.py` | `_save_to_filevault()`, `create_mail_subfolder()`, `_load_folders()`, `_save_folders_json()`, `_sanitize_filevault_name()`, `signal_sync_needed` |
-| `services/mail_agent/mail_client.py` | `"body"` → `"text"` (уже было локально) |
-| `services/escrow/escrow_service.py` | `"body"` → `"text"` (уже было локально) |
-| `routers/filevault_api.py` | `index[child_id]` → `index[child["folder_id"]]` в `_folder_tree_payload` |
-| `tests/test_mail_agent.py` | +3 теста, обновлены 3 существующих |
-
-### Что не трогали
-
-- Мёртвый код (`telegram_tunnel._require_secret`, `agents/tunnel._require_secret`, `common/auth-dialog.js`) — оставлен
-- `migrateLegacyVaultKeyIfNeeded` — оставлена (для старых записей)
-- Escrow (v1) — не менялся, кроме `body` → `text`
+### Ветка
+- `mail_agent_v2/web_config_ext` — 10 файлов изменено, 678+ строк добавлено
 
 ---
 
-## 28.05.2026 (часть 10) — Mail Agent v2: тестирование, найденные баги
+## 29.05.2026 (часть 1) — MCP Mail Tools: обнаружение, документирование, обновление памяти
 
 - **Mail Agent v2 создан**: отдельный модуль `services/mail_agent/`, 8 файлов, +1113 строк. Конфиг `config/mail_agent.json`. Ветка `feat/mail-agent-v2`.
 - **Тесты**: 17 новых + 103 старых = 120 зелёных.
@@ -119,7 +106,7 @@ services/mail_agent/
 ├── config.py          ← чтение config/mail_agent.json
 ├── mail_client.py     ← AgentMail API (list, get, mark read, delete, attachments)
 ├── mail_parser.py     ← парсинг, классификация вложений
-├── mail_storage.py    ← сохранение в data/mail/ + FileVault + подпапки
+├── mail_storage.py    ← сохранение в data/mail/
 ├── mail_telegram.py   ← пересылка в TG
 ├── mail_responder.py  ← ответ отправителю
 └── mail_worker.py     ← фоновый воркер
