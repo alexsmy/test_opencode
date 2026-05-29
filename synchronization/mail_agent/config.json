@@ -19,7 +19,15 @@
         "response_format": "{greeting}\n\n{weather_in}\n🌡️ {temperature}{feels_like}, {weather_description}\n{humidity_label} {humidity}\n{wind_label} {wind}\n{cloud_label} {cloud_cover}\n{pressure_label} {pressure}\n{forecast}\n{signature}",
         "include_json": true,
         "forward_reply_to_telegram": true,
-        "language": "en"
+        "language": "en",
+        "error_templates": {
+          "invalid_location": "{greeting}\n\nI got your request, but unfortunately the location \"{location}\" looks wrong. 😕\n\n📍 Please provide an existing city, for example:\n   {\"location\": \"London\"}\n\nOr coordinates (latitude, longitude):\n   {\"location\": \"51.5, -0.12\"}\n\nWaiting for your corrected request! ✨\n\n{signature}"
+        },
+        "rate_limits": {
+          "max_per_minute": 8,
+          "max_per_hour": 350,
+          "max_per_day": 2999
+        }
       },
       "forward_to_telegram": true,
       "auto_mark_as_read": true,
@@ -29,6 +37,17 @@
       "save_attachments": true,
       "address_db_enabled": true,
       "blocked_senders": [],
+      "per_sender_limits": {
+        "max_per_minute": 3,
+        "auto_block_after": 3,
+        "auto_unblock_minutes": 4800
+      },
+      "cleaner": {
+        "enabled": true,
+        "interval_minutes": 60,
+        "max_messages": 50,
+        "delete_oldest": 20
+      },
       "reply_templates": [
         {
           "name": "Правила общения для получения погоды, русский",
