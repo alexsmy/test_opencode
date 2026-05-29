@@ -9,7 +9,16 @@
   "inboxes": {
     "stellanova@agentmail.to": {
       "active": true,
+      "role": "weather_agent",
       "auto_reply_enabled": true,
+      "weather_agent": {
+        "name": "Стелла",
+        "greeting": "Привет! 👋 Это {name}.",
+        "signature": "Твоя {name}. 🌟",
+        "help_text": "Привет! 👋 Я {name}, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение:\n\n{\n  \"location\": \"Москва\"\n}\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n\nЯ возьму в работу первый найденный подходящий json запрос, всё остальное проигнорирую.\n\nПока! Твоя {name}.",
+        "include_json": true,
+        "language": "ru"
+      },
       "forward_to_telegram": true,
       "auto_mark_as_read": true,
       "auto_delete_after_process": false,
