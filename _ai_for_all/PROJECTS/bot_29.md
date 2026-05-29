@@ -2,7 +2,7 @@
 
 **Репозиторий**: `https://github.com/alexsmy/bot_29`
 **Ветка на Render**: `fix/auto-reply-filevault` (текущая продакшен)
-**Новые ветки**: `mail_agent_v2/web_config`, `mail_agent_v2/web_config_ext`
+**Новые ветки**: `mail_agent_v4/multi_lang`, `mail_agent_v4/error_handling`
 
 ## Суть
 
@@ -106,28 +106,34 @@ secrets/               — токены (НЕ в git)
 | Ветка | Содержание | Статус |
 |-------|-----------|--------|
 | `fix/auto-reply-filevault` | Стабильная на Render | 🟢 продакшен |
-| `mail_agent_v2/web_config` | Базовая веб-настройка | 🟡 запушено |
-| `mail_agent_v2/web_config_ext` | Per-inbox, БД адресов, шаблоны | 🟡 запушено |
+| `mail_agent_v4/multi_lang` | 10 языков + label-плейсхолдеры | 🟡 запушено |
+| `mail_agent_v4/error_handling` | Modul. arch + error handling + rate limiter | 🟡 запушено (ждёт проверки) |
 
-## Тесты Mail Agent (19 шт, все зелёные ✅)
-- `tests/test_mail_agent.py` — 19 тестов (config, storage, worker, responder, parser, migration, address DB)
+## Тесты Mail Agent (46 тестов weather + 31 core = 77, все зелёные ✅)
+- `tests/test_mail_agent.py` — 31 core тест (config, storage, worker, responder, parser, migration, address DB, mail_weather_agent core)
+- `tests/test_mail_weather_agent.py` — 46 тестов (weather API, localization, validation, rate limiter, error templates)
 
 **Запуск:**
 ```powershell
 cd C:\Users\Alex1\Downloads\my_work_now\bot_29
 python -m tests.test_mail_agent
+python -m tests.test_mail_weather_agent
 ```
 
-## Структура services/mail_agent/
+## Структура services/mail_agent/ (12 файлов)
 ```
 services/mail_agent/
 ├── __init__.py
-├── config.py          ← per-inbox модель, загрузка/сохранение/миграция
-├── mail_client.py     ← AgentMail API клиент
-├── mail_parser.py     ← парсинг + классификация вложений
-├── mail_storage.py    ← сохранение на диск + БД адресов
-├── mail_responder.py  ← автоответ по шаблону
-├── mail_worker.py     ← фоновый воркер
+├── config.py              ← per-inbox модель + weather_agent секция
+├── mail_client.py         ← AgentMail API клиент
+├── mail_parser.py         ← парсинг + классификация вложений
+├── mail_storage.py        ← сохранение на диск + БД адресов
+├── mail_responder.py      ← автоответ по шаблону
+├── mail_worker.py         ← фоновый воркер
+├── mail_weather_agent.py  ← ядро погодного агента Стелла
+├── weather_localization.py ← переводы (10 языков: en/ru/zh/hi/es/ar/fr/bn/pt/id)
+├── weather_validator.py   ← pre-валидация локаций + rate limiter
+└── weather_templates.py   ← шаблоны ошибок (10 языков × 7 типов)
 ```
 
 ## Структура services/sync/

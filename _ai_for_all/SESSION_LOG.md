@@ -4,6 +4,34 @@
 
 ---
 
+## 29.05.2026 (часть 7) — Mail Agent v4: Error Handling + Modular Architecture
+
+### Ветка: `mail_agent_v4/error_handling`
+
+### Что сделано:
+1. **3 новых модуля**: `weather_localization.py`, `weather_validator.py`, `weather_templates.py` — данные и helpers вынесены из монолита
+2. **mail_weather_agent.py**: 817→431 строк, импортирует из новых модулей
+3. **Pre-валидация**: `_parse_coordinates()` + `_validate_location()` для городов, координат, мусора
+4. **Rate Limiter**: скользящее окно (minute/hour/day), читает лимиты из конфига
+5. **ERROR_TEMPLATES**: 10 языков × 7 типов = 70 полных вежливых шаблонов ошибок от лица Стеллы
+6. **format_weather_error()**: подстановка greeting/signature/name/location/lat/lon/error из шаблона
+7. **Web UI**: редактор шаблонов ошибок (dropdown + textarea + reset + live preview с языковой привязкой)
+8. **config.py**: `error_templates: {}` в дефолтах
+9. **46 тестов weather agent** — все зелёные ✅ (4 новых на format_weather_error)
+
+### 3 коммита:
+- `83faf83` — feat: modular error handling + pre-validation + rate limiter + error template UI
+- `694b61a` — fix: proper multi-language error templates in editor
+- `d50bd94` — fix: full 10-language error templates for all 7 error types
+
+### Статус:
+- На Render не деплоилось
+- Ждёт проверки пользователем
+
+Подробности: `handover/2026-05-29-part5.md`
+
+---
+
 ## 29.05.2026 (часть 6) — Mail Agent v4: Multi-language (10 языков)
 
 ### Что сделано:
