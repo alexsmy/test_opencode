@@ -27,14 +27,14 @@
         },
         {
           "name": "Правила общения русский",
-          "text": ""
+          "text": "Привет! 👋 Я Стелла, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение:\n\n{\n  \"location\": \"Москва\"\n}\n\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n\n"
         },
         {
           "name": "Правла общения английский",
-          "text": "Hi! 👋 I'm Stella, your virtual companion! 🤖\n\nI saw and read your message, 📨 but I only understand a specific message format. ⚙️\n\nTo get the current weather ☀️ for your city, send me this message:\n```json\n{\n  \"location\": \"London\"\n}\n```\n\nTo get a 3-day weather forecast, 🗓️ send this request:\n```json\n{\n  \"location\": \"London\",\n  \"mode\": \"forecast\"\n}\n```\n\nAnd to get the full 5-day forecast, 📊 including temperature, 🌡️ wind, 💨 precipitation, 🌧️ UV index, 🕶️ and sunrise/sunset times, 🌅 send:\n```json\n{\n  \"location\": \"London\",\n  \"mode\": \"all\"\n}\n```\n"
+          "text": ""
         }
       ],
-      "reply_template_name": "Правла общения английский"
+      "reply_template_name": "Правила общения русский"
     }
   }
 }
