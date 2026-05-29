@@ -1,10 +1,10 @@
 {
   "selected_inbox": "stellanova@agentmail.to",
   "global": {
-    "poll_interval_seconds": 50,
-    "incoming_parse_max_body": 500,
-    "incoming_parse_max_subject": 100,
-    "max_body_length_telegram": 1500
+    "poll_interval_seconds": 20,
+    "incoming_parse_max_body": 300,
+    "incoming_parse_max_subject": 60,
+    "max_body_length_telegram": 800
   },
   "inboxes": {
     "stellanova@agentmail.to": {
