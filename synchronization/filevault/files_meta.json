@@ -1,18 +1,10 @@
 [
   {
-    "file_id": "a9ab565bacb947c8a3c3e9791b9e55b4",
-    "original_name": "20260524_183819.jpg",
+    "file_id": "74013a0268be467c994456e95e4ad6b3",
+    "original_name": "options.html",
     "content_type": "application/octet-stream",
-    "size_bytes": 210577,
-    "uploaded_at": "2026-05-28T15:08:25.860469+00:00",
-    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec"
-  },
-  {
-    "file_id": "76942f0500e94dd8a020ff84d5750ec6",
-    "original_name": "popup.css",
-    "content_type": "application/octet-stream",
-    "size_bytes": 118,
-    "uploaded_at": "2026-05-28T15:08:26.353335+00:00",
+    "size_bytes": 9306,
+    "uploaded_at": "2026-05-28T15:08:26.715045+00:00",
     "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec"
   },
   {
@@ -40,11 +32,19 @@
     "folder_id": null
   },
   {
-    "file_id": "74013a0268be467c994456e95e4ad6b3",
-    "original_name": "options.html",
+    "file_id": "a9ab565bacb947c8a3c3e9791b9e55b4",
+    "original_name": "20260524_183819.jpg",
     "content_type": "application/octet-stream",
-    "size_bytes": 9306,
-    "uploaded_at": "2026-05-28T15:08:26.715045+00:00",
+    "size_bytes": 210577,
+    "uploaded_at": "2026-05-28T15:08:25.860469+00:00",
+    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec"
+  },
+  {
+    "file_id": "76942f0500e94dd8a020ff84d5750ec6",
+    "original_name": "popup.css",
+    "content_type": "application/octet-stream",
+    "size_bytes": 118,
+    "uploaded_at": "2026-05-28T15:08:26.353335+00:00",
     "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec"
   }
 ]
