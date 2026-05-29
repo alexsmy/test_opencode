@@ -4,6 +4,64 @@
 
 ---
 
+## 30.05.2026 (часть 8) — Agent Architecture: Conductor + Sub-agents
+
+### Ветка: создавалась в рамках `mail_agent_v4/error_handling`, будет новая `mail_agent_v5/conductor`
+
+### Ключевое решение:
+Очередь писем живёт **на AgentMail** (не забираем больше, чем можем обработать за цикл). Никакой локальной очереди на диске.
+
+### Новая архитектура (оркестр):
+
+```
+conductor.py              — ДИРИЖЁР: главный цикл, запускает/останавливает всё
+rate_limiter.py           — общий лимитер (извлечён из weather_validator.py)
+agents/
+  fetcher.py              — забирает ≤ N писем (N = доступные слоты лимитера)
+  spam_watcher.py         — per-sender скользящее окно + автобан/разбан
+  cleaner.py              — периодическая чистка старых писем на AgentMail
+  weather_agent.py        — обёртка над mail_weather_agent.handle_weather_message()
+  auto_reply_agent.py     — обёртка над mail_responder.reply_to_sender()
+weather/
+  localization.py         — переводы (10 языков)
+  validator.py            — валидация координат (из weather_validator.py)
+  templates.py            — шаблоны ошибок (из weather_templates.py)
+```
+
+### Что изменилось:
+1. **mail_worker.py** — старый `_mail_worker()` заменён на `run_conductor()`.
+2. **rate_limiter.py** — извлечён из `weather_validator.py`, добавлен `available_this_minute/hour/day()`.
+3. **spam_watcher.py** — per-sender счётчик (max_per_minute), автоблокировка (auto_block_after), авторазблокировка (auto_unblock_minutes).
+4. **fetcher.py** — запрашивает `rate_limiter.available_this_minute()` → забирает ровно столько.
+5. **cleaner.py** — если писем > max_messages, удаляет delete_oldest самых старых.
+6. **conductor.py** — координирует: каждые ~30с → cleaner → fetch → spam check → process → mark_as_read.
+7. **config.py** — новые поля: `per_sender_limits`, `cleaner`.
+8. **weather modules** — перенесены в `weather/` подпапку.
+9. **Веб-интерфейс** — новые блоки: "Лимиты на отправителя" + "Уборщик почты".
+
+### Данные из конфига (все настраиваются):
+```json
+"per_sender_limits": {
+    "max_per_minute": 5,
+    "auto_block_after": 3,
+    "auto_unblock_minutes": 60
+},
+"cleaner": {
+    "enabled": false,
+    "interval_minutes": 60,
+    "max_messages": 50,
+    "delete_oldest": 20
+}
+```
+
+### Тесты: 77 тестов, все зелёные ✅
+
+### Статус:
+- Код готов, UI готов
+- Ждёт создания ветки, пуша и проверки на Render
+
+---
+
 ## 29.05.2026 (часть 7) — Mail Agent v4: Error Handling + Modular Architecture
 
 ### Ветка: `mail_agent_v4/error_handling`
