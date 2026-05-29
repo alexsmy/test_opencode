@@ -4,7 +4,24 @@
 
 ---
 
-## 29.05.2026 (часть 5) — Исправление sync/restore: mail data + vault в облако
+## 29.05.2026 (часть 6) — Mail Agent v4: Multi-language (10 языков)
+
+### Что сделано:
+1. **10 языков**: en, ru, zh, hi, es, ar, fr, bn, pt, id — `_WEATHER_DESC` и `_LOCALIZED` заполнены
+2. **Поле `"lang"`** в JSON-запросе: парсинг, валидация, приоритет над конфигом
+3. **Label-плейсхолдеры**: `{weather_in}`, `{humidity_label}`, `{wind_label}`, `{cloud_label}`, `{pressure_label}` — подписи берутся из `_loc(key, lang)`
+4. **Fallback для старых шаблонов**: если в response_format нет label-плейсхолдеров → `format_weather_response()` (100% локализация)
+5. **Greeting/Signature из LANG_PRESETS[lang]**: если `lang != cfg["language"]` — игнорируются сохранённые английские, берутся языковые дефолты
+6. **Дефолтный язык**: `"en"` (был `"ru"`)
+7. **Веб-интерфейс**: 10-язычный селектор, обновлённые LANG_PRESETS в JS
+
+### Ветка: `mail_agent_v4/multi_lang`
+### Тесты: 57 (26 weather + 31 core) — зелёные
+### Render: https://bot-29-nx0w.onrender.com/mail-agent
+
+Подробности: `_ai_for_all/handover/2026-05-29-part4.md`
+
+---## 29.05.2026 (часть 5) — Исправление sync/restore: mail data + vault в облако
 
 ### Проблемы найдены:
 1. **Письма не сохранялись на диск** — `data/mail/` не синхронизировался и не восстанавливался из облака
