@@ -12,12 +12,13 @@
       "role": "weather_agent",
       "auto_reply_enabled": true,
       "weather_agent": {
-        "name": "Стелла",
-        "greeting": "Привет! 👋 Это {name}.",
-        "signature": "Твоя {name}. 🌟",
-        "help_text": "Привет! 👋 Я {name}, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение:\n\n{\n  \"location\": \"Москва\"\n}\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n\nЯ возьму в работу первый найденный подходящий json запрос, всё остальное проигнорирую.\n\nПока! Твоя {name}.",
+        "name": "Stella",
+        "greeting": "Hi! 👋 This is {name}.",
+        "signature": "Your {name}. 🌟",
+        "help_text": "Hi! 👋 I'm {name}, your virtual weather assistant! 🤖\n\nI saw and read your email, 📨 but I only understand a specific message format. ⚙️\n\nTo get the current weather ☀️ for your city, send me a message:\n\n{\n  \"location\": \"London\"\n}\n\nTo get a 3-day weather forecast, 🗓️ send:\n\n{\n  \"location\": \"London\",\n  \"mode\": \"forecast\"\n}\n\nFor a full 5-day forecast 📊 including temperature, 🌡️ wind, 💨 precipitation, 🌧️ UV, 🕶️ sunrise/sunset, 🌅 send:\n\n{\n  \"location\": \"London\",\n  \"mode\": \"all\"\n}\n\nI will process the first valid json request I find, everything else will be ignored.\n\nBye! Your {name}.",
+        "response_format": "{greeting}\n\nWeather in {location} now:\n🌡️ {temperature}{feels_like}, {weather_description}\n💧 Humidity: {humidity}\n💨 Wind: {wind}\n☁️ Cloud cover: {cloud_cover}\n📊 Pressure: {pressure}\n{forecast}\n{signature}",
         "include_json": true,
-        "language": "ru"
+        "language": "en"
       },
       "forward_to_telegram": true,
       "auto_mark_as_read": true,
