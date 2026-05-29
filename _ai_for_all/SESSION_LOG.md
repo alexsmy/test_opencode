@@ -4,6 +4,21 @@
 
 ---
 
+## 29.05.2026 — MCP Mail Tools: обнаружение, документирование, обновление памяти
+
+- **Изучен проект bot_29** из ветки `fix/auto-reply-filevault`
+- **Прочитана облачная память** `_ai_for_all` и обновлена локально:
+  - `CONTEXT.md` — актуализирован (ветка Render, статус багов, локальный путь)
+  - `SESSION_LOG.md` — добавлена пропущенная часть 11
+  - `PROJECTS/bot_29.md` — переписан под актуальную архитектуру
+- **Обнаружены MCP-инструменты для почты** в `services/agents/mcp_server.py`:
+  - `mail_list`, `mail_get`, `mail_delete`, `mail_send`, `mail_clean_old`, `mail_status`, `mail_inbox_list`, `mail_inbox_create`
+  - Транспорт: Streamable HTTP на `https://bot-29-nx0w.onrender.com/mcp/`
+  - Протокол: JSON-RPC 2.0, обязательный `initialize` перед вызовами
+  - Без аутентификации (путь `/mcp/` в белом списке)
+- **Проверен MCP** — получен статус: 0 непрочитанных, 26 всего (18 sent, 8 received), автоответ включён
+- **Создан** `REFERENCE/mcp_mail.md` — полная документация по MCP-транспорту и инструментам
+- **Локальная память** `_ai_for_all` обновлена (CONTEXT, SESSION_LOG, PROJECTS, REFERENCE)
 ## 28.05.2026 (часть 11) — Mail Agent v2: автоответ, FileVault, Folder Tree Bug
 
 - **Ветка**: `fix/auto-reply-filevault` (3 коммита, запушена)
