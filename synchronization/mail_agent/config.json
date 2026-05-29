@@ -1,13 +1,13 @@
 {
-  "selected_inbox": "escrow@agentmail.to",
+  "selected_inbox": "stellanova@agentmail.to",
   "global": {
-    "poll_interval_seconds": 30,
+    "poll_interval_seconds": 50,
     "incoming_parse_max_body": 500,
     "incoming_parse_max_subject": 100,
-    "max_body_length_telegram": 2000
+    "max_body_length_telegram": 1500
   },
   "inboxes": {
-    "escrow@agentmail.to": {
+    "stellanova@agentmail.to": {
       "active": true,
       "auto_reply_enabled": true,
       "forward_to_telegram": true,
@@ -17,24 +17,14 @@
       "save_incoming": true,
       "save_attachments": true,
       "address_db_enabled": true,
-      "blocked_senders": [
-        "freemoney@agentmail.to"
-      ],
+      "blocked_senders": [],
       "reply_templates": [
         {
-          "name": "Стандартный",
-          "text": ""
-        },
-        {
-          "name": "Правила общения русский",
-          "text": "Привет! 👋 Я Стелла, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение:\n\n{\n  \"location\": \"Москва\"\n}\n\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n\nЯ возьму в работу первый найденный подходящий json запрос, всё остальное проигнорирую.\n\nПока! Твоя Стелла."
-        },
-        {
-          "name": "Правла общения английский",
-          "text": "Hi! 👋 I'm Stella, your virtual companion! 🤖\n\nI saw and read your message, 📨 but I only understand a specific message format. ⚙️\n\nTo get the current weather ☀️ for your city, send me this message:\n{\n  \"location\": \"London\"\n}\n\nTo get a 3-day weather forecast, 🗓️ send this request:\n{\n  \"location\": \"London\",\n  \"mode\": \"forecast\"\n}\n\nAnd to get the full 5-day forecast, 📊 including temperature, 🌡️ wind, 💨 precipitation, 🌧️ UV index, 🕶️ and sunrise/sunset times, 🌅 send:\n{\n  \"location\": \"London\",\n  \"mode\": \"all\"\n}"
+          "name": "Правила общения для получения погоды, русский",
+          "text": "Привет! 👋 Я Стелла, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение, например:\n\n{\n  \"location\": \"Москва\"\n}\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n"
         }
       ],
-      "reply_template_name": "Правила общения русский"
+      "reply_template_name": "Правила общения для получения погоды, русский"
     }
   }
 }
