@@ -24,7 +24,7 @@
           "invalid_location": "{greeting}\n\nI got your request, but unfortunately the location \"{location}\" looks wrong. 😕\n\n📍 Please provide an existing city, for example:\n   {\"location\": \"London\"}\n\nOr coordinates (latitude, longitude):\n   {\"location\": \"51.5, -0.12\"}\n\nWaiting for your corrected request! ✨\n\n{signature}"
         },
         "rate_limits": {
-          "max_per_minute": 8,
+          "max_per_minute": 10,
           "max_per_hour": 350,
           "max_per_day": 2999
         }
