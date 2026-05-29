@@ -4,6 +4,39 @@
 
 ---
 
+## 29.05.2026 (часть 5) — Исправление sync/restore: mail data + vault в облако
+
+### Проблемы найдены:
+1. **Письма не сохранялись на диск** — `data/mail/` не синхронизировался и не восстанавливался из облака
+2. **Vault пуст** — `data/vault/` синхронизировался только при `vault_manual`, при рестарте Render терялся
+3. **Mail config не пушился** — коллекторы `_collect_mail_config` и `_collect_mail_addresses` были мёртвым кодом (импортированы, но не вызывались в worker.py)
+4. **Данные vault в облаке повреждены** — все файлы содержали `{"groups": [{"id": "g1"}]}` (мусор)
+
+### Исправления (ветка `2905/files_ok`):
+- **worker.py**: добавлены `_collect_mail_config`, `_collect_mail_addresses`, `_collect_mail_emails` в sync pipeline
+- **worker.py**: vault теперь синхронизируется при каждом sync (не только `vault_manual`)
+- **collectors.py**: добавлен `_collect_mail_emails()` — собирает `data/mail/` для синхронизации
+- **restore.py**: добавлен `_restore_mail_emails()` — восстанавливает `data/mail/` из облака
+- **restore.py**: вызов `_restore_mail_emails` добавлен в `sync_restore_all()`
+
+### Удалено из облака:
+- `synchronization/vault/entries.json` (повреждён)
+- `synchronization/vault/groups.json` (повреждён)
+- `synchronization/vault/master_key.json` (повреждён)
+- `synchronization/vault/auth/` (повреждён)
+
+### Токены:
+- Сохранены в `C:\Users\alexs\.secrets\github_tokens.json`
+- Добавлено в глобальный `.gitignore`
+- Задокументировано в `_ai_for_all/REFERENCE/tokens_location.md`
+
+### Статус:
+- Ветка `2905/files_ok` запушена в GitHub
+- Ожидает деплоя на Render
+- После деплоя: vault будет пустым (но рабочим), нужно создать записи заново
+
+---
+
 ## 29.05.2026 (часть 4 — финал) — Mail Agent v3: Погодный агент Стелла + live preview + английский язык
 
 ### Реализовано:
