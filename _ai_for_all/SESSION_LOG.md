@@ -4,6 +4,61 @@
 
 ---
 
+## 29.05.2026 (часть 4 — финал) — Mail Agent v3: Погодный агент Стелла + live preview + английский язык
+
+### Реализовано:
+- **Роль `weather_agent`** в per-inbox конфиге с диспетчеризацией в воркере
+- **Модуль `services/mail_agent/mail_weather_agent.py`**:
+  - `parse_weather_request()` — парсинг JSON из письма `{"location": "...", "mode": "now|forecast|all"}`
+  - `get_weather_data()` — геокодинг Open-Meteo + прогноз
+  - `format_weather_response()` — человекочитаемый ответ
+  - `format_weather_json()` — машинный JSON для внешних систем
+  - `get_help_message()` — help-текст (если письмо не JSON)
+  - `handle_weather_message()` — главная точка входа
+- **Конфиг**: секция `weather_agent` в per-inbox настройках (name, greeting, signature, help_text, include_json, language)
+- **Web UI**: блок настроек Стеллы (показывается только при role=weather_agent), live preview ответа
+- **Локализация**: английский язык для описаний погоды и всех строк формата (поле language)
+- **Telegram-уведомления**: теперь приходят и для погодного агента
+- **Исправлено**: блок Стеллы виден сразу при выборе роли (не требует сохранения)
+- **Заголовок**: убрана версия v2
+
+### Тесты:
+- 17 тестов weather agent + 31 mail agent = **48 зелёных** ✅
+- Покрытие: парсинг JSON, форматирование ответа, JSON-вывод, help-текст, handle_weather_message (success/no match/API error)
+- 10 pre-existing failures в test_escrow_service.py (async без маркера) — не наши
+
+### Ветки (запущены):
+- `mail_agent_v3/weather_agent` — первая версия (роль + модуль + тесты)
+- `mail_agent_v3/weather_fixes` — фиксы + превью + английский язык
+
+### Render:
+- Всё ещё на `fix/auto-reply-filevault`. Новый код не деплоился.
+
+### Состояние на момент закрытия:
+- Стелла работает на stellanova@agentmail.to (проверено: ответ с погодой Уфы ✅)
+- Найден баг: блок Стеллы не виден до сохранения → **ИСПРАВЛЕНО**
+- Найден баг: Telegram не приходит от Стеллы → **ИСПРАВЛЕНО**
+- Превью ответа добавлено, обновляется в реальном времени
+
+---
+
+## 29.05.2026 (часть 3) — Mail Agent v3: ролевая система + Погодный агент (план)
+
+### План
+- **Роль** в per-inbox конфиге: `role: "auto_reply" | "weather_agent"`
+- Для stellanova@agentmail.to — роль `weather_agent`
+- Новый модуль `services/mail_agent/mail_weather_agent.py`:
+  - `parse_weather_request(body)` — парсит JSON из письма
+  - `execute_weather_request(location, mode)` — получает погоду
+  - `format_weather_response(data, mode)` — читаемый ответ
+  - `format_weather_json(data)` — JSON для внешних агентов
+  - `get_help_message()` — help-текст Стеллы
+- Worker: переключение по роли (`auto_reply` → старый flow, `weather_agent` → новый flow)
+- Web UI: выпадающий список роли в настройках ящика
+- Ветка: `mail_agent_v3/weather_agent`
+
+---
+
 ## 29.05.2026 (часть 2) — Mail Agent Web Config UI: per-inbox, адресная БД, шаблоны
 
 - **Ветка**: `mail_agent_v2/web_config_ext` (создана и запушена)
