@@ -4,7 +4,8 @@
     "poll_interval_seconds": 20,
     "incoming_parse_max_body": 300,
     "incoming_parse_max_subject": 60,
-    "max_body_length_telegram": 1000
+    "max_body_length_telegram": 1000,
+    "max_messages_per_cycle": 3
   },
   "inboxes": {
     "stellanova@agentmail.to": {
@@ -18,15 +19,27 @@
         "help_text": "Hi! 👋 I'm {name}, your virtual weather assistant! 🤖\n\nI saw and read your email, 📨 but I only understand a specific message format. ⚙️\n\nTo get the current weather ☀️ for your city, in your language, send me a message:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\"\n}\n\nTo get a 3-day weather forecast, 🗓️ send:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\",\n  \"mode\": \"forecast\"\n}\n\nFor a full 5-day forecast 📊 including temperature, 🌡️ wind, 💨 precipitation, 🌧️ UV, 🕶️ sunrise/sunset, 🌅 send:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\",\n  \"mode\": \"all\"\n}\n\nThe \"lang\" field is optional, by default I will use English.\nSupported languages: en, zh, hi, es, ar, fr, bn, pt, ru, id\n\nI will process the first valid json request I find, everything else will be ignored.\n\nBye! Your {name}.",
         "response_format": "{greeting}\n\n{weather_in}\n🌡️ {temperature}{feels_like}, {weather_description}\n{humidity_label} {humidity}\n{wind_label} {wind}\n{cloud_label} {cloud_cover}\n{pressure_label} {pressure}\n{forecast}\n{signature}",
         "include_json": true,
-        "forward_reply_to_telegram": true,
         "language": "en",
+        "forward_reply_to_telegram": true,
+        "rate_limits": {
+          "max_per_minute": 15,
+          "max_per_hour": 600,
+          "max_per_day": 6000
+        },
         "error_templates": {
           "invalid_location": "{greeting}\n\nI got your request, but unfortunately the location \"{location}\" looks wrong. 😕\n\n📍 Please provide an existing city, for example:\n   {\"location\": \"London\"}\n\nOr coordinates (latitude, longitude):\n   {\"location\": \"51.5, -0.12\"}\n\nWaiting for your corrected request! ✨\n\n{signature}"
         },
-        "rate_limits": {
-          "max_per_minute": 10,
-          "max_per_hour": 350,
-          "max_per_day": 2999
+        "per_sender_limits": {
+          "max_per_minute": 3,
+          "auto_block_after": 1,
+          "auto_unblock_minutes": 60,
+          "server_blocklist_enabled": true
+        },
+        "cleaner": {
+          "enabled": false,
+          "interval_minutes": 60,
+          "max_messages": 50,
+          "delete_oldest": 20
         }
       },
       "forward_to_telegram": true,
@@ -37,16 +50,39 @@
       "save_attachments": true,
       "address_db_enabled": true,
       "blocked_senders": [],
-      "per_sender_limits": {
-        "max_per_minute": 3,
-        "auto_block_after": 3,
-        "auto_unblock_minutes": 4800
-      },
-      "cleaner": {
-        "enabled": true,
-        "interval_minutes": 60,
-        "max_messages": 50,
-        "delete_oldest": 20
+      "attachment_types": {
+        "images": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/webp",
+          "image/svg+xml"
+        ],
+        "videos": [
+          "video/mp4",
+          "video/quicktime",
+          "video/webm",
+          "video/avi"
+        ],
+        "voice": [
+          "audio/ogg",
+          "audio/mpeg",
+          "audio/mp4",
+          "audio/wav",
+          "audio/x-m4a"
+        ],
+        "documents": [
+          "application/pdf",
+          "application/zip",
+          "application/x-zip-compressed",
+          "text/plain",
+          "text/csv",
+          "application/json",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ]
       },
       "reply_templates": [
         {
@@ -54,7 +90,19 @@
           "text": "Привет! 👋 Я Стелла, твоя виртуальная собеседница! 🤖\n\nЯ увидела и прочитала твоё письмо, 📨 но я понимаю только определённый формат сообщения. ⚙️\n\nДля того, чтобы я отправила тебе текущую погоду ☀️ для твоего города, отправь мне сообщение, например:\n\n{\n  \"location\": \"Москва\"\n}\n\nЧтобы ты получил прогноз погоды на три дня, 🗓️ отправь запрос:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"forecast\"\n}\n\nА чтобы узнать полный прогноз на 5 дней, 📊 включая температуру, 🌡️ ветер, 💨 осадки, 🌧️ UV, 🕶️ время восхода/заката, 🌅 отправь:\n\n{\n  \"location\": \"Москва\",\n  \"mode\": \"all\"\n}\n"
         }
       ],
-      "reply_template_name": "Правила общения для получения погоды, русский"
+      "reply_template_name": "Правила общения для получения погоды, русский",
+      "per_sender_limits": {
+        "max_per_minute": 3,
+        "auto_block_after": 3,
+        "auto_unblock_minutes": 480000,
+        "server_blocklist_enabled": true
+      },
+      "cleaner": {
+        "enabled": true,
+        "interval_minutes": 60,
+        "max_messages": 50,
+        "delete_oldest": 20
+      }
     }
   }
 }
