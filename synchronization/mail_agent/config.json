@@ -1,7 +1,7 @@
 {
   "selected_inbox": "stellanova@agentmail.to",
   "global": {
-    "poll_interval_seconds": 20,
+    "poll_interval_seconds": 10,
     "incoming_parse_max_body": 300,
     "incoming_parse_max_subject": 60,
     "max_body_length_telegram": 1000,
@@ -19,6 +19,9 @@
         "help_text": "Hi! 👋 I'm {name}, your virtual weather assistant! 🤖\n\nI saw and read your email, 📨 but I only understand a specific message format. ⚙️\n\nTo get the current weather ☀️ for your city, in your language, send me a message:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\"\n}\n\nTo get a 3-day weather forecast, 🗓️ send:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\",\n  \"mode\": \"forecast\"\n}\n\nFor a full 5-day forecast 📊 including temperature, 🌡️ wind, 💨 precipitation, 🌧️ UV, 🕶️ sunrise/sunset, 🌅 send:\n\n{\n  \"location\": \"London\",\n  \"lang\": \"en\",\n  \"mode\": \"all\"\n}\n\nThe \"lang\" field is optional, by default I will use English.\nSupported languages: en, zh, hi, es, ar, fr, bn, pt, ru, id\n\nI will process the first valid json request I find, everything else will be ignored.\n\nBye! Your {name}.",
         "response_format": "{greeting}\n\n{weather_in}\n🌡️ {temperature}{feels_like}, {weather_description}\n{humidity_label} {humidity}\n{wind_label} {wind}\n{cloud_label} {cloud_cover}\n{pressure_label} {pressure}\n{forecast}\n{signature}",
         "include_json": true,
+        "html_enabled": true,
+        "wallet_address": "",
+        "wallet_short": "",
         "language": "en",
         "forward_reply_to_telegram": true,
         "rate_limits": {
@@ -94,8 +97,8 @@
       "per_sender_limits": {
         "max_per_minute": 3,
         "auto_block_after": 3,
-        "auto_unblock_minutes": 480000,
-        "server_blocklist_enabled": true
+        "auto_unblock_minutes": 60,
+        "server_blocklist_enabled": false
       },
       "cleaner": {
         "enabled": true,
