@@ -1,35 +1,5 @@
 [
   {
-    "file_id": "74013a0268be467c994456e95e4ad6b3",
-    "original_name": "options.html",
-    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
-    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
-    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/74013a0268be467c994456e95e4ad6b3__options.html",
-    "size_bytes": 9306,
-    "content_type": "application/octet-stream",
-    "uploaded_at": "2026-05-28T15:08:26.715045+00:00"
-  },
-  {
-    "file_id": "a9ab565bacb947c8a3c3e9791b9e55b4",
-    "original_name": "20260524_183819.jpg",
-    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
-    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
-    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/a9ab565bacb947c8a3c3e9791b9e55b4__20260524_183819.jpg",
-    "size_bytes": 210577,
-    "content_type": "application/octet-stream",
-    "uploaded_at": "2026-05-28T15:08:25.860469+00:00"
-  },
-  {
-    "file_id": "76942f0500e94dd8a020ff84d5750ec6",
-    "original_name": "popup.css",
-    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
-    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
-    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/76942f0500e94dd8a020ff84d5750ec6__popup.css",
-    "size_bytes": 118,
-    "content_type": "application/octet-stream",
-    "uploaded_at": "2026-05-28T15:08:26.353335+00:00"
-  },
-  {
     "file_id": "534e8a25ed284c3396629285d25f26e8",
     "original_name": "photo_824.jpg",
     "folder_id": "fld_61041835b0974e44a7bf75905610ce1c",
@@ -58,5 +28,35 @@
     "size_bytes": 94048,
     "content_type": "image/jpeg",
     "uploaded_at": "2026-05-21T15:08:39.275727+00:00"
+  },
+  {
+    "file_id": "74013a0268be467c994456e95e4ad6b3",
+    "original_name": "options.html",
+    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
+    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
+    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/74013a0268be467c994456e95e4ad6b3__options.html",
+    "size_bytes": 9306,
+    "content_type": "application/octet-stream",
+    "uploaded_at": "2026-05-28T15:08:26.715045+00:00"
+  },
+  {
+    "file_id": "a9ab565bacb947c8a3c3e9791b9e55b4",
+    "original_name": "20260524_183819.jpg",
+    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
+    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
+    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/a9ab565bacb947c8a3c3e9791b9e55b4__20260524_183819.jpg",
+    "size_bytes": 210577,
+    "content_type": "application/octet-stream",
+    "uploaded_at": "2026-05-28T15:08:25.860469+00:00"
+  },
+  {
+    "file_id": "76942f0500e94dd8a020ff84d5750ec6",
+    "original_name": "popup.css",
+    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
+    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
+    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/76942f0500e94dd8a020ff84d5750ec6__popup.css",
+    "size_bytes": 118,
+    "content_type": "application/octet-stream",
+    "uploaded_at": "2026-05-28T15:08:26.353335+00:00"
   }
 ]
