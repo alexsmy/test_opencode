@@ -1,35 +1,5 @@
 [
   {
-    "file_id": "534e8a25ed284c3396629285d25f26e8",
-    "original_name": "photo_824.jpg",
-    "folder_id": "fld_61041835b0974e44a7bf75905610ce1c",
-    "folder_path": "55",
-    "blob_path": "filevault/files/55/534e8a25ed284c3396629285d25f26e8__photo_824.jpg",
-    "size_bytes": 177729,
-    "content_type": "image/jpeg",
-    "uploaded_at": "2026-05-21T15:12:38.412608+00:00"
-  },
-  {
-    "file_id": "8c03b19dad5b412d8543b49adbddffd4",
-    "original_name": "Email from alex_smyslov@mail.ru — Время 20:06 тема письма.txt",
-    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
-    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
-    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/8c03b19dad5b412d8543b49adbddffd4__Email-from-alex_smyslov-mail.ru-20-06-.txt",
-    "size_bytes": 63,
-    "content_type": "text/plain; charset=utf-8",
-    "uploaded_at": "2026-05-28T15:08:25.202382+00:00"
-  },
-  {
-    "file_id": "a67bbc27304a4b3681fa37d52957f858",
-    "original_name": "GigaChat.jpg",
-    "folder_id": null,
-    "folder_path": "root",
-    "blob_path": "filevault/files/root/a67bbc27304a4b3681fa37d52957f858__GigaChat.jpg",
-    "size_bytes": 94048,
-    "content_type": "image/jpeg",
-    "uploaded_at": "2026-05-21T15:08:39.275727+00:00"
-  },
-  {
     "file_id": "74013a0268be467c994456e95e4ad6b3",
     "original_name": "options.html",
     "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
@@ -58,5 +28,35 @@
     "size_bytes": 118,
     "content_type": "application/octet-stream",
     "uploaded_at": "2026-05-28T15:08:26.353335+00:00"
+  },
+  {
+    "file_id": "534e8a25ed284c3396629285d25f26e8",
+    "original_name": "photo_824.jpg",
+    "folder_id": "fld_61041835b0974e44a7bf75905610ce1c",
+    "folder_path": "55",
+    "blob_path": "filevault/files/55/534e8a25ed284c3396629285d25f26e8__photo_824.jpg",
+    "size_bytes": 177729,
+    "content_type": "image/jpeg",
+    "uploaded_at": "2026-05-21T15:12:38.412608+00:00"
+  },
+  {
+    "file_id": "8c03b19dad5b412d8543b49adbddffd4",
+    "original_name": "Email from alex_smyslov@mail.ru — Время 20:06 тема письма.txt",
+    "folder_id": "fld_7beaa6a2acec48baa4fc08c84c7ce8ec",
+    "folder_path": "Mail/Email-from-alex_smyslov-mail.ru-20-06",
+    "blob_path": "filevault/files/Mail/Email-from-alex_smyslov-mail.ru-20-06/8c03b19dad5b412d8543b49adbddffd4__Email-from-alex_smyslov-mail.ru-20-06-.txt",
+    "size_bytes": 63,
+    "content_type": "text/plain; charset=utf-8",
+    "uploaded_at": "2026-05-28T15:08:25.202382+00:00"
+  },
+  {
+    "file_id": "a67bbc27304a4b3681fa37d52957f858",
+    "original_name": "GigaChat.jpg",
+    "folder_id": null,
+    "folder_path": "root",
+    "blob_path": "filevault/files/root/a67bbc27304a4b3681fa37d52957f858__GigaChat.jpg",
+    "size_bytes": 94048,
+    "content_type": "image/jpeg",
+    "uploaded_at": "2026-05-21T15:08:39.275727+00:00"
   }
 ]
