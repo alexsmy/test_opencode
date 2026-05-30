@@ -1,9 +1,11 @@
 {
   "Alex Smyslov <alex.smyslov@mail.ru>": {
     "email": "Alex Smyslov <alex.smyslov@mail.ru>",
-    "last_incoming": "2026-05-29T06:11:19.034003+00:00",
+    "last_incoming": "2026-05-30T06:04:06.472201+00:00",
     "last_success": true,
-    "last_status": "replied"
+    "last_status": "replied",
+    "today_messages": 1,
+    "total_messages": 1
   },
   "Alex Smyslov <alexsmyslov.russia@gmail.com>": {
     "email": "Alex Smyslov <alexsmyslov.russia@gmail.com>",
